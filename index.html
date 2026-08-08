@@ -203,7 +203,9 @@
   .cmprow{display:flex;align-items:center;gap:10px;background:#fff;border-radius:13px;padding:11px 13px;text-align:left;}
   .cmprow .rl{font-size:12.5px;font-weight:700;flex:1;}
   .cmprow .rl small{display:block;color:var(--muted);font-weight:600;font-size:11px;}
-  .cmprow .rv{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;}
+  .cmprow .rvblock{text-align:right;}
+  .cmprow .rv{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;}
+  .cmprow .rsub{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap;}
   .cmprow.off{border-left:4px solid var(--red);}
   .cmprow.on{border-left:4px solid var(--green);}
   .verdict{background:linear-gradient(180deg,#eaf3df,#e0efd2);border-radius:14px;padding:13px;margin:0 0 16px;}
@@ -306,7 +308,7 @@
         <div class="big">⏱️</div>
         <h1 data-t="r2Title">Round 1 done!</h1>
         <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.</p>
-        <div class="cmp"><div class="cmprow off"><div class="rl" data-t="r2Round1">Round 1 · no filter</div><div class="rv" id="r2Time">00:00</div></div></div>
+        <div class="cmp"><div class="cmprow off"><div class="rl" data-t="r2Round1">Round 1 · no filter</div><div class="rvblock"><div class="rv" id="r2Time">00:00</div><div class="rsub" id="r2Sub"></div></div></div></div>
         <button class="btn" id="round2Btn" data-t="r2Start">Start round 2 with the filter →</button>
       </div>
     </div>
@@ -318,8 +320,8 @@
         <h1 data-t="dTitle">The filter wins</h1>
         <div class="verdict"><div class="vn" id="speedup">—</div><div class="vl" data-t="dFaster">faster with Vegan mode</div></div>
         <div class="cmp">
-          <div class="cmprow off"><div class="rl" data-t="dRound1">Without filter<small data-t="dTaps1">taps to find 5 items</small></div><div class="rv"><span id="dTime1">00:00</span> · <span id="dTap1">0</span>👆</div></div>
-          <div class="cmprow on"><div class="rl" data-t="dRound2">With Vegan mode<small data-t="dTaps2">taps to find 5 items</small></div><div class="rv"><span id="dTime2">00:00</span> · <span id="dTap2">0</span>👆</div></div>
+          <div class="cmprow off"><div class="rl" data-t="dRound1">Without filter</div><div class="rvblock"><div class="rv" id="dTime1">00:00</div><div class="rsub" id="dSub1"></div></div></div>
+          <div class="cmprow on"><div class="rl" data-t="dRound2">With Vegan mode</div><div class="rvblock"><div class="rv" id="dTime2">00:00</div><div class="rsub" id="dSub2"></div></div></div>
         </div>
         <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.</p>
         <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
@@ -345,11 +347,11 @@
 
 const CATS = [
   {key:"protein", en:"Protein",         zh:"蛋白质"},
-  {key:"veg",     en:"Vegetables",      zh:"蔬菜"},
   {key:"bread",   en:"Bread",           zh:"面包"},
   {key:"noodle",  en:"Instant noodles", zh:"方便面"},
   {key:"sauce",   en:"Sauces",          zh:"酱料调味"},
   {key:"pantry",  en:"Pantry",          zh:"主食干货"},
+  {key:"veg",     en:"Vegetables",      zh:"蔬菜"},   // vegetables last
 ];
 
 // e:emoji en/zh:name p:price u:unit v:vegan t:target c:category
@@ -415,17 +417,17 @@ const P = [
     ing:{en:"flour, butter, milk, egg",zh:"面粉、黄油、牛奶、鸡蛋"},bad:{en:"butter, milk & egg",zh:"黄油、牛奶和鸡蛋"}},
 
   /* ============ INSTANT NOODLES (all 🍜) — find a vegan one: 2 vegan, 13 not ============ */
-  // -- 5 "ambiguous": look vegetarian, but hide albumin (egg white) --
+  // -- 5 "ambiguous": look vegetarian, but hide albumin (egg white) buried in the list --
   {e:"🍜",en:"Tomato noodles",zh:"番茄面",p:5.50,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, tomato, ALBUMIN (egg white), salt, oil",zh:"小麦面、番茄、蛋清蛋白（albumin）、盐、植物油"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
+    ing:{en:"wheat flour noodles, tomato powder, albumin, paprika extract (E160c)",zh:"小麦面、番茄粉、albumin、辣椒红(E160c)"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
   {e:"🍜",en:"Hot & sour noodles",zh:"酸辣面",p:5.50,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, chili, vinegar, ALBUMIN (egg white), spices",zh:"小麦面、辣椒、醋、蛋清蛋白（albumin）、香辛料"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
+    ing:{en:"wheat flour noodles, vinegar powder, chilli, albumin",zh:"小麦面、醋粉、辣椒、albumin"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
   {e:"🍜",en:"Sesame-paste noodles",zh:"麻酱面",p:6.20,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, sesame paste, ALBUMIN (egg white), soy",zh:"小麦面、芝麻酱、蛋清蛋白（albumin）、大豆"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
+    ing:{en:"wheat flour noodles, sesame paste, albumin, soy sauce powder",zh:"小麦面、芝麻酱、albumin、酱油粉"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
   {e:"🍜",en:"Mushroom noodles",zh:"香菇面",p:5.90,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, mushroom, ALBUMIN (egg white), salt",zh:"小麦面、香菇、蛋清蛋白（albumin）、盐"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
+    ing:{en:"wheat flour noodles, mushroom powder, albumin",zh:"小麦面、香菇粉、albumin"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
   {e:"🍜",en:"Curry noodles",zh:"咖喱面",p:6.50,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, curry, ALBUMIN (egg white), potato",zh:"小麦面、咖喱、蛋清蛋白（albumin）、土豆"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
+    ing:{en:"wheat flour noodles, curry powder, albumin, turmeric (E100)",zh:"小麦面、咖喱粉、albumin、姜黄(E100)"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
   // -- meat / seafood --
   {e:"🍜",en:"Braised-beef noodles",zh:"红烧牛肉面",p:5.50,u:"pack",v:0,c:"noodle",
     ing:{en:"wheat noodles, beef, soy sauce, spices",zh:"小麦面、牛肉、酱油、香辛料"},bad:{en:"beef",zh:"牛肉"}},
@@ -559,7 +561,7 @@ const T = {
     r2Title:"Round 1 done!", r2Start:"Start round 2 with the filter →", r2Round1:"Round 1 · no filter",
     r2Body:"That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.",
     dTitle:"The filter wins", dFaster:"faster with Vegan mode",
-    dRound1:"Without filter", dRound2:"With Vegan mode", dTaps1:"taps to find 5 items", dTaps2:"taps to find 5 items",
+    dRound1:"Without filter", dRound2:"With Vegan mode", clicks:"clicks", mistakes:"mistakes",
     dBody:"Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.",
     dAgain:"Play again", dContinue:"Continue the survey →",
     round:(r,f)=>"Round "+r+" of 2 · "+(f?"Vegan mode ON — easy 🌱":"no filter — the hard way"),
@@ -582,7 +584,7 @@ const T = {
     r2Title:"第 1 轮完成！", r2Start:"用筛选开始第 2 轮 →", r2Round1:"第 1 轮 · 无筛选",
     r2Body:"刚才是麻烦的方式。现在还是这 5 样——但这次<b>开启纯素模式</b>。看看快多少。",
     dTitle:"筛选完胜", dFaster:"用纯素模式后更快",
-    dRound1:"不用筛选", dRound2:"用纯素模式", dTaps1:"找齐 5 样的点击次数", dTaps2:"找齐 5 样的点击次数",
+    dRound1:"不用筛选", dRound2:"用纯素模式", clicks:"次点击", mistakes:"次失误",
     dBody:"不用筛选时，你得读配料表、还要避开长得一样的商品。纯素模式隐藏了所有非素商品——包括那些藏得很深的——纯素者几秒就能买好。",
     dAgain:"再玩一次", dContinue:"继续问卷 →",
     round:(r,f)=>"第 "+r+"/2 轮 · "+(f?"纯素模式已开 — 很轻松 🌱":"无筛选 — 麻烦的方式"),
@@ -609,7 +611,8 @@ const UNIT = {
 let lang="en";
 let veganOn=false, filterLocked=false;
 let round=0, roundStart=0, timerInt=null;
-let taps=0, t1=0, t2=0, taps1=0, taps2=0;
+let clicks=0, mistakes=0;            // this round
+let t1=0, t2=0, c1=0, c2=0, m1=0, m2=0;  // per-round results (time / clicks / mistakes)
 let completed=false;
 const found=new Set();   // satisfied goal keys
 const added=new Set();   // product indices actually added (for the card checkmark)
@@ -647,11 +650,28 @@ function unit(u){return (lang==="zh"&&UNIT.zh[u])?UNIT.zh[u]:(UNIT.en[u]||u);}
 function name(p){return lang==="zh"?p.zh:p.en;}
 function catName(c){const o=CATS.find(x=>x.key===c);return lang==="zh"?o.zh:o.en;}
 function emojiHTML(e){return e==="TOFU"?TOFU_SVG:'<span class="emoji">'+e+'</span>';}
-function ingText(p){
-  if(!p.ing) return name(p);
-  let s=lang==="zh"?p.ing.zh:p.ing.en;
-  // highlight the albumin / non-vegan flag words
-  return s.replace(/(ALBUMIN \(egg white\)|蛋清蛋白（albumin）)/g,'<span class="flag">$1</span>');
+// Shared realistic additive / E-number tails (all plant-based, so they never
+// change a product's vegan status — the animal giveaway is only in the core).
+const TAILS={
+  bread:{
+    en:["wheat gluten","sugar","sunflower oil","water","soy lecithin (E322)","ascorbic acid (E300)","calcium propionate (E282)","sorbic acid (E200)","guar gum (E412)","xanthan gum (E415)","dextrose","malt extract","sodium stearoyl lactylate (E481)","enzymes (amylase)"],
+    zh:["小麦蛋白","白砂糖","葵花籽油","水","大豆卵磷脂(E322)","抗坏血酸(E300)","丙酸钙(E282)","山梨酸(E200)","瓜尔胶(E412)","黄原胶(E415)","葡萄糖","麦芽提取物","硬脂酰乳酸钠(E481)","酶制剂(淀粉酶)"]},
+  noodle:{
+    en:["palm oil","salt","sugar","monosodium glutamate (E621)","yeast extract","potassium carbonate (E501)","sodium carbonate (E500)","guar gum (E412)","caramel colour (E150a)","citric acid (E330)","garlic powder","onion powder","chilli powder","hydrolysed soy protein","riboflavin (E101)","spices"],
+    zh:["棕榈油","食盐","白砂糖","味精(E621)","酵母抽提物","碳酸钾(E501)","碳酸钠(E500)","瓜尔胶(E412)","焦糖色(E150a)","柠檬酸(E330)","大蒜粉","洋葱粉","辣椒粉","水解大豆蛋白","核黄素(E101)","香辛料"]}
+};
+// Build a realistic 12-20 item list: the product's core ingredients + a
+// deterministically-varied slice of the shared additive tail.
+function fullIng(i){
+  const p=P[i];
+  const sep=lang==="zh"?"、":", ";
+  const core=p.ing?(lang==="zh"?p.ing.zh:p.ing.en):name(p);
+  const tail=TAILS[p.c];
+  if(!tail) return core;
+  const arr=(lang==="zh"?tail.zh:tail.en).slice();
+  let s=(i+1)*97;
+  for(let k=arr.length-1;k>0;k--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(k+1));[arr[k],arr[j]]=[arr[j],arr[k]];}
+  return core+sep+arr.slice(0,9+(i%5)).join(sep);
 }
 function fmt(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
 
@@ -729,7 +749,7 @@ function openSheet(i){
   $("#shIm").innerHTML=p.e==="TOFU"?TOFU_MINI:p.e;
   $("#shNm").textContent=name(p);
   $("#shPc").textContent="¥"+p.p.toFixed(2);
-  $("#shIng").innerHTML=ingText(p);
+  $("#shIng").textContent=fullIng(i);
   const btn=$("#shAdd"); btn.dataset.i=i;
   btn.classList.toggle("got",added.has(i));
   btn.innerHTML=added.has(i)
@@ -744,10 +764,8 @@ function closeSheet(){$("#sheet").classList.remove("show");sheetI=-1;}
 function addItem(i){
   if(completed||round===0) return;
   const p=P[i];
-  taps++;
   const g=goalFor(i);
-  if(g){
-    if(found.has(g)){toast(T[lang].already);return;}
+  if(g && !found.has(g)){
     found.add(g); added.add(i);
     bumpCart();
     renderSections(); renderChips();
@@ -757,6 +775,8 @@ function addItem(i){
     toast(T[lang].added(name(p)));
     if(found.size===NGOAL) finishRound();
   } else {
+    mistakes++;   // wrong item, off-list item, or already-in-cart
+    if(g){toast(T[lang].already);return;}
     const b=p.bad?(lang==="zh"?p.bad.zh:p.bad.en):null;
     toast(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))));
   }
@@ -775,7 +795,7 @@ function applyVeganStyle(on){
 
 /* ---------- rounds ---------- */
 function startRound(r){
-  round=r; found.clear(); added.clear(); taps=0; completed=false;
+  round=r; found.clear(); added.clear(); clicks=0; mistakes=0; completed=false;
   veganOn=(r===2); filterLocked=true;
   order=(r===1?ORDER1:ORDER2);
   applyVeganStyle(veganOn);
@@ -791,17 +811,19 @@ function finishRound(){
   stopTimer();
   const time=elapsed();
   if(round===1){
-    t1=time; taps1=taps;
+    t1=time; c1=clicks; m1=mistakes;
     $("#r2Time").textContent=fmt(t1);
+    $("#r2Sub").textContent=metricLine(c1,m1);
     setTimeout(()=>$("#round2").classList.add("show"),650);
   } else {
-    t2=time; taps2=taps; completed=true;
+    t2=time; c2=clicks; m2=mistakes; completed=true;
     showFinal();
   }
 }
+function metricLine(c,m){return c+" "+T[lang].clicks+" · "+m+" "+T[lang].mistakes;}
 function showFinal(){
-  $("#dTime1").textContent=fmt(t1); $("#dTap1").textContent=taps1;
-  $("#dTime2").textContent=fmt(t2); $("#dTap2").textContent=taps2;
+  $("#dTime1").textContent=fmt(t1); $("#dSub1").textContent=metricLine(c1,m1);
+  $("#dTime2").textContent=fmt(t2); $("#dSub2").textContent=metricLine(c2,m2);
   const ratio=t2>0?(t1/t2):0;
   $("#speedup").textContent=ratio>=1.1?(ratio.toFixed(1).replace(/\.0$/,"")+"×"):"✓";
   setTimeout(()=>$("#done").classList.add("show"),400);
@@ -811,7 +833,7 @@ function startGame(){$("#welcome").classList.remove("show");startRound(1);}
 function goRound2(){$("#round2").classList.remove("show");startRound(2);}
 function reset(){
   stopTimer(); round=0; completed=false; found.clear(); added.clear();
-  t1=t2=taps1=taps2=taps=0;
+  t1=t2=c1=c2=m1=m2=clicks=mistakes=0;
   $("#done").classList.remove("show");
   $("#timer").textContent="⏱ 00:00";
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
@@ -832,13 +854,14 @@ function setLang(l){
 }
 
 /* ---------- wire up ---------- */
+function countClick(){ if(round>0 && !completed) clicks++; }
 $("#sections").addEventListener("click",e=>{
   const add=e.target.closest("[data-add]");
-  if(add){ addItem(+add.dataset.i); return; }
+  if(add){ countClick(); addItem(+add.dataset.i); return; }
   const card=e.target.closest(".prod");
-  if(card) openSheet(+card.dataset.i);
+  if(card){ countClick(); openSheet(+card.dataset.i); }
 });
-$("#shAdd").addEventListener("click",()=>{if(sheetI>=0)addItem(sheetI);});
+$("#shAdd").addEventListener("click",()=>{if(sheetI>=0){countClick();addItem(sheetI);}});
 $("#sheetClose").addEventListener("click",closeSheet);
 $("#switch").addEventListener("click",()=>{
   if(filterLocked){toast(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
