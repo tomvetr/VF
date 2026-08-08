@@ -90,10 +90,13 @@
   .listcard{margin:6px 14px 2px;background:linear-gradient(180deg,#fff,#fffdf8);
     border:1px solid var(--line);border-radius:16px;padding:11px 13px;flex:none;
     box-shadow:0 2px 8px rgba(74,53,39,.05);}
-  .listhead{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-  .listhead b{font-size:14px;flex:1;}
+  .listhead{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+  .listhead b{font-size:14px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .timer{font-size:12px;font-weight:800;color:var(--ink);background:#f0e7d6;
-    padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;}
+    padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;flex:none;}
+  .miss{font-size:12px;font-weight:800;color:var(--muted);background:#f0e7d6;
+    padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;flex:none;}
+  .miss.bad{color:var(--red-d);background:rgba(224,87,63,.13);}
   .prog{font-size:12px;font-weight:800;color:var(--accent);
     background:rgba(224,87,63,.1);padding:3px 9px;border-radius:999px;}
   .prog.done{color:var(--green-d);background:rgba(90,158,63,.14);}
@@ -256,6 +259,7 @@
         <span>📝</span>
         <b data-t="listTitle">Your shopping list</b>
         <span class="timer" id="timer">⏱ 00:00</span>
+        <span class="miss" id="miss">✗ 0</span>
         <span class="prog" id="prog">0/5</span>
       </div>
       <div class="chips" id="chips"></div>
@@ -348,10 +352,10 @@
 const CATS = [
   {key:"protein", en:"Protein",         zh:"蛋白质"},
   {key:"bread",   en:"Bread",           zh:"面包"},
+  {key:"veg",     en:"Vegetables",      zh:"蔬菜"},   // between bread & noodles
   {key:"noodle",  en:"Instant noodles", zh:"方便面"},
   {key:"sauce",   en:"Sauces",          zh:"酱料调味"},
   {key:"pantry",  en:"Pantry",          zh:"主食干货"},
-  {key:"veg",     en:"Vegetables",      zh:"蔬菜"},   // vegetables last
 ];
 
 // e:emoji en/zh:name p:price u:unit v:vegan t:target c:category
@@ -399,9 +403,9 @@ const P = [
     ing:{en:"flour, ham, cheese, butter",zh:"面粉、火腿、奶酪、黄油"},bad:{en:"ham & cheese",zh:"火腿和奶酪"}},
   {e:"🍞",en:"Custard bun",zh:"奶黄包",p:6.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, egg yolk, milk, butter, sugar",zh:"面粉、蛋黄、牛奶、黄油、糖"},bad:{en:"egg yolk & milk",zh:"蛋黄和牛奶"}},
-  {e:"🍞",en:"French baguette",zh:"法棍面包",p:8.90,u:"each",v:1,c:"bread",
-    ing:{en:"wheat flour, water, yeast, salt",zh:"小麦粉、水、酵母、盐"}},
-  {e:"🍞",en:"Sourdough loaf",zh:"天然酵母面包",p:12.90,u:"loaf",v:1,c:"bread",
+  {e:"🥖",en:"French baguette",zh:"法棍面包",p:8.90,u:"each",v:0,c:"bread",
+    ing:{en:"wheat flour, water, yeast, butter, milk powder, salt",zh:"小麦粉、水、酵母、黄油、奶粉、盐"},bad:{en:"butter & milk",zh:"黄油和奶粉"}},
+  {e:"🍞",en:"Sourdough bread",zh:"酸面包",p:12.90,u:"loaf",v:1,c:"bread",
     ing:{en:"wheat flour, water, sourdough starter, salt",zh:"小麦粉、水、天然酵种、盐"}},
   {e:"🍞",en:"Coconut bread",zh:"椰蓉面包",p:7.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, egg, coconut, milk",zh:"面粉、黄油、鸡蛋、椰蓉、牛奶"},bad:{en:"butter & egg",zh:"黄油和鸡蛋"}},
@@ -514,7 +518,13 @@ const P = [
   {e:"🍢",en:"Fish balls",zh:"鱼丸",p:14.90,u:"400g",v:0,c:"protein"},
   {e:"🍢",en:"Beef balls",zh:"牛肉丸",p:16.90,u:"400g",v:0,c:"protein"},
 
-  /* ============ SAUCES: soy-sauce look-alikes + animal ============ */
+  /* ============ SAUCES (all 🍶) — find the vegan SOY SAUCE ============ */
+  // vegan, but NOT soy sauce → wrong pick for the "Soy sauce" goal
+  {e:"🍶",en:"Rice vinegar",zh:"米醋",p:6.50,u:"500ml",v:1,c:"sauce",
+    ing:{en:"water, rice, salt",zh:"水、大米、盐"}},
+  {e:"🍶",en:"Cooking wine",zh:"料酒",p:7.90,u:"500ml",v:1,c:"sauce",
+    ing:{en:"water, rice wine, salt, spices",zh:"水、黄酒、盐、香辛料"}},
+  // non-vegan soy-sauce look-alikes
   {e:"🍶",en:"Oyster sauce",zh:"蚝油",p:11.90,u:"500g",v:0,c:"sauce",
     ing:{en:"oyster extract, sugar, salt, starch",zh:"蚝汁、糖、盐、淀粉"},bad:{en:"oyster",zh:"生蚝"}},
   {e:"🍶",en:"Fish sauce",zh:"鱼露",p:9.90,u:"500ml",v:0,c:"sauce",
@@ -705,9 +715,12 @@ function renderSections(){
   CATS.forEach(cat=>{
     let ids=order.filter(i=>P[i].c===cat.key && (!veganOn || P[i].v));
     if(!ids.length) return;
-    // in round 1 (filter off), never show a vegan bread/noodle as the first card
-    if(!veganOn && (cat.key==="bread"||cat.key==="noodle") && P[ids[0]].v){
-      const j=ids.findIndex(i=>!P[i].v);
+    // never show the correct pick as the very first card in its aisle
+    // (bread/noodle = any vegan one; sauce = the soy-sauce goal item)
+    const isAns = (cat.key==="bread"||cat.key==="noodle") ? (i=>P[i].v)
+                : (cat.key==="sauce") ? (i=>P[i].g==="soysauce") : null;
+    if(isAns && isAns(ids[0])){
+      const j=ids.findIndex(i=>!isAns(i));
       if(j>0){const t=ids[0];ids[0]=ids[j];ids[j]=t;}
     }
     html+='<div class="cathead"><h2>'+catName(cat.key)+'</h2><span class="cnt">'+T[lang].items(ids.length)+'</span></div>';
@@ -775,7 +788,7 @@ function addItem(i){
     toast(T[lang].added(name(p)));
     if(found.size===NGOAL) finishRound();
   } else {
-    mistakes++;   // wrong item, off-list item, or already-in-cart
+    mistakes++; updateMiss();   // wrong item, off-list item, or already-in-cart
     if(g){toast(T[lang].already);return;}
     const b=p.bad?(lang==="zh"?p.bad.zh:p.bad.en):null;
     toast(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))));
@@ -785,6 +798,7 @@ function bumpCart(){
   const b1=$("#cartBadge"),b2=$("#cartBadge2");
   [b1,b2].forEach(b=>{b.textContent=found.size;b.classList.add("pop");setTimeout(()=>b.classList.remove("pop"),200);});
 }
+function updateMiss(){const m=$("#miss");m.textContent="✗ "+mistakes;m.classList.toggle("bad",mistakes>0);}
 
 function applyVeganStyle(on){
   document.documentElement.style.setProperty("--accent",on?"var(--green)":"var(--red)");
@@ -803,6 +817,7 @@ function startRound(r){
   $("#lockicon").textContent="🔒 "+(r===1?T[lang].lockR1:T[lang].lockR2);
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
   $("#scroll").scrollTop=0;
+  updateMiss();
   renderRoundbar(); renderSections(); renderChips();
   startTimer();
   if(r===2) setTimeout(()=>toast(T[lang].onToast(totalCount-veganCount)),400);
@@ -835,7 +850,7 @@ function reset(){
   stopTimer(); round=0; completed=false; found.clear(); added.clear();
   t1=t2=c1=c2=m1=m2=clicks=mistakes=0;
   $("#done").classList.remove("show");
-  $("#timer").textContent="⏱ 00:00";
+  $("#timer").textContent="⏱ 00:00"; updateMiss();
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
   veganOn=false; applyVeganStyle(false);
   $("#rlabel").textContent="";
