@@ -94,8 +94,9 @@
   .listhead b{font-size:14px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .timer{font-size:12px;font-weight:800;color:var(--ink);background:#f0e7d6;
     padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;flex:none;}
+  .listfoot{display:flex;justify-content:flex-end;margin-top:9px;}
   .miss{font-size:12px;font-weight:800;color:var(--muted);background:#f0e7d6;
-    padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;flex:none;}
+    padding:4px 11px;border-radius:999px;font-variant-numeric:tabular-nums;}
   .miss.bad{color:var(--red-d);background:rgba(224,87,63,.13);}
   .prog{font-size:12px;font-weight:800;color:var(--accent);
     background:rgba(224,87,63,.1);padding:3px 9px;border-radius:999px;}
@@ -259,10 +260,10 @@
         <span>📝</span>
         <b data-t="listTitle">Your shopping list</b>
         <span class="timer" id="timer">⏱ 00:00</span>
-        <span class="miss" id="miss">✗ 0</span>
         <span class="prog" id="prog">0/5</span>
       </div>
       <div class="chips" id="chips"></div>
+      <div class="listfoot"><span class="miss" id="miss">✗ 0</span></div>
     </div>
 
     <!-- Products (grouped by category) -->
@@ -393,7 +394,7 @@ const P = [
     ing:{en:"flour, milk, butter, egg, sugar",zh:"面粉、牛奶、黄油、鸡蛋、糖"},bad:{en:"milk & egg",zh:"牛奶和鸡蛋"}},
   {e:"🍞",en:"Pineapple bun",zh:"菠萝包",p:6.50,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, egg, sugar, milk",zh:"面粉、黄油、鸡蛋、糖、牛奶"},bad:{en:"butter & egg",zh:"黄油和鸡蛋"}},
-  {e:"🍞",en:"Red bean bun",zh:"豆沙面包",p:6.90,u:"each",v:0,c:"bread",
+  {e:"🍞",en:"Red bean bread",zh:"豆沙面包",p:6.90,u:"each",v:0,c:"bread",
     ing:{en:"flour, egg, milk, red bean paste, sugar",zh:"面粉、鸡蛋、牛奶、豆沙、糖"},bad:{en:"egg & milk",zh:"鸡蛋和牛奶"}},
   {e:"🍞",en:"Pork floss bread",zh:"肉松面包",p:9.90,u:"each",v:0,c:"bread",
     ing:{en:"flour, egg, pork floss, mayonnaise",zh:"面粉、鸡蛋、肉松、沙拉酱"},bad:{en:"pork floss",zh:"猪肉松"}},
@@ -403,15 +404,15 @@ const P = [
     ing:{en:"flour, ham, cheese, butter",zh:"面粉、火腿、奶酪、黄油"},bad:{en:"ham & cheese",zh:"火腿和奶酪"}},
   {e:"🍞",en:"Custard bun",zh:"奶黄包",p:6.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, egg yolk, milk, butter, sugar",zh:"面粉、蛋黄、牛奶、黄油、糖"},bad:{en:"egg yolk & milk",zh:"蛋黄和牛奶"}},
-  {e:"🥖",en:"French baguette",zh:"法棍面包",p:8.90,u:"each",v:0,c:"bread",
-    ing:{en:"wheat flour, water, yeast, butter, milk powder, salt",zh:"小麦粉、水、酵母、黄油、奶粉、盐"},bad:{en:"butter & milk",zh:"黄油和奶粉"}},
+  {e:"🥖",en:"French baguette",zh:"法棍面包",p:8.90,u:"each",v:1,x:1,c:"bread",
+    ing:{en:"wheat flour, water, yeast, salt",zh:"小麦粉、水、酵母、盐"}},
   {e:"🍞",en:"Sourdough bread",zh:"酸面包",p:12.90,u:"loaf",v:1,c:"bread",
     ing:{en:"wheat flour, water, sourdough starter, salt",zh:"小麦粉、水、天然酵种、盐"}},
   {e:"🍞",en:"Coconut bread",zh:"椰蓉面包",p:7.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, egg, coconut, milk",zh:"面粉、黄油、鸡蛋、椰蓉、牛奶"},bad:{en:"butter & egg",zh:"黄油和鸡蛋"}},
   {e:"🍞",en:"Taro bread",zh:"香芋面包",p:7.50,u:"each",v:0,c:"bread",
     ing:{en:"flour, milk, butter, taro, egg",zh:"面粉、牛奶、黄油、香芋、鸡蛋"},bad:{en:"milk & egg",zh:"牛奶和鸡蛋"}},
-  {e:"🍞",en:"Whole-wheat toast",zh:"全麦吐司",p:9.90,u:"loaf",v:0,c:"bread",
+  {e:"🍞",en:"Whole-wheat bread",zh:"全麦面包",p:9.90,u:"loaf",v:0,c:"bread",
     ing:{en:"wheat flour, milk, butter, sugar",zh:"全麦粉、牛奶、黄油、糖"},bad:{en:"milk & butter",zh:"牛奶和黄油"}},
   {e:"🍞",en:"Cranberry toast",zh:"蔓越莓吐司",p:11.90,u:"loaf",v:0,c:"bread",
     ing:{en:"flour, milk powder, butter, cranberry, egg",zh:"面粉、奶粉、黄油、蔓越莓、鸡蛋"},bad:{en:"milk powder & egg",zh:"奶粉和鸡蛋"}},
@@ -638,8 +639,8 @@ const GOALS=[
 const NGOAL=GOALS.length;
 function goalFor(i){ // which goal (if any) adding product i satisfies
   const p=P[i];
-  if(p.g) return p.g;                                    // exact vegan item
-  if(p.v && (p.c==="bread"||p.c==="noodle")) return p.c; // any vegan bread / noodle
+  if(p.g) return p.g;                                            // exact vegan item
+  if(p.v && !p.x && (p.c==="bread"||p.c==="noodle")) return p.c; // any vegan bread / noodle (x = excluded decoy)
   return null;
 }
 const veganCount=P.filter(p=>p.v).length;
@@ -715,11 +716,15 @@ function renderSections(){
   CATS.forEach(cat=>{
     let ids=order.filter(i=>P[i].c===cat.key && (!veganOn || P[i].v));
     if(!ids.length) return;
-    // never show the correct pick as the very first card in its aisle
-    // (bread/noodle = any vegan one; sauce = the soy-sauce goal item)
-    const isAns = (cat.key==="bread"||cat.key==="noodle") ? (i=>P[i].v)
+    // which card is the correct pick? (bread/noodle = a vegan, non-excluded one;
+    // sauce = the soy-sauce goal item). x-flagged items are vegan decoys.
+    const isAns = (cat.key==="bread"||cat.key==="noodle") ? (i=>P[i].v && !P[i].x)
                 : (cat.key==="sauce") ? (i=>P[i].g==="soysauce") : null;
-    if(isAns && isAns(ids[0])){
+    if(cat.key==="bread" && !veganOn){
+      // push the vegan bread (sourdough) 5 cards deeper so it takes real looking
+      const vi=ids.findIndex(isAns);
+      if(vi>=0){const [it]=ids.splice(vi,1);ids.splice(Math.min(vi+5,ids.length),0,it);}
+    } else if(isAns && isAns(ids[0])){
       const j=ids.findIndex(i=>!isAns(i));
       if(j>0){const t=ids[0];ids[0]=ids[j];ids[j]=t;}
     }
@@ -798,7 +803,7 @@ function bumpCart(){
   const b1=$("#cartBadge"),b2=$("#cartBadge2");
   [b1,b2].forEach(b=>{b.textContent=found.size;b.classList.add("pop");setTimeout(()=>b.classList.remove("pop"),200);});
 }
-function updateMiss(){const m=$("#miss");m.textContent="✗ "+mistakes;m.classList.toggle("bad",mistakes>0);}
+function updateMiss(){const m=$("#miss");m.textContent="✗ "+mistakes+" "+T[lang].mistakes;m.classList.toggle("bad",mistakes>0);}
 
 function applyVeganStyle(on){
   document.documentElement.style.setProperty("--accent",on?"var(--green)":"var(--red)");
@@ -864,7 +869,7 @@ function setLang(l){
   document.querySelectorAll("#lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
   if(round>0){renderRoundbar();$("#lockicon").textContent="🔒 "+(round===1?T[lang].lockR1:T[lang].lockR2);}
   renderSections(); renderChips(); renderWelcomeList();
-  $("#prog").textContent=T[l].found(found.size);
+  $("#prog").textContent=T[l].found(found.size); updateMiss();
   if(sheetI>=0) openSheet(sheetI);
 }
 
@@ -888,7 +893,7 @@ $("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实�
 $("#lang").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);});
 
 /* ---------- init ---------- */
-renderSections(); renderChips(); renderWelcomeList();
+renderSections(); renderChips(); renderWelcomeList(); updateMiss();
 </script>
 </body>
 </html>
