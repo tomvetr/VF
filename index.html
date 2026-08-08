@@ -59,17 +59,6 @@
     overflow:hidden;display:flex;flex-direction:column;position:relative;
   }
 
-  /* ---------- Phone / touch: drop the mockup frame, app fills the screen ---------- */
-  @media (max-width:500px), (pointer:coarse) and (hover:none){
-    body{padding:0;background:var(--screen);align-items:stretch;}
-    .phone{max-width:480px;width:100%;height:100dvh;padding:0;border-radius:0;
-      background:transparent;box-shadow:none;}
-    .screen{border-radius:0;}
-    .lang{display:none;}          /* floating corner toggle hidden on phones */
-    .langHdr{display:flex;}       /* inline header toggle shown instead */
-    .search-icn{display:none;}    /* free up header room */
-  }
-
   /* ---------- Header ---------- */
   .topbar{padding:16px 16px 8px;display:flex;align-items:center;gap:12px;flex:none;}
   .icn{width:24px;height:24px;color:var(--ink);flex:none;}
@@ -236,6 +225,37 @@
   .btn:active{background:var(--green-d);}
   .btn.ghost{background:transparent;color:var(--muted);margin-top:6px;padding:8px;font-size:13px;font-weight:600;}
   .hidden{display:none !important;}
+
+  /* ---------- Phone / touch: drop the mockup frame, compact the top block ----------
+     Placed last so these overrides win the cascade over the base rules above.        */
+  @media (max-width:500px), (pointer:coarse) and (hover:none){
+    body{padding:0;background:var(--screen);align-items:stretch;}
+    .phone{max-width:480px;width:100%;height:100dvh;padding:0;border-radius:0;
+      background:transparent;box-shadow:none;}
+    .screen{border-radius:0;}
+    .lang{display:none;}          /* floating corner toggle hidden on phones */
+    .langHdr{display:flex;}       /* inline header toggle shown instead */
+    .search-icn{display:none;}    /* free up header room */
+    /* compact the top block so products get most of the screen */
+    .topbar{padding:8px 14px 4px;}
+    .title{font-size:17px;}
+    .veganbar{margin:4px 12px 0;padding:7px 12px;}
+    .veganbar .vlabel{font-size:15px;}
+    .veganbar .leaf{font-size:18px;}
+    .roundbar{margin:4px 12px 0;font-size:11px;}
+    .listcard{margin:5px 12px 2px;padding:8px 11px;}
+    .listhead{margin-bottom:6px;}
+    .listhead b{font-size:13px;}
+    .timer,.prog{font-size:11px;padding:2px 7px;}
+    .chips{gap:5px;}
+    .chip{font-size:11.5px;padding:3px 8px 3px 6px;}
+    .chip .ce{font-size:12px;}
+    .listfoot{margin-top:5px;}
+    .miss{font-size:11px;padding:3px 9px;}
+    .scroll{padding:4px 12px 84px;}
+    .prod .imgwrap{height:82px;}
+    .prod .emoji{font-size:46px;}
+  }
 </style>
 </head>
 <body>
