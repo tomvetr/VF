@@ -155,9 +155,11 @@
   /* ---------- Toast ---------- */
   .toast{position:absolute;left:50%;bottom:82px;transform:translate(-50%,20px);
     background:rgba(46,42,36,.96);color:#fff;padding:9px 15px;border-radius:12px;
-    font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:40;
-    max-width:88%;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.25);}
+    font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:60;
+    max-width:88%;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.35);}
   .toast.show{opacity:1;transform:translate(-50%,0);}
+  /* when the ingredient sheet is open it covers the bottom — show the toast up top */
+  .toast.high{bottom:auto;top:78px;}
 
   /* ---------- Coach tooltip ---------- */
   .coach{position:absolute;z-index:45;background:var(--ink);color:#fff;border-radius:14px;
@@ -728,7 +730,10 @@ function fmt(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/6
 
 let toastTimer;
 function toast(msg){
-  const t=$("#toast"); t.innerHTML=msg; t.classList.add("show");
+  const t=$("#toast"); t.innerHTML=msg;
+  // if the ingredient sheet is open it covers the bottom, so float the toast up top
+  t.classList.toggle("high",$("#sheet").classList.contains("show"));
+  t.classList.add("show");
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2100);
 }
 
