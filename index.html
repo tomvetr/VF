@@ -294,7 +294,7 @@
       <div class="modal">
         <div class="big">🛒🌱</div>
         <h1 data-t="wTitle">The vegan shopping race</h1>
-        <p data-t="wBody">You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round: add these 5 items to your cart. Tip: tap a product to read its ingredients.</p>
+        <p data-t="wBody">You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.</p>
         <div class="tasklist" id="wList"></div>
         <button class="btn" id="startBtn" data-t="wStart">Start round 1 →</button>
       </div>
@@ -355,19 +355,15 @@ const CATS = [
 // e:emoji en/zh:name p:price u:unit v:vegan t:target c:category
 // ing:{en,zh} ingredient list  bad:{en,zh} the non-vegan giveaway (for the toast)
 const P = [
-  /* ============ VEGAN targets (unique icons) ============ */
-  {e:"TOFU",en:"Tofu",zh:"豆腐",p:5.50,u:"400g",v:1,t:1,c:"protein",
+  /* ============ VEGAN item-goals (find this exact vegan product) ============ */
+  {e:"TOFU",en:"Tofu",zh:"豆腐",p:5.50,u:"400g",v:1,g:"tofu",c:"protein",
     ing:{en:"soybeans, water, coagulant (nigari)",zh:"黄豆、水、凝固剂（盐卤）"}},
-  {e:"🍶",en:"Soy sauce",zh:"生抽酱油",p:9.90,u:"500ml",v:1,t:1,c:"sauce",
+  {e:"🍶",en:"Soy sauce",zh:"生抽酱油",p:9.90,u:"500ml",v:1,g:"soysauce",c:"sauce",
     ing:{en:"water, soybeans, wheat, salt",zh:"水、黄豆、小麦、盐"}},
-  {e:"🥛",en:"Soy milk",zh:"豆浆",p:6.90,u:"1L",v:1,t:1,c:"pantry",
+  {e:"🥛",en:"Soy milk",zh:"豆浆",p:6.90,u:"1L",v:1,g:"soymilk",c:"pantry",
     ing:{en:"soybeans, water",zh:"黄豆、水"}},
-  {e:"🍞",en:"Sourdough baguette",zh:"法棍面包",p:8.90,u:"each",v:1,t:1,c:"bread",
-    ing:{en:"wheat flour, water, yeast, salt",zh:"小麦粉、水、酵母、盐"}},
-  {e:"🍜",en:"Shiitake veg noodles",zh:"香菇青菜面",p:5.90,u:"pack",v:1,t:1,c:"noodle",
-    ing:{en:"wheat noodles, shiitake, bok choy, soy sauce, salt",zh:"小麦面、香菇、青菜、酱油、盐"}},
 
-  /* ============ VEGAN non-targets (unique icons) ============ */
+  /* ============ VEGAN non-targets ============ */
   {e:"🥬",en:"Bok choy",zh:"小白菜",p:3.20,u:"bunch",v:1,c:"veg"},
   {e:"🍆",en:"Eggplant",zh:"茄子",p:4.90,u:"500g",v:1,c:"veg"},
   {e:"🥒",en:"Cucumber",zh:"黄瓜",p:3.30,u:"500g",v:1,c:"veg"},
@@ -386,7 +382,7 @@ const P = [
   {e:"🥜",en:"Peanuts",zh:"花生",p:9.90,u:"500g",v:1,c:"pantry"},
   {e:"🍵",en:"Green tea",zh:"绿茶",p:29.90,u:"100g",v:1,c:"pantry"},
 
-  /* ============ BREAD look-alikes (all 🍞, all non-vegan) ============ */
+  /* ============ BREAD (all 🍞) — find a vegan one: 2 vegan, 13 not ============ */
   {e:"🍞",en:"Milk bread",zh:"奶香面包",p:7.90,u:"each",v:0,c:"bread",
     ing:{en:"flour, milk, butter, egg, sugar",zh:"面粉、牛奶、黄油、鸡蛋、糖"},bad:{en:"milk & egg",zh:"牛奶和鸡蛋"}},
   {e:"🍞",en:"Pineapple bun",zh:"菠萝包",p:6.50,u:"each",v:0,c:"bread",
@@ -401,6 +397,10 @@ const P = [
     ing:{en:"flour, ham, cheese, butter",zh:"面粉、火腿、奶酪、黄油"},bad:{en:"ham & cheese",zh:"火腿和奶酪"}},
   {e:"🍞",en:"Custard bun",zh:"奶黄包",p:6.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, egg yolk, milk, butter, sugar",zh:"面粉、蛋黄、牛奶、黄油、糖"},bad:{en:"egg yolk & milk",zh:"蛋黄和牛奶"}},
+  {e:"🍞",en:"French baguette",zh:"法棍面包",p:8.90,u:"each",v:1,c:"bread",
+    ing:{en:"wheat flour, water, yeast, salt",zh:"小麦粉、水、酵母、盐"}},
+  {e:"🍞",en:"Sourdough loaf",zh:"天然酵母面包",p:12.90,u:"loaf",v:1,c:"bread",
+    ing:{en:"wheat flour, water, sourdough starter, salt",zh:"小麦粉、水、天然酵种、盐"}},
   {e:"🍞",en:"Coconut bread",zh:"椰蓉面包",p:7.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, egg, coconut, milk",zh:"面粉、黄油、鸡蛋、椰蓉、牛奶"},bad:{en:"butter & egg",zh:"黄油和鸡蛋"}},
   {e:"🍞",en:"Taro bread",zh:"香芋面包",p:7.50,u:"each",v:0,c:"bread",
@@ -409,14 +409,12 @@ const P = [
     ing:{en:"wheat flour, milk, butter, sugar",zh:"全麦粉、牛奶、黄油、糖"},bad:{en:"milk & butter",zh:"牛奶和黄油"}},
   {e:"🍞",en:"Cranberry toast",zh:"蔓越莓吐司",p:11.90,u:"loaf",v:0,c:"bread",
     ing:{en:"flour, milk powder, butter, cranberry, egg",zh:"面粉、奶粉、黄油、蔓越莓、鸡蛋"},bad:{en:"milk powder & egg",zh:"奶粉和鸡蛋"}},
-  {e:"🍞",en:"Scallion bread",zh:"葱香面包",p:6.90,u:"each",v:0,c:"bread",
-    ing:{en:"flour, egg, scallion, lard",zh:"面粉、鸡蛋、香葱、猪油"},bad:{en:"egg & lard",zh:"鸡蛋和猪油"}},
   {e:"🍞",en:"Cheese roll",zh:"芝士包",p:8.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, cheese, milk, butter",zh:"面粉、奶酪、牛奶、黄油"},bad:{en:"cheese & milk",zh:"奶酪和牛奶"}},
   {e:"🍞",en:"Butter croissant",zh:"黄油可颂",p:9.50,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, milk, egg",zh:"面粉、黄油、牛奶、鸡蛋"},bad:{en:"butter, milk & egg",zh:"黄油、牛奶和鸡蛋"}},
 
-  /* ============ INSTANT-NOODLE look-alikes (all 🍜, non-vegan) ============ */
+  /* ============ INSTANT NOODLES (all 🍜) — find a vegan one: 2 vegan, 13 not ============ */
   // -- 5 "ambiguous": look vegetarian, but hide albumin (egg white) --
   {e:"🍜",en:"Tomato noodles",zh:"番茄面",p:5.50,u:"pack",v:0,c:"noodle",
     ing:{en:"wheat noodles, tomato, ALBUMIN (egg white), salt, oil",zh:"小麦面、番茄、蛋清蛋白（albumin）、盐、植物油"},bad:{en:"albumin (egg white)",zh:"蛋清蛋白（albumin）"}},
@@ -437,10 +435,12 @@ const P = [
     ing:{en:"wheat noodles, chicken, chicken fat",zh:"小麦面、鸡肉、鸡油"},bad:{en:"chicken",zh:"鸡肉"}},
   {e:"🍜",en:"Seafood noodles",zh:"海鲜面",p:6.90,u:"pack",v:0,c:"noodle",
     ing:{en:"wheat noodles, shrimp, squid, fish",zh:"小麦面、虾、鱿鱼、鱼"},bad:{en:"shrimp & fish",zh:"虾和鱼"}},
+  {e:"🍜",en:"Shiitake & greens noodles",zh:"香菇青菜面",p:5.90,u:"pack",v:1,c:"noodle",
+    ing:{en:"wheat noodles, shiitake, bok choy, soy sauce, salt",zh:"小麦面、香菇、青菜、酱油、盐"}},
   {e:"🍜",en:"Spicy-beef noodles",zh:"麻辣牛肉面",p:5.90,u:"pack",v:0,c:"noodle",
     ing:{en:"wheat noodles, beef, chili, beef tallow",zh:"小麦面、牛肉、辣椒、牛油"},bad:{en:"beef",zh:"牛肉"}},
-  {e:"🍜",en:"Pickled-pork noodles",zh:"酸菜猪肉面",p:5.90,u:"pack",v:0,c:"noodle",
-    ing:{en:"wheat noodles, pork, pickled greens",zh:"小麦面、猪肉、酸菜"},bad:{en:"pork",zh:"猪肉"}},
+  {e:"🍜",en:"Sichuan mala noodles",zh:"川味麻辣面",p:6.50,u:"pack",v:1,c:"noodle",
+    ing:{en:"wheat noodles, chili, Sichuan pepper, peanuts, soy sauce",zh:"小麦面、辣椒、花椒、花生、酱油"}},
   {e:"🍜",en:"Roast-duck noodles",zh:"烤鸭面",p:6.50,u:"pack",v:0,c:"noodle",
     ing:{en:"wheat noodles, duck, duck fat",zh:"小麦面、鸭肉、鸭油"},bad:{en:"duck",zh:"鸭肉"}},
   {e:"🍜",en:"Fish-ball noodles",zh:"鱼丸面",p:6.20,u:"pack",v:0,c:"noodle",
@@ -496,6 +496,15 @@ const P = [
   {e:"🦪",en:"Oysters",zh:"生蚝",p:36.00,u:"6 pcs",v:0,c:"protein"},
   {e:"🦪",en:"Clams",zh:"蛤蜊",p:18.90,u:"500g",v:0,c:"protein"},
   {e:"🦪",en:"Scallops",zh:"扇贝",p:33.90,u:"6 pcs",v:0,c:"protein"},
+  {e:"🦪",en:"Mussels",zh:"青口贝",p:22.90,u:"500g",v:0,c:"protein"},
+  {e:"🦪",en:"Abalone",zh:"鲍鱼",p:88.00,u:"each",v:0,c:"protein"},
+  {e:"🐟",en:"Cod",zh:"鳕鱼",p:49.90,u:"300g",v:0,c:"protein"},
+  {e:"🦐",en:"Crayfish",zh:"小龙虾",p:45.90,u:"500g",v:0,c:"protein"},
+  /* offal */
+  {e:"🍖",en:"Beef tripe",zh:"牛肚",p:29.90,u:"500g",v:0,c:"protein"},
+  {e:"🍖",en:"Pork intestine",zh:"猪大肠",p:24.90,u:"500g",v:0,c:"protein"},
+  {e:"🍗",en:"Chicken liver",zh:"鸡肝",p:11.90,u:"300g",v:0,c:"protein"},
+  {e:"🦆",en:"Duck neck",zh:"鸭脖",p:23.90,u:"250g",v:0,c:"protein"},
   /* processed */
   {e:"🌭",en:"Sausage",zh:"香肠",p:17.90,u:"400g",v:0,c:"protein"},
   {e:"🍖",en:"Ham",zh:"火腿",p:19.90,u:"250g",v:0,c:"protein"},
@@ -513,6 +522,7 @@ const P = [
   {e:"🦐",en:"Shrimp paste",zh:"虾酱",p:14.90,u:"200g",v:0,c:"sauce"},
   {e:"🍯",en:"Honey",zh:"蜂蜜",p:32.90,u:"500g",v:0,c:"sauce",bad:{en:"honey (from bees)",zh:"蜂蜜"}},
   {e:"🍲",en:"Chicken stock",zh:"鸡汤",p:8.90,u:"1L",v:0,c:"sauce"},
+  {e:"🍲",en:"Beef bouillon",zh:"牛肉高汤",p:9.90,u:"1L",v:0,c:"sauce"},
   {e:"🧈",en:"Lard",zh:"猪油",p:9.90,u:"400g",v:0,c:"sauce"},
 
   /* ============ PANTRY: soy-milk & rice look-alikes + dairy ============ */
@@ -528,6 +538,8 @@ const P = [
   {e:"🍚",en:"Eight-treasure rice",zh:"八宝饭",p:16.90,u:"each",v:0,c:"pantry",
     ing:{en:"glutinous rice, lard, red bean, dates",zh:"糯米、猪油、红豆、枣"},bad:{en:"lard",zh:"猪油"}},
   {e:"🧀",en:"Cheese",zh:"奶酪",p:26.90,u:"200g",v:0,c:"pantry",bad:{en:"milk",zh:"牛奶"}},
+  {e:"🧀",en:"Cheese slices",zh:"芝士片",p:15.90,u:"pack",v:0,c:"pantry",bad:{en:"milk",zh:"牛奶"}},
+  {e:"🧈",en:"Ghee",zh:"酥油",p:34.90,u:"200g",v:0,c:"pantry",bad:{en:"milk (dairy)",zh:"牛奶"}},
   {e:"🧈",en:"Butter",zh:"黄油",p:22.90,u:"200g",v:0,c:"pantry",bad:{en:"milk (dairy)",zh:"牛奶"}},
   {e:"🍦",en:"Ice cream",zh:"冰淇淋",p:15.90,u:"tub",v:0,c:"pantry",bad:{en:"milk & egg",zh:"牛奶和鸡蛋"}},
   {e:"🍤",en:"Shrimp chips",zh:"虾片",p:7.90,u:"100g",v:0,c:"pantry",bad:{en:"shrimp",zh:"虾"}},
@@ -543,7 +555,7 @@ const T = {
     listTitle:"Your shopping list", ingredients:"Ingredients",
     navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile",
     wTitle:"The vegan shopping race", wStart:"Start round 1 →",
-    wBody:"You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round: add these 5 items to your cart. Tip: tap a product to read its ingredients.",
+    wBody:"You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.",
     r2Title:"Round 1 done!", r2Start:"Start round 2 with the filter →", r2Round1:"Round 1 · no filter",
     r2Body:"That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.",
     dTitle:"The filter wins", dFaster:"faster with Vegan mode",
@@ -566,7 +578,7 @@ const T = {
     listTitle:"你的购物清单", ingredients:"配料表",
     navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的",
     wTitle:"纯素购物大比拼", wStart:"开始第 1 轮 →",
-    wBody:"你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮：把这 5 样加入购物车。提示：点击商品可查看配料表。",
+    wBody:"你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮把这 5 样加入购物车。<b>面包</b>和<b>方便面</b>：任意一种纯素的都算，但你得<b>看配料表</b>才能找到它。",
     r2Title:"第 1 轮完成！", r2Start:"用筛选开始第 2 轮 →", r2Round1:"第 1 轮 · 无筛选",
     r2Body:"刚才是麻烦的方式。现在还是这 5 样——但这次<b>开启纯素模式</b>。看看快多少。",
     dTitle:"筛选完胜", dFaster:"用纯素模式后更快",
@@ -599,8 +611,24 @@ let veganOn=false, filterLocked=false;
 let round=0, roundStart=0, timerInt=null;
 let taps=0, t1=0, t2=0, taps1=0, taps2=0;
 let completed=false;
-const found=new Set();
-const targets=P.map((p,i)=>({...p,i})).filter(p=>p.t);
+const found=new Set();   // satisfied goal keys
+const added=new Set();   // product indices actually added (for the card checkmark)
+// The 5 shopping goals. "item" = find that exact vegan product; "cat" = find ANY
+// vegan product in that aisle (so bread & noodles need reading the ingredients).
+const GOALS=[
+  {k:"tofu",     kind:"item", icon:"TOFU", en:"Tofu",            zh:"豆腐"},
+  {k:"soysauce", kind:"item", icon:"🍶",  en:"Soy sauce",       zh:"生抽酱油"},
+  {k:"soymilk",  kind:"item", icon:"🥛",  en:"Soy milk",        zh:"豆浆"},
+  {k:"bread",    kind:"cat",  icon:"🍞",  en:"Bread",           zh:"面包"},
+  {k:"noodle",   kind:"cat",  icon:"🍜",  en:"Instant noodles", zh:"方便面"},
+];
+const NGOAL=GOALS.length;
+function goalFor(i){ // which goal (if any) adding product i satisfies
+  const p=P[i];
+  if(p.g) return p.g;                                    // exact vegan item
+  if(p.v && (p.c==="bread"||p.c==="noodle")) return p.c; // any vegan bread / noodle
+  return null;
+}
 const veganCount=P.filter(p=>p.v).length;
 const totalCount=P.length;
 
@@ -646,8 +674,8 @@ function cardHTML(i){
     '<div class="imgwrap">'+emojiHTML(p.e)+'<span class="info">i</span></div>'+
     '<p class="pname">'+name(p)+'</p>'+
     '<div class="prow"><span class="price">¥'+p.p.toFixed(2)+'<span class="unit">/'+unit(p.u)+'</span></span>'+
-    '<button class="add'+(found.has(i)?" got":"")+'" data-i="'+i+'" data-add="1">'+
-      (found.has(i)
+    '<button class="add'+(added.has(i)?" got":"")+'" data-i="'+i+'" data-add="1">'+
+      (added.has(i)
         ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
         : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg>')+
     '</button></div></div>';
@@ -655,29 +683,36 @@ function cardHTML(i){
 function renderSections(){
   let html="";
   CATS.forEach(cat=>{
-    const ids=order.filter(i=>P[i].c===cat.key && (!veganOn || P[i].v));
+    let ids=order.filter(i=>P[i].c===cat.key && (!veganOn || P[i].v));
     if(!ids.length) return;
+    // in round 1 (filter off), never show a vegan bread/noodle as the first card
+    if(!veganOn && (cat.key==="bread"||cat.key==="noodle") && P[ids[0]].v){
+      const j=ids.findIndex(i=>!P[i].v);
+      if(j>0){const t=ids[0];ids[0]=ids[j];ids[j]=t;}
+    }
     html+='<div class="cathead"><h2>'+catName(cat.key)+'</h2><span class="cnt">'+T[lang].items(ids.length)+'</span></div>';
     html+='<div class="grid">'+ids.map(cardHTML).join("")+'</div>';
   });
   $("#sections").innerHTML=html;
 }
+function goalIcon(g){return g.icon==="TOFU"?"⬜":g.icon;}
+function goalName(g){return lang==="zh"?g.zh:g.en;}
 function renderChips(){
   const c=$("#chips"); c.innerHTML="";
-  targets.forEach(p=>{
+  GOALS.forEach(g=>{
     const el=document.createElement("span");
-    el.className="chip"+(found.has(p.i)?" found":"");
-    el.innerHTML='<span class="ce">'+(p.e==="TOFU"?"⬜":p.e)+'</span>'+name(p);
+    el.className="chip"+(found.has(g.k)?" found":"");
+    el.innerHTML='<span class="ce">'+goalIcon(g)+'</span>'+goalName(g);
     c.appendChild(el);
   });
   const pr=$("#prog"); pr.textContent=T[lang].found(found.size);
-  pr.classList.toggle("done",found.size===5);
+  pr.classList.toggle("done",found.size===NGOAL);
 }
 function renderWelcomeList(){
   const w=$("#wList"); w.innerHTML="";
-  targets.forEach(p=>{
+  GOALS.forEach(g=>{
     const d=document.createElement("div"); d.className="ti";
-    d.innerHTML='<span class="te">'+(p.e==="TOFU"?"⬜":p.e)+'</span>'+name(p);
+    d.innerHTML='<span class="te">'+goalIcon(g)+'</span>'+goalName(g);
     w.appendChild(d);
   });
 }
@@ -696,8 +731,8 @@ function openSheet(i){
   $("#shPc").textContent="¥"+p.p.toFixed(2);
   $("#shIng").innerHTML=ingText(p);
   const btn=$("#shAdd"); btn.dataset.i=i;
-  btn.classList.toggle("got",found.has(i));
-  btn.innerHTML=found.has(i)
+  btn.classList.toggle("got",added.has(i));
+  btn.innerHTML=added.has(i)
     ? '✓ '+T[lang].added(name(p)).replace("✓ ","")
     : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg> '+T[lang].addToCart;
   $("#sheet").classList.toggle("vegan-on",veganOn);
@@ -710,16 +745,17 @@ function addItem(i){
   if(completed||round===0) return;
   const p=P[i];
   taps++;
-  if(p.t){
-    if(found.has(i)){toast(T[lang].already);return;}
-    found.add(i);
+  const g=goalFor(i);
+  if(g){
+    if(found.has(g)){toast(T[lang].already);return;}
+    found.add(g); added.add(i);
     bumpCart();
     renderSections(); renderChips();
     if(sheetI===i) closeSheet();
     const card=document.querySelector('.prod[data-i="'+i+'"]');
     if(card){card.classList.add("flash");setTimeout(()=>card.classList.remove("flash"),500);}
     toast(T[lang].added(name(p)));
-    if(found.size===5) finishRound();
+    if(found.size===NGOAL) finishRound();
   } else {
     const b=p.bad?(lang==="zh"?p.bad.zh:p.bad.en):null;
     toast(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))));
@@ -739,7 +775,7 @@ function applyVeganStyle(on){
 
 /* ---------- rounds ---------- */
 function startRound(r){
-  round=r; found.clear(); taps=0; completed=false;
+  round=r; found.clear(); added.clear(); taps=0; completed=false;
   veganOn=(r===2); filterLocked=true;
   order=(r===1?ORDER1:ORDER2);
   applyVeganStyle(veganOn);
@@ -774,7 +810,7 @@ function showFinal(){
 function startGame(){$("#welcome").classList.remove("show");startRound(1);}
 function goRound2(){$("#round2").classList.remove("show");startRound(2);}
 function reset(){
-  stopTimer(); round=0; completed=false; found.clear();
+  stopTimer(); round=0; completed=false; found.clear(); added.clear();
   t1=t2=taps1=taps2=taps=0;
   $("#done").classList.remove("show");
   $("#timer").textContent="⏱ 00:00";
