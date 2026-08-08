@@ -99,9 +99,9 @@
   .listhead b{font-size:14px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .timer{font-size:12px;font-weight:800;color:var(--ink);background:#f0e7d6;
     padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums;flex:none;}
-  .listfoot{display:flex;justify-content:flex-end;margin-top:9px;}
   .miss{font-size:12px;font-weight:800;color:var(--muted);background:#f0e7d6;
-    padding:4px 11px;border-radius:999px;font-variant-numeric:tabular-nums;}
+    padding:4px 11px;border-radius:999px;font-variant-numeric:tabular-nums;
+    margin-left:auto;align-self:center;}
   .miss.bad{color:var(--red-d);background:rgba(224,87,63,.13);}
   .prog{font-size:12px;font-weight:800;color:var(--accent);
     background:rgba(224,87,63,.1);padding:3px 9px;border-radius:999px;}
@@ -250,11 +250,15 @@
     .chips{gap:5px;}
     .chip{font-size:11.5px;padding:3px 8px 3px 6px;}
     .chip .ce{font-size:12px;}
-    .listfoot{margin-top:5px;}
     .miss{font-size:11px;padding:3px 9px;}
-    .scroll{padding:4px 12px 84px;}
+    .scroll{padding:4px 12px 54px;}
     .prod .imgwrap{height:82px;}
     .prod .emoji{font-size:46px;}
+    /* slim, low-profile bottom nav */
+    .nav{height:46px;padding-bottom:2px;}
+    .navi{font-size:9px;gap:1px;}
+    .navi .icn{width:18px;height:18px;}
+    .nav .badge{right:10px;top:-3px;min-width:15px;height:15px;font-size:9px;}
   }
 </style>
 </head>
@@ -300,7 +304,6 @@
         <span class="prog" id="prog">0/5</span>
       </div>
       <div class="chips" id="chips"></div>
-      <div class="listfoot"><span class="miss" id="miss">✗ 0</span></div>
     </div>
 
     <!-- Products (grouped by category) -->
@@ -780,6 +783,11 @@ function renderChips(){
     el.innerHTML='<span class="ce">'+goalIcon(g)+'</span>'+goalName(g);
     c.appendChild(el);
   });
+  // mistakes pill rides the end of the last chip row (right-aligned), no extra row
+  const m=document.createElement("span");
+  m.className="miss"+(mistakes>0?" bad":""); m.id="miss";
+  m.textContent="✗ "+mistakes+" "+T[lang].mistakes;
+  c.appendChild(m);
   const pr=$("#prog"); pr.textContent=T[lang].found(found.size);
   pr.classList.toggle("done",found.size===NGOAL);
 }
