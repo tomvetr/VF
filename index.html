@@ -104,13 +104,13 @@
   .chip .ce{font-size:14px;}
   .chip.found{background:rgba(90,158,63,.15);color:var(--green-d);
     text-decoration:line-through;text-decoration-color:rgba(74,133,52,.5);border-color:rgba(90,158,63,.35);}
-  .chip.found .ce{filter:grayscale(.1);}
 
   /* ---------- Products ---------- */
   .scroll{flex:1;overflow-y:auto;padding:8px 14px 84px;-webkit-overflow-scrolling:touch;}
-  .sechead{display:flex;align-items:baseline;justify-content:space-between;margin:8px 2px 6px;}
-  .sechead h2{font-size:16px;margin:0;font-weight:800;}
-  .sechead .more{font-size:13px;color:var(--accent);font-weight:700;}
+  .cathead{display:flex;align-items:baseline;gap:8px;margin:16px 2px 8px;}
+  .cathead:first-child{margin-top:6px;}
+  .cathead h2{font-size:16px;margin:0;font-weight:800;}
+  .cathead .cnt{font-size:12px;color:var(--muted);font-weight:700;}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
   .prod{
     background:var(--card-neutral);border-radius:16px;padding:10px;position:relative;
@@ -120,10 +120,6 @@
   .prod .imgwrap{background:rgba(255,255,255,.6);border-radius:12px;height:96px;
     display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;}
   .prod .emoji{font-size:52px;line-height:1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.12));}
-  .heart{position:absolute;top:7px;right:8px;width:20px;height:20px;color:#c9bda8;}
-  .prod.vegan-on .heart{color:#a9c48c;}
-  .vleaf{position:absolute;top:7px;left:8px;font-size:15px;opacity:0;transition:opacity .25s;}
-  .prod.vegan-on .vleaf{opacity:1;}
   .pname{font-size:14px;font-weight:700;line-height:1.2;margin:0 0 4px;}
   .prow{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;}
   .price{font-weight:800;color:var(--accent);font-size:15px;}
@@ -135,7 +131,6 @@
   .prod.vegan-on .add{background:var(--green);}
   .add:active{transform:scale(.86);}
   .add.got{background:#bdb3a2 !important;}
-  .prod.hide{display:none;}
   .prod.flash{animation:flash .5s;}
   @keyframes flash{0%{box-shadow:0 0 0 3px rgba(90,158,63,.6);}100%{box-shadow:0 0 0 3px rgba(90,158,63,0);}}
 
@@ -232,13 +227,9 @@
       <div class="chips" id="chips"></div>
     </div>
 
-    <!-- Products -->
+    <!-- Products (grouped by category) -->
     <div class="scroll" id="scroll">
-      <div class="sechead">
-        <h2 data-t="recommended">All products</h2>
-        <span class="more" id="countLabel">101 items</span>
-      </div>
-      <div class="grid" id="grid"></div>
+      <div id="sections"></div>
     </div>
 
     <!-- Bottom nav -->
@@ -256,7 +247,7 @@
       <div class="modal">
         <div class="big">🛒🌱</div>
         <h1 data-t="wTitle">Find 5 vegan items</h1>
-        <p data-t="wBody">You're cooking a vegan dinner. Add these 5 items to your cart — they're hidden among 100+ products. Then discover a faster way to shop.</p>
+        <p data-t="wBody">You're cooking a vegan dinner. Add these 5 items to your cart — they're hidden among 100 products, next to non-vegan look-alikes. Then discover a faster way to shop.</p>
         <div class="tasklist" id="wList"></div>
         <button class="btn" id="startBtn" data-t="wStart">Start shopping</button>
       </div>
@@ -269,8 +260,8 @@
         <h1 data-t="dTitle">Basket complete!</h1>
         <p id="doneBody" data-t="dBody">You found all 5 items. Notice how <b>Vegan mode</b> hid the meat, fish, eggs and dairy — so you only scanned the products that matter to you.</p>
         <div class="stats">
-          <div class="stat"><div class="n" id="statAll">101</div><div class="l" data-t="dStat1">products without the filter</div></div>
-          <div class="stat"><div class="n" id="statVegan">55</div><div class="l" data-t="dStat2">with Vegan mode on</div></div>
+          <div class="stat"><div class="n" id="statAll">100</div><div class="l" data-t="dStat1">products without the filter</div></div>
+          <div class="stat"><div class="n" id="statVegan">20</div><div class="l" data-t="dStat2">with Vegan mode on</div></div>
         </div>
         <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
         <button class="btn ghost" id="continueBtn" data-t="dContinue">Continue the survey →</button>
@@ -284,136 +275,139 @@
 /* =========================================================
    Vegan Filter — interactive survey prototype
    Single file, fully offline. Products common in China.
+   80 animal products : 20 vegan (4:1). Grouped by category.
+   Every vegan item has a UNIQUE icon, so with the filter on
+   the 5 targets are easy to spot. Several non-vegan items
+   share a target's icon, so they are hard to find without it.
    ========================================================= */
 
-// e:emoji  en/zh:names  p:price  u:unit key  v:vegan  t:target
+const CATS = [
+  {key:"protein", en:"Protein",    zh:"蛋白质"},
+  {key:"veg",     en:"Vegetables", zh:"蔬菜"},
+  {key:"sauce",   en:"Sauces",     zh:"酱料调味"},
+  {key:"pantry",  en:"Pantry",     zh:"主食干货"},
+];
+
+// e:emoji  en/zh:names  p:price  u:unit  v:vegan  t:target  c:category
 const P = [
-  // ---- TARGET vegan items (t:true) ----
-  {e:"TOFU", en:"Tofu",            zh:"豆腐",     p:5.50, u:"400g", v:1, t:1},
-  {e:"🥬",  en:"Bok choy",        zh:"小白菜",   p:3.20, u:"bunch",v:1, t:1},
-  {e:"🍄",  en:"Shiitake mushroom",zh:"香菇",    p:12.90,u:"250g", v:1, t:1},
-  {e:"🍶",  en:"Soy sauce",       zh:"生抽酱油", p:9.90, u:"500ml",v:1, t:1},
-  {e:"🍚",  en:"Rice",            zh:"大米",     p:39.90,u:"5kg",  v:1, t:1},
+  /* ================= VEGAN (20 — every icon unique) ================= */
+  // -- Protein --
+  {e:"TOFU",en:"Tofu",            zh:"豆腐",      p:5.50, u:"400g", v:1, t:1, c:"protein"},
+  {e:"🥟",  en:"Veggie dumplings",zh:"素饺子",    p:15.90,u:"500g", v:1, t:1, c:"protein"},
+  // -- Vegetables --
+  {e:"🥬",  en:"Bok choy",        zh:"小白菜",    p:3.20, u:"bunch",v:1, c:"veg"},
+  {e:"🍆",  en:"Eggplant",        zh:"茄子",      p:4.90, u:"500g", v:1, c:"veg"},
+  {e:"🥒",  en:"Cucumber",        zh:"黄瓜",      p:3.30, u:"500g", v:1, c:"veg"},
+  {e:"🍅",  en:"Tomato",          zh:"西红柿",    p:5.20, u:"500g", v:1, c:"veg"},
+  {e:"🥔",  en:"Potato",          zh:"土豆",      p:2.80, u:"500g", v:1, c:"veg"},
+  {e:"🥕",  en:"Carrot",          zh:"胡萝卜",    p:2.50, u:"500g", v:1, c:"veg"},
+  {e:"🥦",  en:"Broccoli",        zh:"西兰花",    p:6.20, u:"each", v:1, c:"veg"},
+  {e:"🌽",  en:"Sweet corn",      zh:"玉米",      p:3.90, u:"each", v:1, c:"veg"},
+  {e:"🧄",  en:"Garlic",          zh:"大蒜",      p:6.00, u:"250g", v:1, c:"veg"},
+  {e:"🫚",  en:"Ginger",          zh:"生姜",      p:5.40, u:"250g", v:1, c:"veg"},
+  {e:"🌶️", en:"Chili pepper",    zh:"辣椒",      p:5.60, u:"250g", v:1, c:"veg"},
+  {e:"🍄",  en:"Shiitake mushroom",zh:"香菇",     p:12.90,u:"250g", v:1, c:"veg"},
+  {e:"🍎",  en:"Apple",           zh:"苹果",      p:8.90, u:"500g", v:1, c:"veg"},
+  // -- Sauces --
+  {e:"🍶",  en:"Soy sauce",       zh:"生抽酱油",  p:9.90, u:"500ml",v:1, t:1, c:"sauce"},
+  // -- Pantry --
+  {e:"🥛",  en:"Soy milk",        zh:"豆浆",      p:6.90, u:"1L",   v:1, t:1, c:"pantry"},
+  {e:"🍚",  en:"Rice",            zh:"大米",      p:39.90,u:"5kg",  v:1, t:1, c:"pantry"},
+  {e:"🥜",  en:"Peanuts",         zh:"花生",      p:9.90, u:"500g", v:1, c:"pantry"},
+  {e:"🍵",  en:"Green tea",       zh:"绿茶",      p:29.90,u:"100g", v:1, c:"pantry"},
 
-  // ---- other VEGAN items ----
-  {e:"🥬", en:"Napa cabbage",   zh:"大白菜",  p:4.50,  u:"each", v:1},
-  {e:"🥬", en:"Spinach",        zh:"菠菜",    p:3.80,  u:"bunch",v:1},
-  {e:"🥬", en:"Water spinach",  zh:"空心菜",  p:3.50,  u:"bunch",v:1},
-  {e:"🥬", en:"Chinese kale",   zh:"芥兰",    p:4.20,  u:"bunch",v:1},
-  {e:"🌿", en:"Chinese chives", zh:"韭菜",    p:3.00,  u:"bunch",v:1},
-  {e:"🥬", en:"Lettuce",        zh:"生菜",    p:3.60,  u:"each", v:1},
-  {e:"🍆", en:"Eggplant",       zh:"茄子",    p:4.90,  u:"500g", v:1},
-  {e:"🥒", en:"Cucumber",       zh:"黄瓜",    p:3.30,  u:"500g", v:1},
-  {e:"🍅", en:"Tomato",         zh:"西红柿",  p:5.20,  u:"500g", v:1},
-  {e:"🥔", en:"Potato",         zh:"土豆",    p:2.80,  u:"500g", v:1},
-  {e:"🥕", en:"Carrot",         zh:"胡萝卜",  p:2.50,  u:"500g", v:1},
-  {e:"🥗", en:"Daikon radish",  zh:"白萝卜",  p:2.20,  u:"each", v:1},
-  {e:"🪷", en:"Lotus root",     zh:"莲藕",    p:7.80,  u:"500g", v:1},
-  {e:"🎋", en:"Bamboo shoots",  zh:"竹笋",    p:8.50,  u:"500g", v:1},
-  {e:"🌱", en:"Bean sprouts",   zh:"豆芽",    p:2.00,  u:"400g", v:1},
-  {e:"🍄", en:"Enoki mushroom", zh:"金针菇",  p:4.60,  u:"200g", v:1},
-  {e:"🍄", en:"Wood ear fungus",zh:"黑木耳",  p:15.90, u:"100g", v:1},
-  {e:"🥦", en:"Broccoli",       zh:"西兰花",  p:6.20,  u:"each", v:1},
-  {e:"🌽", en:"Sweet corn",     zh:"玉米",    p:3.90,  u:"each", v:1},
-  {e:"🫑", en:"Bell pepper",    zh:"青椒",    p:4.40,  u:"500g", v:1},
-  {e:"🌶️",en:"Chili pepper",   zh:"辣椒",    p:5.60,  u:"250g", v:1},
-  {e:"🧄", en:"Garlic",         zh:"大蒜",    p:6.00,  u:"250g", v:1},
-  {e:"🫚", en:"Ginger",         zh:"生姜",    p:5.40,  u:"250g", v:1},
-  {e:"🌿", en:"Scallion",       zh:"小葱",    p:2.40,  u:"bunch",v:1},
-  {e:"🧅", en:"Onion",          zh:"洋葱",    p:3.10,  u:"500g", v:1},
-  {e:"🎃", en:"Pumpkin",        zh:"南瓜",    p:4.80,  u:"each", v:1},
-  {e:"🍠", en:"Sweet potato",   zh:"红薯",    p:3.70,  u:"500g", v:1},
-  {e:"🥒", en:"Winter melon",   zh:"冬瓜",    p:2.90,  u:"500g", v:1},
-  {e:"🥒", en:"Bitter melon",   zh:"苦瓜",    p:4.10,  u:"500g", v:1},
-  {e:"🍎", en:"Apple",          zh:"苹果",    p:8.90,  u:"500g", v:1},
-  {e:"🍌", en:"Banana",         zh:"香蕉",    p:4.50,  u:"500g", v:1},
-  {e:"🍊", en:"Orange",         zh:"橙子",    p:7.20,  u:"500g", v:1},
-  {e:"🍐", en:"Pear",           zh:"梨",      p:5.80,  u:"500g", v:1},
-  {e:"🍇", en:"Grapes",         zh:"葡萄",    p:12.50, u:"500g", v:1},
-  {e:"🍉", en:"Watermelon",     zh:"西瓜",    p:1.90,  u:"500g", v:1},
-  {e:"🍑", en:"Peach",          zh:"桃子",    p:9.60,  u:"500g", v:1},
-  {e:"🥭", en:"Mango",          zh:"芒果",    p:11.90, u:"each", v:1},
-  {e:"🍍", en:"Pineapple",      zh:"菠萝",    p:6.80,  u:"each", v:1},
-  {e:"🥝", en:"Kiwi",           zh:"猕猴桃",  p:2.20,  u:"each", v:1},
-  {e:"🍓", en:"Strawberry",     zh:"草莓",    p:16.90, u:"box",  v:1},
-  {e:"🍒", en:"Lychee",         zh:"荔枝",    p:18.90, u:"500g", v:1},
-  {e:"🟠", en:"Persimmon",      zh:"柿子",    p:6.40,  u:"500g", v:1},
-  {e:"🔴", en:"Red dates",      zh:"红枣",    p:14.90, u:"250g", v:1},
-  {e:"TOFU",en:"Firm tofu",     zh:"老豆腐",  p:6.20,  u:"400g", v:1},
-  {e:"TOFU",en:"Silken tofu",   zh:"嫩豆腐",  p:4.90,  u:"400g", v:1},
-  {e:"TOFU",en:"Dried tofu",    zh:"豆腐干",  p:7.50,  u:"200g", v:1},
-  {e:"TOFU",en:"Tofu skin (yuba)",zh:"腐竹",  p:9.80,  u:"200g", v:1},
-  {e:"🥛", en:"Soy milk",       zh:"豆浆",    p:6.90,  u:"1L",   v:1},
-  {e:"🍜", en:"Wheat noodles",  zh:"面条",    p:5.50,  u:"500g", v:1},
-  {e:"🍜", en:"Rice noodles",   zh:"米粉",    p:6.80,  u:"400g", v:1},
-  {e:"🍞", en:"Steamed buns",   zh:"馒头",    p:5.00,  u:"6 pcs",v:1},
-  {e:"🌾", en:"Wheat flour",    zh:"面粉",    p:12.90, u:"2.5kg",v:1},
-  {e:"🥜", en:"Peanuts",        zh:"花生",    p:9.90,  u:"500g", v:1},
-  {e:"🫘", en:"Red beans",      zh:"红豆",    p:8.60,  u:"500g", v:1},
-  {e:"🫘", en:"Mung beans",     zh:"绿豆",    p:8.20,  u:"500g", v:1},
-  {e:"🫘", en:"Soybeans",       zh:"黄豆",    p:7.90,  u:"500g", v:1},
-  {e:"🌰", en:"Walnuts",        zh:"核桃",    p:22.90, u:"250g", v:1},
-  {e:"🌰", en:"Chestnuts",      zh:"板栗",    p:13.90, u:"500g", v:1},
-  {e:"🍶", en:"Rice vinegar",   zh:"米醋",    p:6.50,  u:"500ml",v:1},
-  {e:"🍶", en:"Sesame oil",     zh:"香油",    p:18.90, u:"400ml",v:1},
-  {e:"🌶️",en:"Chili oil",      zh:"辣椒油",  p:11.90, u:"280g", v:1},
-  {e:"🌶️",en:"Doubanjiang",    zh:"豆瓣酱",  p:9.60,  u:"300g", v:1},
-  {e:"🌶️",en:"Sichuan pepper", zh:"花椒",    p:8.80,  u:"100g", v:1},
-  {e:"⭐", en:"Star anise",     zh:"八角",    p:7.20,  u:"80g",  v:1},
-  {e:"🧂", en:"Salt",           zh:"食盐",    p:2.50,  u:"400g", v:1},
-  {e:"🍬", en:"Sugar",          zh:"白糖",    p:6.90,  u:"500g", v:1},
-  {e:"🍵", en:"Green tea",      zh:"绿茶",    p:29.90, u:"100g", v:1},
-  {e:"🍙", en:"Nori seaweed",   zh:"紫菜",    p:5.90,  u:"50g",  v:1},
-  {e:"🌿", en:"Kelp",           zh:"海带",    p:6.60,  u:"200g", v:1},
-  {e:"🟡", en:"Nutritional yeast",zh:"营养酵母",p:18.90,u:"150g",v:1},
-  {e:"🫗", en:"Vegetable oil",  zh:"食用油",  p:24.90, u:"1.8L", v:1},
-
-  // ---- NON-VEGAN items (v:0) ----
-  {e:"🍗", en:"Roast chicken",  zh:"烤鸡",    p:29.90, u:"each", v:0},
-  {e:"🐔", en:"Whole chicken",  zh:"整鸡",    p:32.00, u:"each", v:0},
-  {e:"🍗", en:"Chicken wings",  zh:"鸡翅",    p:16.80, u:"500g", v:0},
-  {e:"🍗", en:"Chicken feet",   zh:"鸡爪",    p:14.50, u:"500g", v:0},
-  {e:"🥩", en:"Beef",           zh:"牛肉",    p:52.90, u:"500g", v:0},
-  {e:"🥩", en:"Pork loin",      zh:"猪肉",    p:22.80, u:"500g", v:0},
-  {e:"🥓", en:"Pork belly",     zh:"五花肉",  p:26.90, u:"500g", v:0},
-  {e:"🍖", en:"Pork ribs",      zh:"排骨",    p:34.90, u:"500g", v:0},
-  {e:"🍖", en:"Ground pork",    zh:"猪肉馅",  p:21.50, u:"500g", v:0},
-  {e:"🍖", en:"Lamb",           zh:"羊肉",    p:48.90, u:"500g", v:0},
-  {e:"🦆", en:"Duck",           zh:"鸭肉",    p:27.90, u:"each", v:0},
-  {e:"🦆", en:"Roast duck",     zh:"烤鸭",    p:45.00, u:"each", v:0},
-  {e:"🥚", en:"Eggs",           zh:"鸡蛋",    p:6.20,  u:"6 pcs",v:0},
-  {e:"🥚", en:"Century egg",    zh:"皮蛋",    p:9.90,  u:"6 pcs",v:0},
-  {e:"🥚", en:"Salted eggs",    zh:"咸鸭蛋",  p:11.90, u:"6 pcs",v:0},
-  {e:"🥚", en:"Quail eggs",     zh:"鹌鹑蛋",  p:8.80,  u:"30 pcs",v:0},
-  {e:"🐟", en:"Fresh fish",     zh:"鲜鱼",    p:23.90, u:"each", v:0},
-  {e:"🐟", en:"Salmon",         zh:"三文鱼",  p:39.90, u:"300g", v:0},
-  {e:"🦐", en:"Shrimp",         zh:"虾",      p:42.90, u:"500g", v:0},
-  {e:"🦀", en:"Crab",           zh:"螃蟹",    p:68.00, u:"each", v:0},
-  {e:"🦑", en:"Squid",          zh:"鱿鱼",    p:29.90, u:"500g", v:0},
-  {e:"🦪", en:"Oysters",        zh:"生蚝",    p:36.00, u:"6 pcs",v:0},
-  {e:"🦪", en:"Clams",          zh:"蛤蜊",    p:18.90, u:"500g", v:0},
-  {e:"🦪", en:"Scallops",       zh:"扇贝",    p:33.90, u:"6 pcs",v:0},
-  {e:"🥛", en:"Milk",           zh:"牛奶",    p:12.90, u:"1L",   v:0},
-  {e:"🥛", en:"Yogurt",         zh:"酸奶",    p:9.90,  u:"4 pcs",v:0},
-  {e:"🧀", en:"Cheese",         zh:"奶酪",    p:26.90, u:"200g", v:0},
-  {e:"🧈", en:"Butter",         zh:"黄油",    p:22.90, u:"200g", v:0},
-  {e:"🍦", en:"Ice cream",      zh:"冰淇淋",  p:15.90, u:"tub",  v:0},
-  {e:"🍖", en:"Ham",            zh:"火腿",    p:19.90, u:"250g", v:0},
-  {e:"🌭", en:"Sausage",        zh:"香肠",    p:17.90, u:"400g", v:0},
-  {e:"🥓", en:"Bacon",          zh:"培根",    p:18.90, u:"200g", v:0},
-  {e:"🥟", en:"Pork dumplings", zh:"猪肉饺子",p:16.90, u:"500g", v:0},
-  {e:"🥟", en:"Pork wontons",   zh:"馄饨",    p:15.90, u:"400g", v:0},
-  {e:"🍖", en:"Char siu pork",  zh:"叉烧",    p:31.90, u:"500g", v:0},
-  {e:"🍖", en:"Beef jerky",     zh:"牛肉干",  p:28.90, u:"150g", v:0},
-  {e:"🍖", en:"Pork floss",     zh:"肉松",    p:19.90, u:"150g", v:0},
-  {e:"🥫", en:"Luncheon meat",  zh:"午餐肉",  p:13.90, u:"can",  v:0},
-  {e:"🍯", en:"Honey",          zh:"蜂蜜",    p:32.90, u:"500g", v:0},
-  {e:"🍶", en:"Oyster sauce",   zh:"蚝油",    p:11.90, u:"500g", v:0},
-  {e:"🍶", en:"Fish sauce",     zh:"鱼露",    p:9.90,  u:"500ml",v:0},
-  {e:"🍲", en:"Chicken stock",  zh:"鸡汤",    p:8.90,  u:"1L",   v:0},
-  {e:"🦐", en:"Dried shrimp",   zh:"虾米",    p:24.90, u:"100g", v:0},
-  {e:"🍢", en:"Fish balls",     zh:"鱼丸",    p:14.90, u:"400g", v:0},
-  {e:"🍢", en:"Beef balls",     zh:"牛肉丸",  p:16.90, u:"400g", v:0},
+  /* ================= NON-VEGAN (80) ================= */
+  // -- Protein: tofu look-alikes (share TOFU icon) --
+  {e:"TOFU",en:"Fish tofu",       zh:"鱼豆腐",    p:12.90,u:"200g", v:0, c:"protein"},
+  {e:"TOFU",en:"Egg tofu",        zh:"日本豆腐",  p:6.90, u:"200g", v:0, c:"protein"},
+  // -- Protein: dumpling look-alikes (share 🥟) --
+  {e:"🥟",  en:"Pork dumplings",  zh:"猪肉饺子",  p:16.90,u:"500g", v:0, c:"protein"},
+  {e:"🥟",  en:"Shrimp dumplings",zh:"虾饺",      p:22.90,u:"300g", v:0, c:"protein"},
+  {e:"🥟",  en:"Wontons",         zh:"鲜肉馄饨",  p:15.90,u:"400g", v:0, c:"protein"},
+  // -- Protein: meats --
+  {e:"🥩",  en:"Beef",            zh:"牛肉",      p:52.90,u:"500g", v:0, c:"protein"},
+  {e:"🥩",  en:"Beef tenderloin", zh:"牛里脊",    p:58.90,u:"500g", v:0, c:"protein"},
+  {e:"🥩",  en:"Beef slices",     zh:"肥牛",      p:39.90,u:"400g", v:0, c:"protein"},
+  {e:"🥩",  en:"Beef brisket",    zh:"牛腩",      p:45.90,u:"500g", v:0, c:"protein"},
+  {e:"🥩",  en:"Pork loin",       zh:"猪肉",      p:22.80,u:"500g", v:0, c:"protein"},
+  {e:"🥓",  en:"Pork belly",      zh:"五花肉",    p:26.90,u:"500g", v:0, c:"protein"},
+  {e:"🥓",  en:"Cured pork",      zh:"腊肉",      p:32.90,u:"400g", v:0, c:"protein"},
+  {e:"🍖",  en:"Pork ribs",       zh:"排骨",      p:34.90,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Spare ribs",      zh:"肋排",      p:36.90,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Ground pork",     zh:"猪肉馅",    p:21.50,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Pork trotters",   zh:"猪蹄",      p:28.90,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Pork liver",      zh:"猪肝",      p:12.90,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Lamb",            zh:"羊肉",      p:48.90,u:"500g", v:0, c:"protein"},
+  {e:"🍖",  en:"Rabbit",          zh:"兔肉",      p:33.90,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Chicken breast",  zh:"鸡胸肉",    p:15.90,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Chicken wings",   zh:"鸡翅",      p:16.80,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Chicken thighs",  zh:"鸡腿",      p:17.90,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Drumsticks",      zh:"琵琶腿",    p:16.90,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Chicken feet",    zh:"鸡爪",      p:14.50,u:"500g", v:0, c:"protein"},
+  {e:"🍗",  en:"Chicken gizzard", zh:"鸡胗",      p:19.90,u:"300g", v:0, c:"protein"},
+  {e:"🍗",  en:"Turkey",          zh:"火鸡",      p:42.90,u:"500g", v:0, c:"protein"},
+  {e:"🐔",  en:"Whole chicken",   zh:"整鸡",      p:32.00,u:"each", v:0, c:"protein"},
+  {e:"🦆",  en:"Duck",            zh:"鸭肉",      p:27.90,u:"each", v:0, c:"protein"},
+  {e:"🦆",  en:"Roast duck",      zh:"烤鸭",      p:45.00,u:"each", v:0, c:"protein"},
+  {e:"🦆",  en:"Goose",           zh:"鹅肉",      p:39.90,u:"each", v:0, c:"protein"},
+  // -- Protein: eggs --
+  {e:"🥚",  en:"Eggs",            zh:"鸡蛋",      p:6.20, u:"6 pcs",v:0, c:"protein"},
+  {e:"🥚",  en:"Century eggs",    zh:"皮蛋",      p:9.90, u:"6 pcs",v:0, c:"protein"},
+  {e:"🥚",  en:"Salted eggs",     zh:"咸鸭蛋",    p:11.90,u:"6 pcs",v:0, c:"protein"},
+  {e:"🥚",  en:"Quail eggs",      zh:"鹌鹑蛋",    p:8.80, u:"30 pcs",v:0,c:"protein"},
+  // -- Protein: seafood --
+  {e:"🐟",  en:"Fresh fish",      zh:"鲜鱼",      p:23.90,u:"each", v:0, c:"protein"},
+  {e:"🐟",  en:"Salmon",          zh:"三文鱼",    p:39.90,u:"300g", v:0, c:"protein"},
+  {e:"🐟",  en:"Yellow croaker",  zh:"黄花鱼",    p:28.90,u:"500g", v:0, c:"protein"},
+  {e:"🐟",  en:"Eel",             zh:"鳗鱼",      p:45.90,u:"500g", v:0, c:"protein"},
+  {e:"🐟",  en:"Fish fillet",     zh:"龙利鱼",    p:26.90,u:"400g", v:0, c:"protein"},
+  {e:"🦐",  en:"Shrimp",          zh:"虾",        p:42.90,u:"500g", v:0, c:"protein"},
+  {e:"🦐",  en:"Prawns",          zh:"大虾",      p:55.90,u:"500g", v:0, c:"protein"},
+  {e:"🦀",  en:"Crab",            zh:"螃蟹",      p:68.00,u:"each", v:0, c:"protein"},
+  {e:"🦑",  en:"Squid",           zh:"鱿鱼",      p:29.90,u:"500g", v:0, c:"protein"},
+  {e:"🦪",  en:"Oysters",         zh:"生蚝",      p:36.00,u:"6 pcs",v:0, c:"protein"},
+  {e:"🦪",  en:"Clams",           zh:"蛤蜊",      p:18.90,u:"500g", v:0, c:"protein"},
+  {e:"🦪",  en:"Scallops",        zh:"扇贝",      p:33.90,u:"6 pcs",v:0, c:"protein"},
+  {e:"🦪",  en:"Mussels",         zh:"青口贝",    p:22.90,u:"500g", v:0, c:"protein"},
+  {e:"🦪",  en:"Abalone",         zh:"鲍鱼",      p:88.00,u:"each", v:0, c:"protein"},
+  // -- Protein: processed --
+  {e:"🌭",  en:"Sausage",         zh:"香肠",      p:17.90,u:"400g", v:0, c:"protein"},
+  {e:"🍖",  en:"Ham",             zh:"火腿",      p:19.90,u:"250g", v:0, c:"protein"},
+  {e:"🍖",  en:"Char siu pork",   zh:"叉烧",      p:31.90,u:"500g", v:0, c:"protein"},
+  {e:"🥫",  en:"Luncheon meat",   zh:"午餐肉",    p:13.90,u:"can",  v:0, c:"protein"},
+  {e:"🍢",  en:"Fish balls",      zh:"鱼丸",      p:14.90,u:"400g", v:0, c:"protein"},
+  {e:"🍢",  en:"Beef balls",      zh:"牛肉丸",    p:16.90,u:"400g", v:0, c:"protein"},
+  // -- Sauces: soy-sauce look-alikes (share 🍶) --
+  {e:"🍶",  en:"Oyster sauce",    zh:"蚝油",      p:11.90,u:"500g", v:0, c:"sauce"},
+  {e:"🍶",  en:"Fish sauce",      zh:"鱼露",      p:9.90, u:"500ml",v:0, c:"sauce"},
+  {e:"🍶",  en:"XO sauce",        zh:"XO酱",      p:39.90,u:"200g", v:0, c:"sauce"},
+  // -- Sauces: other animal --
+  {e:"🦐",  en:"Shrimp paste",    zh:"虾酱",      p:14.90,u:"200g", v:0, c:"sauce"},
+  {e:"🍯",  en:"Honey",           zh:"蜂蜜",      p:32.90,u:"500g", v:0, c:"sauce"},
+  {e:"🍲",  en:"Chicken stock",   zh:"鸡汤",      p:8.90, u:"1L",   v:0, c:"sauce"},
+  {e:"🍲",  en:"Beef bouillon",   zh:"牛肉高汤",  p:9.90, u:"1L",   v:0, c:"sauce"},
+  {e:"🧈",  en:"Lard",            zh:"猪油",      p:9.90, u:"400g", v:0, c:"sauce"},
+  // -- Pantry: soy-milk look-alikes (share 🥛) --
+  {e:"🥛",  en:"Milk",            zh:"牛奶",      p:12.90,u:"1L",   v:0, c:"pantry"},
+  {e:"🥛",  en:"Yogurt",          zh:"酸奶",      p:9.90, u:"4 pcs",v:0, c:"pantry"},
+  {e:"🥛",  en:"Milk powder",     zh:"奶粉",      p:89.00,u:"400g", v:0, c:"pantry"},
+  {e:"🥛",  en:"Condensed milk",  zh:"炼乳",      p:15.90,u:"350g", v:0, c:"pantry"},
+  {e:"🥛",  en:"Fresh cream",     zh:"淡奶油",    p:18.90,u:"250ml",v:0, c:"pantry"},
+  // -- Pantry: rice look-alikes (share 🍚) --
+  {e:"🍚",  en:"Egg fried rice",  zh:"蛋炒饭",    p:12.90,u:"pack", v:0, c:"pantry"},
+  {e:"🍚",  en:"Eight-treasure rice",zh:"八宝饭", p:16.90,u:"each", v:0, c:"pantry"},
+  // -- Pantry: other animal --
+  {e:"🧀",  en:"Cheese",          zh:"奶酪",      p:26.90,u:"200g", v:0, c:"pantry"},
+  {e:"🧀",  en:"Cream cheese",    zh:"奶油奶酪",  p:29.90,u:"200g", v:0, c:"pantry"},
+  {e:"🧈",  en:"Butter",          zh:"黄油",      p:22.90,u:"200g", v:0, c:"pantry"},
+  {e:"🍦",  en:"Ice cream",       zh:"冰淇淋",    p:15.90,u:"tub",  v:0, c:"pantry"},
+  {e:"🍜",  en:"Beef noodles",    zh:"红烧牛肉面",p:5.50, u:"pack", v:0, c:"pantry"},
+  {e:"🍜",  en:"Pork noodles",    zh:"猪肉面",    p:5.50, u:"pack", v:0, c:"pantry"},
+  {e:"🍜",  en:"Egg noodles",     zh:"鸡蛋面",    p:6.80, u:"400g", v:0, c:"pantry"},
+  {e:"🍞",  en:"Meat baozi",      zh:"肉包",      p:8.90, u:"4 pcs",v:0, c:"pantry"},
+  {e:"🍤",  en:"Shrimp chips",    zh:"虾片",      p:7.90, u:"100g", v:0, c:"pantry"},
+  {e:"🥚",  en:"Egg tarts",       zh:"蛋挞",      p:12.90,u:"4 pcs",v:0, c:"pantry"},
+  {e:"🍮",  en:"Egg custard",     zh:"蛋羹",      p:6.90, u:"each", v:0, c:"pantry"},
 ];
 
 const TOFU_SVG = '<svg width="52" height="52" viewBox="0 0 52 52" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.12))"><g><rect x="9" y="14" width="34" height="28" rx="4" fill="#f7f0dc" stroke="#e4d8b8" stroke-width="1.5"/><path d="M9 18 L43 18" stroke="#eadfc0" stroke-width="1"/><circle cx="18" cy="27" r="2" fill="#eadfc0"/><circle cx="30" cy="24" r="1.6" fill="#eadfc0"/><circle cx="34" cy="34" r="2.2" fill="#eadfc0"/><circle cx="22" cy="36" r="1.6" fill="#eadfc0"/></g></svg>';
@@ -422,12 +416,12 @@ const TOFU_SVG = '<svg width="52" height="52" viewBox="0 0 52 52" style="filter:
 const T = {
   en:{
     appTitle:"Online supermarket", veganMode:"Vegan mode",
-    listTitle:"Your shopping list", recommended:"All products",
-    navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile",
+    listTitle:"Your shopping list", navHome:"Home", navCat:"Categories",
+    navCart:"Cart", navProfile:"Profile",
     coach:'Hard to find everything? <b>Turn on Vegan mode</b> to instantly hide all meat, fish, eggs &amp; dairy. 👆',
     coachOk:"Got it",
     wTitle:"Find 5 vegan items", wStart:"Start shopping",
-    wBody:"You're cooking a vegan dinner. Add these 5 items to your cart — they're hidden among 100+ products. Then discover a faster way to shop.",
+    wBody:"You're cooking a vegan dinner. Add these 5 items to your cart — they're hidden among 100 products, next to non-vegan look-alikes. Then discover a faster way to shop.",
     dTitle:"Basket complete!", dAgain:"Play again", dContinue:"Continue the survey →",
     dBody:'You found all 5 items. Notice how <b>Vegan mode</b> hid the meat, fish, eggs and dairy — so you only scanned the products that matter to you.',
     dStat1:"products without the filter", dStat2:"with Vegan mode on",
@@ -439,16 +433,16 @@ const T = {
   },
   zh:{
     appTitle:"网上超市", veganMode:"纯素模式",
-    listTitle:"你的购物清单", recommended:"全部商品",
-    navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的",
+    listTitle:"你的购物清单", navHome:"首页", navCat:"分类",
+    navCart:"购物车", navProfile:"我的",
     coach:'东西不好找？<b>打开纯素模式</b>，一键隐藏所有肉类、海鲜、蛋和奶制品。👆',
     coachOk:"知道了",
     wTitle:"找出 5 样纯素商品", wStart:"开始购物",
-    wBody:"你要做一顿纯素晚餐。把这 5 样商品加入购物车——它们藏在 100 多件商品里。然后体验更快的购物方式。",
+    wBody:"你要做一顿纯素晚餐。把这 5 样商品加入购物车——它们藏在 100 件商品里，旁边还有长得很像的非素商品。然后体验更快的购物方式。",
     dTitle:"购物车已完成！", dAgain:"再玩一次", dContinue:"继续问卷 →",
     dBody:'你找齐了全部 5 样商品。看，<b>纯素模式</b>隐藏了肉、海鲜、蛋和奶制品——你只需要浏览对你有意义的商品。',
     dStat1:"不用筛选时的商品数", dStat2:"开启纯素模式后",
-    items:n=>n+" 件商品", found:n=>n+"/5",
+    items:n=>n+" 件", found:n=>n+"/5",
     added:n=>"✓ 已加入 "+n, already:"已在购物车中",
     notList:n=>n+" 不在清单上", notVegan:n=>"🚫 "+n+" 不是纯素",
     onToast:n=>"🌱 已开启纯素模式 · 隐藏了 "+n+" 件非素商品",
@@ -456,25 +450,26 @@ const T = {
   }
 };
 const UNIT = {
-  en:{each:"each",bunch:"bunch",box:"box",tub:"tub",can:"can"},
-  zh:{each:"个","400g":"400克",bunch:"把",box:"盒",tub:"桶",can:"罐","5kg":"5公斤",
-      "2.5kg":"2.5公斤","1.8L":"1.8升","1L":"1升","6 pcs":"6个","4 pcs":"4个",
-      "30 pcs":"30个","500g":"500克","250g":"250克","200g":"200克","300g":"300克",
-      "280g":"280克","100g":"100克","80g":"80克","150g":"150克","50g":"50克",
-      "500ml":"500毫升","400ml":"400毫升"}
+  en:{each:"each",bunch:"bunch",pack:"pack",tub:"tub",can:"can"},
+  zh:{each:"个",bunch:"把",pack:"包",tub:"桶",can:"罐",
+      "5kg":"5公斤","2.5kg":"2.5公斤","1.8L":"1.8升","1L":"1升",
+      "6 pcs":"6个","4 pcs":"4个","30 pcs":"30个",
+      "500g":"500克","400g":"400克","300g":"300克","250g":"250克","200g":"200克",
+      "150g":"150克","100g":"100克","50g":"50克",
+      "500ml":"500毫升","400ml":"400毫升","250ml":"250毫升","350g":"350克"}
 };
 
 /* ---------- state ---------- */
 let lang="en";
 let veganOn=false;
 let started=false, startTime=0;
-let hintShown=false, completed=false;
+let hintShown=false, completed=false, wrongClicks=0;
 const found=new Set();
 const targets=P.map((p,i)=>({...p,i})).filter(p=>p.t);
 const veganCount=P.filter(p=>p.v).length;
 const totalCount=P.length;
 
-// deterministic shuffle so targets are scattered (hard without filter)
+// deterministic shuffle so targets are scattered within each category
 const order=(()=>{
   const idx=P.map((_,i)=>i); let s=7;
   for(let i=idx.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
@@ -486,6 +481,7 @@ const $=s=>document.querySelector(s);
 function unit(u){return (lang==="zh"&&UNIT.zh[u])?UNIT.zh[u]:(UNIT.en[u]||u);}
 function name(p){return lang==="zh"?p.zh:p.en;}
 function emojiHTML(e){return e==="TOFU"?TOFU_SVG:'<span class="emoji">'+e+'</span>';}
+function catName(c){const o=CATS.find(x=>x.key===c);return lang==="zh"?o.zh:o.en;}
 
 let toastTimer;
 function toast(msg){
@@ -493,30 +489,29 @@ function toast(msg){
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),1900);
 }
 
+function cardHTML(i){
+  const p=P[i];
+  return '<div class="prod'+(veganOn?" vegan-on":"")+'" data-i="'+i+'">'+
+    '<div class="imgwrap">'+emojiHTML(p.e)+'</div>'+
+    '<p class="pname">'+name(p)+'</p>'+
+    '<div class="prow"><span class="price">¥'+p.p.toFixed(2)+'<span class="unit">/'+unit(p.u)+'</span></span>'+
+    '<button class="add'+(found.has(i)?" got":"")+'" data-i="'+i+'">'+
+      (found.has(i)
+        ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg>')+
+    '</button></div></div>';
+}
+
 /* ---------- render ---------- */
-function renderGrid(){
-  const g=$("#grid"); g.innerHTML="";
-  order.forEach(i=>{
-    const p=P[i];
-    const card=document.createElement("div");
-    card.className="prod"+(veganOn?" vegan-on":"")+((veganOn&&!p.v)?" hide":"");
-    card.dataset.i=i;
-    card.innerHTML=
-      '<div class="imgwrap">'+
-        '<span class="vleaf">🌱</span>'+
-        '<svg class="heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.3-9C1 8.5 3 5 6.5 5 9 5 12 8 12 8s3-3 5.5-3C21 5 23 8.5 21.3 12 19 16.4 12 21 12 21Z"/></svg>'+
-      emojiHTML(p.e)+'</div>'+
-      '<p class="pname">'+name(p)+'</p>'+
-      '<div class="prow"><span class="price">¥'+p.p.toFixed(2)+'<span class="unit">/'+unit(p.u)+'</span></span>'+
-      '<button class="add'+(found.has(i)?" got":"")+'" data-i="'+i+'">'+
-        (found.has(i)
-          ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
-          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg>')+
-      '</button></div>';
-    g.appendChild(card);
+function renderSections(){
+  const wrap=$("#sections"); let html="";
+  CATS.forEach(cat=>{
+    const ids=order.filter(i=>P[i].c===cat.key && (!veganOn || P[i].v));
+    if(!ids.length) return;
+    html+='<div class="cathead"><h2>'+catName(cat.key)+'</h2><span class="cnt">'+T[lang].items(ids.length)+'</span></div>';
+    html+='<div class="grid">'+ids.map(cardHTML).join("")+'</div>';
   });
-  const shown=veganOn?veganCount:totalCount;
-  $("#countLabel").textContent=T[lang].items(shown);
+  wrap.innerHTML=html;
 }
 
 function renderChips(){
@@ -548,13 +543,14 @@ function addItem(i){
     if(found.has(i)){toast(T[lang].already);return;}
     found.add(i);
     bumpCart();
-    const card=$('.prod[data-i="'+i+'"]');
+    renderSections(); renderChips();
+    const card=document.querySelector('.prod[data-i="'+i+'"]');
     if(card){card.classList.add("flash");setTimeout(()=>card.classList.remove("flash"),500);}
-    renderGrid(); renderChips();
     toast(T[lang].added(name(p)));
     maybeHint();
     if(found.size===5) finish();
   } else {
+    if(!veganOn){wrongClicks++; maybeHint();}
     toast(p.v?T[lang].notList(name(p)):T[lang].notVegan(name(p)));
   }
 }
@@ -572,19 +568,18 @@ function setVegan(on){
   document.documentElement.style.setProperty("--accent-d",on?"var(--green-d)":"var(--red-d)");
   document.querySelector(".navi.active").style.color=on?"var(--green)":"var(--red)";
   hideCoach();
-  renderGrid();
-  toast(on?T[lang].onToast(totalCount-veganCount):T[lang].offToast(totalCount));
+  renderSections();
+  if(started) toast(on?T[lang].onToast(totalCount-veganCount):T[lang].offToast(totalCount));
 }
 
 function maybeHint(){
-  if(!hintShown && !veganOn && found.size>=2){ showCoach(); }
+  if(!hintShown && !veganOn && !completed && (found.size>=2 || wrongClicks>=3)) showCoach();
 }
 function showCoach(){ hintShown=true; $("#coach").classList.add("show"); $("#switch").classList.add("pulse"); }
 function hideCoach(){ $("#coach").classList.remove("show"); $("#switch").classList.remove("pulse"); }
 
 function finish(){
   completed=true;
-  const secs=Math.round((Date.now()-startTime)/1000);
   $("#statAll").textContent=totalCount;
   $("#statVegan").textContent=veganCount;
   setTimeout(()=>$("#done").classList.add("show"),650);
@@ -594,17 +589,16 @@ function startGame(){
   if(started) return;
   started=true; startTime=Date.now();
   $("#welcome").classList.remove("show");
-  // time-based nudge to try the filter
-  setTimeout(()=>{ if(!veganOn && !hintShown && !completed) showCoach(); },28000);
+  setTimeout(()=>{ if(!veganOn && !hintShown && !completed) showCoach(); },22000);
 }
 
 function reset(){
-  found.clear(); completed=false; hintShown=false; started=false;
+  found.clear(); completed=false; hintShown=false; started=false; wrongClicks=0;
   setVegan(false);
   $("#done").classList.remove("show");
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
   $("#scroll").scrollTop=0;
-  renderGrid(); renderChips();
+  renderSections(); renderChips();
   $("#welcome").classList.add("show");
 }
 
@@ -615,12 +609,12 @@ function setLang(l){
     const k=el.dataset.t; if(T[l][k]!==undefined) el.innerHTML=T[l][k];
   });
   document.querySelectorAll("#lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
-  renderGrid(); renderChips(); renderWelcomeList();
+  renderSections(); renderChips(); renderWelcomeList();
   $("#prog").textContent=T[l].found(found.size);
 }
 
 /* ---------- wire up ---------- */
-$("#grid").addEventListener("click",e=>{
+$("#sections").addEventListener("click",e=>{
   const btn=e.target.closest(".add"); if(!btn) return;
   addItem(+btn.dataset.i);
 });
@@ -632,7 +626,7 @@ $("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实�
 $("#lang").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);});
 
 /* ---------- init ---------- */
-renderGrid(); renderChips(); renderWelcomeList();
+renderSections(); renderChips(); renderWelcomeList();
 </script>
 </body>
 </html>
