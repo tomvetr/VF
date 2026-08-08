@@ -42,6 +42,11 @@
   .lang button{border:0;background:transparent;color:var(--muted);
     padding:5px 12px;border-radius:999px;cursor:pointer;font:inherit;}
   .lang button.on{background:var(--ink);color:#fff;}
+  /* inline header language toggle — only shown on phones (frame off) */
+  .langHdr{display:none;background:#f0e7d6;border-radius:999px;padding:2px;flex:none;}
+  .langHdr button{border:0;background:transparent;color:var(--muted);font:inherit;
+    font-weight:800;font-size:12px;padding:4px 9px;border-radius:999px;cursor:pointer;}
+  .langHdr button.on{background:var(--ink);color:#fff;}
 
   /* ---------- Phone frame ---------- */
   .phone{
@@ -54,10 +59,21 @@
     overflow:hidden;display:flex;flex-direction:column;position:relative;
   }
 
+  /* ---------- Phone / touch: drop the mockup frame, app fills the screen ---------- */
+  @media (max-width:500px), (pointer:coarse) and (hover:none){
+    body{padding:0;background:var(--screen);align-items:stretch;}
+    .phone{max-width:480px;width:100%;height:100dvh;padding:0;border-radius:0;
+      background:transparent;box-shadow:none;}
+    .screen{border-radius:0;}
+    .lang{display:none;}          /* floating corner toggle hidden on phones */
+    .langHdr{display:flex;}       /* inline header toggle shown instead */
+    .search-icn{display:none;}    /* free up header room */
+  }
+
   /* ---------- Header ---------- */
   .topbar{padding:16px 16px 8px;display:flex;align-items:center;gap:12px;flex:none;}
   .icn{width:24px;height:24px;color:var(--ink);flex:none;}
-  .title{font-size:19px;font-weight:800;flex:1;letter-spacing:-.2px;}
+  .title{font-size:19px;font-weight:800;flex:1;letter-spacing:-.2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .cart{position:relative;}
   .badge{position:absolute;top:-7px;right:-8px;min-width:18px;height:18px;
     background:var(--accent);color:#fff;border-radius:999px;font-size:11px;
@@ -224,7 +240,7 @@
 </head>
 <body>
 
-<div class="lang" id="lang">
+<div class="lang langctl" id="lang">
   <button data-l="en" class="on">EN</button>
   <button data-l="zh">中文</button>
 </div>
@@ -236,7 +252,8 @@
     <div class="topbar">
       <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       <div class="title" data-t="appTitle">Online supermarket</div>
-      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <svg class="icn search-icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <div class="langctl langHdr" id="langHdr"><button data-l="en" class="on">EN</button><button data-l="zh">中</button></div>
       <div class="cart">
         <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg>
         <span class="badge" id="cartBadge">0</span>
@@ -866,7 +883,7 @@ function reset(){
 function setLang(l){
   lang=l; document.documentElement.lang=l;
   document.querySelectorAll("[data-t]").forEach(el=>{const k=el.dataset.t;if(T[l][k]!==undefined)el.innerHTML=T[l][k];});
-  document.querySelectorAll("#lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
+  document.querySelectorAll(".langctl button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
   if(round>0){renderRoundbar();$("#lockicon").textContent="🔒 "+(round===1?T[lang].lockR1:T[lang].lockR2);}
   renderSections(); renderChips(); renderWelcomeList();
   $("#prog").textContent=T[l].found(found.size); updateMiss();
@@ -890,10 +907,12 @@ $("#startBtn").addEventListener("click",startGame);
 $("#round2Btn").addEventListener("click",goRound2);
 $("#againBtn").addEventListener("click",reset);
 $("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实问卷中，这里会跳转到下一页）":"(In the live survey this continues to the next page)"));
-$("#lang").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);});
+document.querySelectorAll(".langctl").forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);}));
 
 /* ---------- init ---------- */
 renderSections(); renderChips(); renderWelcomeList(); updateMiss();
+// default to Chinese on Chinese-locale devices (still switchable)
+if((navigator.language||"").toLowerCase().startsWith("zh")) setLang("zh");
 </script>
 </body>
 </html>
