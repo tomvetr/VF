@@ -7,20 +7,34 @@ to prove the concept before pitching it to supermarkets.
 **One self-contained file: [`index.html`](index.html).** No build step, no
 internet, no dependencies — just open it in any browser.
 
-## The experience
+## The experience (version 2)
 
-1. **Welcome** — the participant is given a shopping list of **5 vegan items**
-   to find (Tofu, Bok choy, Shiitake mushroom, Soy sauce, Rice).
-2. **Shop the hard way** — the items are scattered among **121 products**
-   (76 vegan, 45 non-vegan: meat, fish, eggs, dairy). Finding them means
-   scrolling and reading labels. After they add 2 items — or after ~28s — a
-   coach tip nudges them toward the filter.
-3. **Turn on Vegan mode** — the toggle instantly hides all 45 non-vegan
-   products, the UI turns green, and the remaining items are easy to find.
-4. **Basket complete** — a summary screen drives the point home:
-   *121 products to scan → 76 with the filter on.*
+The participant shops for the **same 5 vegan items twice** and we compare the time:
 
-The items are common in Chinese supermarkets, matching the intended market.
+1. **Round 1 — without the filter.** The 5 targets (Tofu, Soy sauce, Soy milk,
+   a vegan bread, and vegan noodles) are hidden among **109 products** (22 vegan,
+   87 non-vegan — a 4:1 ratio). A live **timer** and a **tap counter** run.
+2. **Read the ingredients.** Tap any product to open its ingredient list. This
+   matters most in two brutal aisles:
+   - **Bread** — 15 identical-looking loaves 🍞, only **1 is vegan**. The others
+     hide milk, butter, egg, lard, honey…
+   - **Instant noodles** — 15 bowls 🍜, only **1 is vegan**; 9 contain meat/seafood
+     and **5 look vegetarian but secretly contain "albumin" (egg white)** — the
+     kind of trap a shopper would never catch.
+3. **Round 2 — with Vegan mode ON.** The filter hides all 87 non-vegan products;
+   each hard aisle collapses to its single vegan option. Same 5 items, found in
+   seconds.
+4. **The filter wins.** A results screen shows **time + taps for each round** and
+   the speed-up (e.g. *"3.8× faster with Vegan mode"*) — a concrete before/after
+   number for your survey.
+
+Every vegan item has a **unique icon** (so with the filter on the targets pop out);
+several non-vegan items **share a target's icon** (so they're hard to find without
+it). All products are common in Chinese supermarkets.
+
+**Version history:** the approved earlier build is preserved at
+[`versions/v1.html`](versions/v1.html) (single-round, 100 products, no timer or
+ingredient view). The live `index.html` is version 2.
 
 ## Bilingual (English / 中文)
 
