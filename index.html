@@ -205,10 +205,21 @@
     max-height:88%;overflow-y:auto;}
   .overlay.show .modal{transform:translateY(0);}
   .modal .big{font-size:44px;margin-bottom:6px;}
-  .bunnyslot{width:92px;height:92px;margin:2px auto 6px;display:flex;align-items:center;justify-content:center;
-    animation:bunnyIn .45s cubic-bezier(.34,1.56,.64,1);}
-  .bunnyslot svg{width:100%;height:100%;}
-  @keyframes bunnyIn{0%{transform:scale(.4);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  /* bunny speaks through a speech bubble */
+  .say{display:flex;gap:8px;align-items:flex-start;text-align:left;margin-bottom:15px;}
+  .bunnycol{flex:none;display:flex;flex-direction:column;align-items:center;gap:1px;margin-top:2px;}
+  .bunnyname{font-size:11px;font-weight:800;color:var(--green-d);letter-spacing:.2px;white-space:nowrap;}
+  .bunnyslot{width:78px;height:94px;
+    animation:bunnyIn .5s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom center;}
+  .bunnyslot svg{width:100%;height:100%;overflow:visible;}
+  @keyframes bunnyIn{0%{transform:scale(.3) rotate(-8deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
+  .bubble{position:relative;flex:1;min-width:0;background:#fff;border:1.5px solid var(--line);
+    border-radius:16px;padding:12px 14px;box-shadow:0 3px 12px rgba(74,53,39,.09);}
+  .bubble:before{content:"";position:absolute;left:-8px;top:24px;width:15px;height:15px;
+    background:#fff;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line);
+    transform:rotate(45deg);}
+  .modal .bubble h1{font-size:17px;margin:0 0 6px;text-align:left;text-wrap:balance;}
+  .modal .bubble p{font-size:13.5px;line-height:1.5;margin:0;text-align:left;color:#5b5347;}
   .switch.pulse{animation:swpulse 1s ease-in-out infinite;}
   @keyframes swpulse{0%,100%{box-shadow:0 0 0 0 rgba(90,158,63,.55);}50%{box-shadow:0 0 0 11px rgba(90,158,63,0);}}
   @media (prefers-reduced-motion:reduce){.bunnyslot,.switch.pulse{animation:none;}}
@@ -361,9 +372,13 @@
     <!-- Welcome modal -->
     <div class="overlay show" id="welcome">
       <div class="modal">
-        <div class="bunnyslot"></div>
-        <h1 data-t="wTitle">The vegan shopping race</h1>
-        <p data-t="wBody">You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.</p>
+        <div class="say">
+          <div class="bunnycol"></div>
+          <div class="bubble">
+            <h1 data-t="wTitle">The vegan shopping race</h1>
+            <p data-t="wBody">You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.</p>
+          </div>
+        </div>
         <div class="tasklist" id="wList"></div>
         <button class="btn" id="startBtn" data-t="wStart">Start round 1 →</button>
       </div>
@@ -372,9 +387,13 @@
     <!-- Round 2 intro modal -->
     <div class="overlay" id="round2">
       <div class="modal">
-        <div class="bunnyslot"></div>
-        <h1 data-t="r2Title">Round 1 done!</h1>
-        <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.</p>
+        <div class="say">
+          <div class="bunnycol"></div>
+          <div class="bubble">
+            <h1 data-t="r2Title">Round 1 done!</h1>
+            <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.</p>
+          </div>
+        </div>
         <div class="cmp"><div class="cmprow off"><div class="rl" data-t="r2Round1">Round 1 · no filter</div><div class="rvblock"><div class="rv" id="r2Time">00:00</div><div class="rsub" id="r2Sub"></div></div></div></div>
         <button class="btn" id="round2Btn" data-t="r2Start">Start round 2 with the filter →</button>
       </div>
@@ -383,14 +402,18 @@
     <!-- Final comparison modal -->
     <div class="overlay" id="done">
       <div class="modal">
-        <div class="bunnyslot"></div>
-        <h1 data-t="dTitle">The filter wins</h1>
+        <div class="say">
+          <div class="bunnycol"></div>
+          <div class="bubble">
+            <h1 data-t="dTitle">The filter wins</h1>
+            <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds!</p>
+          </div>
+        </div>
         <div class="verdict"><div class="vn" id="speedup">—</div><div class="vl" data-t="dFaster">faster with Vegan mode</div></div>
         <div class="cmp">
           <div class="cmprow off"><div class="rl" data-t="dRound1">Without filter</div><div class="rvblock"><div class="rv" id="dTime1">00:00</div><div class="rsub" id="dSub1"></div></div></div>
           <div class="cmprow on"><div class="rl" data-t="dRound2">With Vegan mode</div><div class="rvblock"><div class="rv" id="dTime2">00:00</div><div class="rsub" id="dSub2"></div></div></div>
         </div>
-        <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.</p>
         <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
         <button class="btn ghost" id="continueBtn" data-t="dContinue">Continue the survey →</button>
       </div>
@@ -399,9 +422,13 @@
     <!-- "Too difficult?" nudge (after 5 min without the filter) -->
     <div class="overlay" id="nudge">
       <div class="modal">
-        <div class="bunnyslot"></div>
-        <h1 data-t="nTitle">Is this too hard?</h1>
-        <p data-t="nBody">Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.</p>
+        <div class="say">
+          <div class="bunnycol"></div>
+          <div class="bubble">
+            <h1 data-t="nTitle">Is this too hard?</h1>
+            <p data-t="nBody">Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.</p>
+          </div>
+        </div>
         <button class="btn" id="useFilterBtn" data-t="nUse">Use the Vegan filter 🌱</button>
         <button class="btn ghost" id="continueHardBtn" data-t="nContinue">No thanks, keep looking</button>
       </div>
@@ -410,9 +437,13 @@
     <!-- Filter intro (when switching to the filter round) -->
     <div class="overlay" id="filterIntro">
       <div class="modal">
-        <div class="bunnyslot"></div>
-        <h1 data-t="fTitle">Vegan mode is on! 🌱</h1>
-        <p data-t="fBody">Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?</p>
+        <div class="say">
+          <div class="bunnycol"></div>
+          <div class="bubble">
+            <h1 data-t="fTitle">Vegan mode is on! 🌱</h1>
+            <p data-t="fBody">Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?</p>
+          </div>
+        </div>
         <button class="btn" id="filterStartBtn" data-t="fStart">Let's go →</button>
       </div>
     </div>
@@ -644,21 +675,48 @@ const P = [
 const TOFU_SVG = '<svg width="52" height="52" viewBox="0 0 52 52" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.12))"><g><rect x="9" y="14" width="34" height="28" rx="4" fill="#f7f0dc" stroke="#e4d8b8" stroke-width="1.5"/><path d="M9 18 L43 18" stroke="#eadfc0" stroke-width="1"/><circle cx="18" cy="27" r="2" fill="#eadfc0"/><circle cx="30" cy="24" r="1.6" fill="#eadfc0"/><circle cx="34" cy="34" r="2.2" fill="#eadfc0"/><circle cx="22" cy="36" r="1.6" fill="#eadfc0"/></g></svg>';
 const TOFU_MINI = '<svg width="38" height="38" viewBox="0 0 52 52"><rect x="9" y="14" width="34" height="28" rx="4" fill="#f7f0dc" stroke="#e4d8b8" stroke-width="1.5"/><circle cx="18" cy="27" r="2" fill="#eadfc0"/><circle cx="34" cy="34" r="2.2" fill="#eadfc0"/></svg>';
 
-// Bao the bunny — the friendly guide shown in the modals
-const BUNNY = '<svg viewBox="0 0 120 120" aria-hidden="true">'+
-  '<ellipse cx="45" cy="30" rx="11" ry="28" fill="#fff" stroke="#e7dcc6" stroke-width="2.5" transform="rotate(-8 45 30)"/>'+
-  '<ellipse cx="75" cy="30" rx="11" ry="28" fill="#fff" stroke="#e7dcc6" stroke-width="2.5" transform="rotate(8 75 30)"/>'+
-  '<ellipse cx="45" cy="32" rx="5" ry="18" fill="#f8c7d0" transform="rotate(-8 45 32)"/>'+
-  '<ellipse cx="75" cy="32" rx="5" ry="18" fill="#f8c7d0" transform="rotate(8 75 32)"/>'+
-  '<circle cx="60" cy="72" r="34" fill="#fff" stroke="#e7dcc6" stroke-width="2.5"/>'+
-  '<circle cx="42" cy="80" r="7" fill="#fbd5db"/><circle cx="78" cy="80" r="7" fill="#fbd5db"/>'+
-  '<circle cx="49" cy="68" r="4.6" fill="#3f342c"/><circle cx="71" cy="68" r="4.6" fill="#3f342c"/>'+
-  '<circle cx="50.6" cy="66.2" r="1.5" fill="#fff"/><circle cx="72.6" cy="66.2" r="1.5" fill="#fff"/>'+
-  '<path d="M60 74 l-4 3.6 h8 z" fill="#f2969f"/>'+
-  '<path d="M60 79 q-5 5 -10 1 M60 79 q5 5 10 1" stroke="#d89aa2" fill="none" stroke-width="2" stroke-linecap="round"/>'+
-  '<path d="M34 73 h-12 M34 78 h-13 M86 73 h12 M86 78 h13" stroke="#e7dcc6" stroke-width="1.6" stroke-linecap="round"/>'+
-  '<path d="M96 40 q10 -6 15 2 q-9 3 -15 -2 z" fill="#7bc043"/><path d="M103 41 q4 -1 7 1" stroke="#5a9e3f" stroke-width="1.2" fill="none"/>'+
-  '</svg>';
+// Sprout the explorer bunny — the friendly guide shown in the modals
+const BUNNY = [
+  '<svg viewBox="0 0 140 168" aria-hidden="true">',
+  // ears (outer cream + pink inner)
+  '<g stroke="#e3d6bd" stroke-width="2.5">',
+  '<ellipse cx="49" cy="46" rx="13" ry="39" fill="#fff8ec" transform="rotate(-13 49 46)"/>',
+  '<ellipse cx="91" cy="46" rx="13" ry="39" fill="#fff8ec" transform="rotate(13 91 46)"/>',
+  '</g>',
+  '<ellipse cx="49" cy="49" rx="6.5" ry="26" fill="#f7c3cd" transform="rotate(-13 49 49)"/>',
+  '<ellipse cx="91" cy="49" rx="6.5" ry="26" fill="#f7c3cd" transform="rotate(13 91 49)"/>',
+  // head
+  '<ellipse cx="70" cy="97" rx="44" ry="42" fill="#fff8ec" stroke="#e3d6bd" stroke-width="2.5"/>',
+  // forehead fur tuft
+  '<path d="M60 60 q4 -9 8 -2 q4 -9 8 -1" fill="none" stroke="#e3d6bd" stroke-width="2.2" stroke-linecap="round"/>',
+  // cheeks
+  '<circle cx="42" cy="108" r="7" fill="#f9ccd3"/><circle cx="98" cy="108" r="7" fill="#f9ccd3"/>',
+  // eyebrows
+  '<path d="M47 78 q9 -6 17 -1" fill="none" stroke="#8a6f5a" stroke-width="2.6" stroke-linecap="round"/>',
+  '<path d="M76 77 q9 -5 17 1" fill="none" stroke="#8a6f5a" stroke-width="2.6" stroke-linecap="round"/>',
+  // eyes (big green irises)
+  '<ellipse cx="56" cy="94" rx="12.5" ry="14.5" fill="#4f9e33" stroke="#3c7a27" stroke-width="1.6"/>',
+  '<ellipse cx="84" cy="94" rx="12.5" ry="14.5" fill="#4f9e33" stroke="#3c7a27" stroke-width="1.6"/>',
+  '<ellipse cx="56" cy="97" rx="8" ry="10.5" fill="#241f1a"/><ellipse cx="84" cy="97" rx="8" ry="10.5" fill="#241f1a"/>',
+  '<circle cx="52" cy="91" r="3.4" fill="#fff"/><circle cx="80" cy="91" r="3.4" fill="#fff"/>',
+  '<circle cx="59" cy="101" r="1.7" fill="#fff" opacity="0.85"/><circle cx="87" cy="101" r="1.7" fill="#fff" opacity="0.85"/>',
+  // eyelashes
+  '<path d="M45 88 l-6 -3 M46 93 l-7 0 M47 98 l-6 3" stroke="#241f1a" stroke-width="1.7" stroke-linecap="round"/>',
+  '<path d="M95 88 l6 -3 M94 93 l7 0 M93 98 l6 3" stroke="#241f1a" stroke-width="1.7" stroke-linecap="round"/>',
+  // nose
+  '<path d="M63 105 h14 l-7 6.5 z" fill="#ef98a3" stroke="#e07f8b" stroke-width="0.6"/>',
+  // mouth + teeth
+  '<path d="M70 111 v3.5" stroke="#8a6f5a" stroke-width="2" stroke-linecap="round"/>',
+  '<path d="M70 115 q-7 6 -13 2 M70 115 q7 6 13 2" fill="none" stroke="#8a6f5a" stroke-width="2" stroke-linecap="round"/>',
+  '<path d="M63 115 h14 v6 q-7 4.5 -14 0 z" fill="#fff" stroke="#e3d6bd" stroke-width="1.2"/>',
+  '<path d="M70 115 v9" stroke="#e3d6bd" stroke-width="1.1"/>',
+  // explorer bandana + leaf badge
+  '<path d="M36 129 q34 24 68 0 l-8 22 q-26 12 -52 0 z" fill="#5aa63a" stroke="#4a8a2c" stroke-width="1.6"/>',
+  '<path d="M34 128 q-7 5 -3 14 q7 -2 9 -9 z" fill="#4a8a2c"/>',
+  '<path d="M70 136 q8 -7 14 0 q-6 8 -14 4.5 q-2.5 -2.5 0 -4.5 z" fill="#fff"/>',
+  '<path d="M72 141 q5 -3 10 -1.5" fill="none" stroke="#5aa63a" stroke-width="1.1"/>',
+  '</svg>'
+].join('');
 
 /* ---------- i18n ---------- */
 const T = {
@@ -667,7 +725,7 @@ const T = {
     listTitle:"Your shopping list", ingredients:"Ingredients",
     navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile",
     wTitle:"The vegan shopping race", wStart:"Start round 1 →",
-    wBody:"You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.",
+    wBody:"Hi, I'm <b>Loulou</b>! 🐰 You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.",
     r2Title:"Round 1 done!", r2Start:"Start round 2 with the filter →", r2Round1:"Round 1 · no filter",
     r2Body:"That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.",
     dTitle:"The filter wins", dFaster:"faster with Vegan mode",
@@ -676,6 +734,7 @@ const T = {
     dAgain:"Play again", dContinue:"Continue the survey →",
     nTitle:"Is this too hard?",
     nBody:"Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.",
+    bunnyName:"Loulou 🐰",
     nUse:"Use the Vegan filter 🌱", nContinue:"No thanks, keep looking",
     fTitle:"Vegan mode is on! 🌱",
     fBody:"Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?",
@@ -696,7 +755,7 @@ const T = {
     listTitle:"你的购物清单", ingredients:"配料表",
     navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的",
     wTitle:"纯素购物大比拼", wStart:"开始第 1 轮 →",
-    wBody:"你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮把这 5 样加入购物车。<b>面包</b>和<b>方便面</b>：任意一种纯素的都算，但你得<b>看配料表</b>才能找到它。",
+    wBody:"你好，我是<b>萝萝</b>！🐰 你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮把这 5 样加入购物车。<b>面包</b>和<b>方便面</b>：任意一种纯素的都算，但你得<b>看配料表</b>才能找到它。",
     r2Title:"第 1 轮完成！", r2Start:"用筛选开始第 2 轮 →", r2Round1:"第 1 轮 · 无筛选",
     r2Body:"刚才是麻烦的方式。现在还是这 5 样——但这次<b>开启纯素模式</b>。看看快多少。",
     dTitle:"筛选完胜", dFaster:"用纯素模式后更快",
@@ -705,6 +764,7 @@ const T = {
     dAgain:"再玩一次", dContinue:"继续问卷 →",
     nTitle:"是不是有点难？",
     nBody:"一个个看配料表来找纯素商品，太累了吧？<b>纯素筛选</b>会立刻隐藏所有肉、海鲜、蛋和奶制品——只剩下纯素商品。",
+    bunnyName:"萝萝 🐰",
     nUse:"使用纯素筛选 🌱", nContinue:"不用了，继续找",
     fTitle:"纯素模式已开启！🌱",
     fBody:"看——所有非素商品都不见了。现在再找这 5 样……是不是轻松多了？",
@@ -1047,10 +1107,13 @@ $("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实�
 document.querySelectorAll(".langctl").forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);}));
 
 /* ---------- init ---------- */
-document.querySelectorAll(".bunnyslot").forEach(el=>el.innerHTML=BUNNY);
+document.querySelectorAll(".bunnycol").forEach(el=>{
+  el.innerHTML='<div class="bunnyslot">'+BUNNY+'</div><div class="bunnyname" data-t="bunnyName">'+T[lang].bunnyName+'</div>';
+});
 renderSections(); renderChips(); renderWelcomeList(); updateMiss();
-// default to Chinese on Chinese-locale devices (still switchable)
-if((navigator.language||"").toLowerCase().startsWith("zh")) setLang("zh");
+// default to Chinese on Chinese-locale devices (still switchable); sync all copy from the dictionary
+if((navigator.language||"").toLowerCase().startsWith("zh")) lang="zh";
+setLang(lang);
 </script>
 </body>
 </html>
