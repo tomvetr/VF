@@ -174,6 +174,7 @@
   .saypop.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
   .saypop .say{margin-bottom:0;}
   .saypop .bubble p{font-size:14px;line-height:1.5;}
+  .confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:70;display:none;}
 
   /* ---------- Coach tooltip ---------- */
   .coach{position:absolute;z-index:45;background:var(--ink);color:#fff;border-radius:14px;
@@ -335,7 +336,7 @@
     <!-- Vegan mode -->
     <div class="veganbar">
       <span class="leaf">🌱</span>
-      <span class="vlabel" data-t="veganMode">Vegan mode</span>
+      <span class="vlabel" data-t="veganMode">Vegan filter</span>
       <span class="lockicon" id="lockicon"></span>
       <button class="switch" id="switch" aria-label="Toggle vegan mode"><span class="knob"></span></button>
     </div>
@@ -366,6 +367,8 @@
       <div class="navi cart"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg><span data-t="navCart">Cart</span><span class="badge" id="cartBadge2" style="right:14px;top:-4px;">0</span></div>
       <div class="navi"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-t="navProfile">Profile</span></div>
     </div>
+
+    <canvas class="confetti" id="confetti"></canvas>
 
     <div class="toast" id="toast"></div>
 
@@ -414,7 +417,7 @@
           <div class="bunnycol"></div>
           <div class="bubble">
             <h1 data-t="r2Title">Round 1 done!</h1>
-            <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.</p>
+            <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>the vegan filter ON</b>. Watch how much faster it is.</p>
           </div>
         </div>
         <div class="cmp"><div class="cmprow off"><div class="rl" data-t="r2Round1">Round 1 · no filter</div><div class="rvblock"><div class="rv" id="r2Time">00:00</div><div class="rsub" id="r2Sub"></div></div></div></div>
@@ -429,13 +432,13 @@
           <div class="bunnycol"></div>
           <div class="bubble">
             <h1 data-t="dTitle">The filter wins</h1>
-            <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds!</p>
+            <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. The vegan filter hides every non-vegan product — including the sneaky ones — so vegans shop in seconds! Now tell us what you think of the vegan filter. 💚</p>
           </div>
         </div>
-        <div class="verdict"><div class="vn" id="speedup">—</div><div class="vl" data-t="dFaster">faster with Vegan mode</div></div>
+        <div class="verdict"><div class="vn" id="speedup">—</div><div class="vl" data-t="dFaster">faster with the vegan filter</div></div>
         <div class="cmp">
           <div class="cmprow off"><div class="rl" data-t="dRound1">Without filter</div><div class="rvblock"><div class="rv" id="dTime1">00:00</div><div class="rsub" id="dSub1"></div></div></div>
-          <div class="cmprow on"><div class="rl" data-t="dRound2">With Vegan mode</div><div class="rvblock"><div class="rv" id="dTime2">00:00</div><div class="rsub" id="dSub2"></div></div></div>
+          <div class="cmprow on"><div class="rl" data-t="dRound2">With the filter</div><div class="rvblock"><div class="rv" id="dTime2">00:00</div><div class="rsub" id="dSub2"></div></div></div>
         </div>
         <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
         <button class="btn ghost" id="continueBtn" data-t="dContinue">Continue the survey →</button>
@@ -463,7 +466,7 @@
         <div class="say">
           <div class="bunnycol"></div>
           <div class="bubble">
-            <h1 data-t="fTitle">Vegan mode is on! 🌱</h1>
+            <h1 data-t="fTitle">The vegan filter is on! 🌱</h1>
             <p data-t="fBody">Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?</p>
           </div>
         </div>
@@ -746,64 +749,64 @@ const LOULOU_MISTAKE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAAEyCA
 /* ---------- i18n ---------- */
 const T = {
   en:{
-    appTitle:"Online supermarket", veganMode:"Vegan mode",
+    appTitle:"Online supermarket", veganMode:"Vegan filter",
     listTitle:"Your shopping list", ingredients:"Ingredients",
     navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile",
     wTitle:"The vegan shopping race", wStart:"Start round 1 →",
     wBody:"Hi, I'm <b>Loulou</b>! 🐰 You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.",
     r2Title:"Round 1 done!", r2Start:"Start round 2 with the filter →", r2Round1:"Round 1 · no filter",
-    r2Body:"That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.",
-    dTitle:"The filter wins", dFaster:"faster with Vegan mode",
-    dRound1:"Without filter", dRound2:"With Vegan mode", clicks:"clicks", mistakes:"mistakes",
-    dBody:"Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.",
+    r2Body:"That was the hard way. Now the same 5 items — but this time with <b>the vegan filter ON</b>. Watch how much faster it is.",
+    dTitle:"The filter wins", dFaster:"faster with the vegan filter",
+    dRound1:"Without filter", dRound2:"With the filter", clicks:"clicks", mistakes:"mistakes",
+    dBody:"Without the filter you had to read ingredient lists and dodge look-alikes. The vegan filter hides every non-vegan product — including the sneaky ones — so vegans shop in seconds! Now tell us what you think of the vegan filter. 💚",
     dAgain:"Play again", dContinue:"Continue the survey →",
     nTitle:"Is this too hard?",
     nBody:"Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.",
     bunnyName:"Loulou",
     nUse:"Use the Vegan filter 🌱", nContinue:"No thanks, keep looking",
-    fTitle:"Vegan mode is on! 🌱",
+    fTitle:"The vegan filter is on! 🌱",
     fBody:"Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?",
     fStart:"Let's go →",
-    round:(r,f)=>"Round "+r+" of 2 · "+(f?"Vegan mode ON — easy 🌱":"no filter — the hard way"),
+    round:(r,f)=>"Round "+r+" of 2 · "+(f?"Vegan filter ON — easy 🌱":"no filter — the hard way"),
     items:n=>n+" items", found:n=>n+"/5",
     addToCart:"Add to cart", added:n=>"✓ Added "+n, already:"Already in your cart",
     notList:n=>n+" is vegan, but not on your list",
     notVeganR:(n,b)=>"🚫 "+n+" contains "+b+" — not vegan",
     notVegan:n=>"🚫 "+n+" isn't vegan",
     lockedOff:"Let's try shopping without the Vegan filter first! You'll unlock it in round 2. 🙂",
-    lockedOn:"Let's keep Vegan mode on for round 2! 🌱",
+    lockedOn:"Let's keep the vegan filter on for round 2! 🌱",
     lockR1:"round 2", lockR2:"on",
-    onToast:n=>"🌱 Vegan mode on · hid "+n+" non-vegan items",
+    onToast:n=>"🌱 Vegan filter on · hid "+n+" non-vegan items",
   },
   zh:{
-    appTitle:"网上超市", veganMode:"纯素模式",
+    appTitle:"网上超市", veganMode:"纯素筛选",
     listTitle:"你的购物清单", ingredients:"配料表",
     navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的",
     wTitle:"纯素购物大比拼", wStart:"开始第 1 轮 →",
     wBody:"你好，我是<b>萝萝</b>！🐰 你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮把这 5 样加入购物车。<b>面包</b>和<b>方便面</b>：任意一种纯素的都算，但你得<b>看配料表</b>才能找到它。",
     r2Title:"第 1 轮完成！", r2Start:"用筛选开始第 2 轮 →", r2Round1:"第 1 轮 · 无筛选",
-    r2Body:"刚才是麻烦的方式。现在还是这 5 样——但这次<b>开启纯素模式</b>。看看快多少。",
-    dTitle:"筛选完胜", dFaster:"用纯素模式后更快",
-    dRound1:"不用筛选", dRound2:"用纯素模式", clicks:"次点击", mistakes:"次失误",
-    dBody:"不用筛选时，你得读配料表、还要避开长得一样的商品。纯素模式隐藏了所有非素商品——包括那些藏得很深的——纯素者几秒就能买好。",
+    r2Body:"刚才是麻烦的方式。现在还是这 5 样——但这次<b>开启纯素筛选</b>。看看快多少。",
+    dTitle:"筛选完胜", dFaster:"用纯素筛选后更快",
+    dRound1:"不用筛选", dRound2:"用纯素筛选", clicks:"次点击", mistakes:"次失误",
+    dBody:"不用筛选时，你得读配料表、还要避开长得一样的商品。纯素筛选隐藏了所有非素商品——包括那些藏得很深的——纯素者几秒就能买好！现在告诉我们你觉得纯素筛选怎么样吧。💚",
     dAgain:"再玩一次", dContinue:"继续问卷 →",
     nTitle:"是不是有点难？",
     nBody:"一个个看配料表来找纯素商品，太累了吧？<b>纯素筛选</b>会立刻隐藏所有肉、海鲜、蛋和奶制品——只剩下纯素商品。",
     bunnyName:"萝萝",
     nUse:"使用纯素筛选 🌱", nContinue:"不用了，继续找",
-    fTitle:"纯素模式已开启！🌱",
+    fTitle:"纯素筛选已开启！🌱",
     fBody:"看——所有非素商品都不见了。现在再找这 5 样……是不是轻松多了？",
     fStart:"开始吧 →",
-    round:(r,f)=>"第 "+r+"/2 轮 · "+(f?"纯素模式已开 — 很轻松 🌱":"无筛选 — 麻烦的方式"),
+    round:(r,f)=>"第 "+r+"/2 轮 · "+(f?"纯素筛选已开 — 很轻松 🌱":"无筛选 — 麻烦的方式"),
     items:n=>n+" 件", found:n=>n+"/5",
     addToCart:"加入购物车", added:n=>"✓ 已加入 "+n, already:"已在购物车中",
     notList:n=>n+" 是素的，但不在清单上",
     notVeganR:(n,b)=>"🚫 "+n+" 含"+b+" — 不是纯素",
     notVegan:n=>"🚫 "+n+" 不是纯素",
     lockedOff:"我们先不用纯素筛选试试吧！第 2 轮就能解锁啦。🙂",
-    lockedOn:"第 2 轮我们保持纯素模式开着吧！🌱",
+    lockedOn:"第 2 轮我们保持纯素筛选开着吧！🌱",
     lockR1:"第2轮", lockR2:"已开",
-    onToast:n=>"🌱 已开启纯素模式 · 隐藏了 "+n+" 件非素商品",
+    onToast:n=>"🌱 已开启纯素筛选 · 隐藏了 "+n+" 件非素商品",
   }
 };
 const UNIT = {
@@ -1009,7 +1012,7 @@ function addItem(i){
     if(sheetI===i) closeSheet();
     const card=document.querySelector('.prod[data-i="'+i+'"]');
     if(card){card.classList.add("flash");setTimeout(()=>card.classList.remove("flash"),500);}
-    toast(T[lang].added(name(p)));
+    loulouSay(T[lang].added(name(p)));
     if(found.size===NGOAL) finishRound();
   } else {
     mistakes++; updateMiss();   // wrong item, off-list item, or already-in-cart
@@ -1067,7 +1070,7 @@ function escapeToFilter(){
   $("#filterIntro").classList.add("show");
 }
 function finishRound(){
-  stopTimer(); clearNudge();
+  stopTimer(); clearNudge(); $("#saypop").classList.remove("show");
   const time=elapsed();
   if(round===1){
     t1=time; c1=clicks; m1=mistakes;
@@ -1085,15 +1088,43 @@ function showFinal(){
   $("#dTime2").textContent=fmt(t2); $("#dSub2").textContent=metricLine(c2,m2);
   const ratio=t2>0?(t1/t2):0;
   $("#speedup").textContent=ratio>=1.1?(ratio.toFixed(1).replace(/\.0$/,"")+"×"):"✓";
-  setTimeout(()=>$("#done").classList.add("show"),400);
+  setTimeout(()=>{$("#done").classList.add("show");startConfetti();},400);
 }
+// celebratory confetti on the winning screen
+let confettiRAF=null;
+function startConfetti(){
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const c=$("#confetti"); if(!c) return;
+  c.style.display="block";
+  const rect=c.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  c.width=rect.width*dpr; c.height=rect.height*dpr;
+  const ctx=c.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
+  const W=rect.width,H=rect.height;
+  const cols=["#5aa63a","#e0573f","#f2c14e","#4f9e33","#f28fb0","#7bc043","#ffd166","#69c"];
+  const P=[];
+  for(let i=0;i<120;i++)P.push({x:Math.random()*W,y:-Math.random()*H*0.6-10,
+    vx:(Math.random()-0.5)*2.6,vy:1.6+Math.random()*3.8,s:4+Math.random()*7,
+    rot:Math.random()*6.28,vr:(Math.random()-0.5)*0.4,col:cols[i%cols.length],sway:Math.random()*6.28});
+  const start=Date.now();
+  cancelAnimationFrame(confettiRAF);
+  (function frame(){
+    const t=Date.now()-start;
+    ctx.clearRect(0,0,W,H);
+    P.forEach(p=>{p.sway+=0.03;p.x+=p.vx+Math.sin(p.sway)*0.6;p.y+=p.vy;p.vy+=0.02;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;
+      ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.62);ctx.restore();});
+    if(t<4200 && P.some(p=>p.y<H+20)) confettiRAF=requestAnimationFrame(frame);
+    else {ctx.clearRect(0,0,W,H);c.style.display="none";}
+  })();
+}
+function stopConfetti(){cancelAnimationFrame(confettiRAF);const c=$("#confetti");if(c){c.style.display="none";}}
 
 function startGame(){$("#welcome").classList.remove("show");startRound(1);}
 function goRound2(){$("#round2").classList.remove("show");startRound(2);}
 function reset(){
-  stopTimer(); clearNudge(); round=0; completed=false; found.clear(); added.clear();
+  stopTimer(); clearNudge(); stopConfetti(); round=0; completed=false; found.clear(); added.clear();
   t1=t2=c1=c2=m1=m2=clicks=mistakes=0;
-  $("#done").classList.remove("show");
+  $("#done").classList.remove("show"); $("#saypop").classList.remove("show");
   $("#nudge").classList.remove("show"); $("#filterIntro").classList.remove("show");
   $("#timer").textContent="⏱ 00:00"; updateMiss();
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
