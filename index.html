@@ -166,6 +166,15 @@
   /* when the ingredient sheet is open it covers the bottom — show the toast up top */
   .toast.high{bottom:auto;top:78px;}
 
+  /* Loulou "says" popup — a floating speech bubble, non-blocking, auto-dismiss */
+  .saypop{position:absolute;left:50%;top:42%;transform:translate(-50%,-46%) scale(.92);
+    width:310px;max-width:90%;background:var(--screen);border:1px solid var(--line);
+    border-radius:22px;padding:16px 16px 15px;box-shadow:0 18px 44px rgba(46,34,22,.34);
+    opacity:0;pointer-events:none;transition:.28s cubic-bezier(.34,1.56,.64,1);z-index:66;}
+  .saypop.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  .saypop .say{margin-bottom:0;}
+  .saypop .bubble p{font-size:14px;line-height:1.5;}
+
   /* ---------- Coach tooltip ---------- */
   .coach{position:absolute;z-index:45;background:var(--ink);color:#fff;border-radius:14px;
     padding:12px 14px;font-size:13.5px;line-height:1.35;width:230px;box-shadow:var(--shadow);
@@ -359,6 +368,14 @@
     </div>
 
     <div class="toast" id="toast"></div>
+
+    <!-- Loulou pops up (larger) to say errors / hints -->
+    <div class="saypop" id="saypop">
+      <div class="say">
+        <div class="bunnycol"></div>
+        <div class="bubble"><p id="sayText"></p></div>
+      </div>
+    </div>
 
     <!-- Ingredient detail sheet -->
     <div class="sheet" id="sheet">
@@ -753,8 +770,8 @@ const T = {
     notList:n=>n+" is vegan, but not on your list",
     notVeganR:(n,b)=>"🚫 "+n+" contains "+b+" — not vegan",
     notVegan:n=>"🚫 "+n+" isn't vegan",
-    lockedOff:"🔒 The Vegan filter unlocks in round 2 — try without it first 😉",
-    lockedOn:"🌱 Keep Vegan mode on for round 2",
+    lockedOff:"Let's try shopping without the Vegan filter first! You'll unlock it in round 2. 🙂",
+    lockedOn:"Let's keep Vegan mode on for round 2! 🌱",
     lockR1:"round 2", lockR2:"on",
     onToast:n=>"🌱 Vegan mode on · hid "+n+" non-vegan items",
   },
@@ -783,8 +800,8 @@ const T = {
     notList:n=>n+" 是素的，但不在清单上",
     notVeganR:(n,b)=>"🚫 "+n+" 含"+b+" — 不是纯素",
     notVegan:n=>"🚫 "+n+" 不是纯素",
-    lockedOff:"🔒 纯素筛选将在第 2 轮解锁 — 先试试不用它 😉",
-    lockedOn:"🌱 第 2 轮请保持纯素模式开启",
+    lockedOff:"我们先不用纯素筛选试试吧！第 2 轮就能解锁啦。🙂",
+    lockedOn:"第 2 轮我们保持纯素模式开着吧！🌱",
     lockR1:"第2轮", lockR2:"已开",
     onToast:n=>"🌱 已开启纯素模式 · 隐藏了 "+n+" 件非素商品",
   }
@@ -877,6 +894,16 @@ function toast(msg,err){
   t.classList.toggle("high",$("#sheet").classList.contains("show"));
   t.classList.add("show");
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2100);
+}
+
+// Loulou pops up (big, like the intro) to say something. mood 'mistake' = sad avatar.
+let sayTimer;
+function loulouSay(msg,mood){
+  const p=$("#saypop"), img=p.querySelector(".bunnyimg");
+  if(img) img.src=(mood==="mistake")?LOULOU_MISTAKE:BUNNY_IMG;
+  $("#sayText").innerHTML=msg;
+  p.classList.add("show");
+  clearTimeout(sayTimer); sayTimer=setTimeout(()=>p.classList.remove("show"),2800);
 }
 
 /* ---------- timer ---------- */
@@ -986,9 +1013,9 @@ function addItem(i){
     if(found.size===NGOAL) finishRound();
   } else {
     mistakes++; updateMiss();   // wrong item, off-list item, or already-in-cart
-    if(g){toast(T[lang].already,true);return;}
+    if(g){loulouSay(T[lang].already,"mistake");return;}
     const b=p.bad?(lang==="zh"?p.bad.zh:p.bad.en):null;
-    toast(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))),true);
+    loulouSay(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))),"mistake");
   }
 }
 function bumpCart(){
@@ -1098,7 +1125,7 @@ $("#shAdd").addEventListener("click",()=>{if(sheetI>=0){countClick();addItem(she
 $("#sheetClose").addEventListener("click",closeSheet);
 $("#switch").addEventListener("click",()=>{
   if(round===1 && escapeArmed){ escapeToFilter(); return; }   // armed after the nudge
-  if(filterLocked){toast(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
+  if(filterLocked){loulouSay(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
 });
 $("#startBtn").addEventListener("click",startGame);
 $("#round2Btn").addEventListener("click",goRound2);
