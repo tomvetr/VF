@@ -205,6 +205,13 @@
     max-height:88%;overflow-y:auto;}
   .overlay.show .modal{transform:translateY(0);}
   .modal .big{font-size:44px;margin-bottom:6px;}
+  .bunnyslot{width:92px;height:92px;margin:2px auto 6px;display:flex;align-items:center;justify-content:center;
+    animation:bunnyIn .45s cubic-bezier(.34,1.56,.64,1);}
+  .bunnyslot svg{width:100%;height:100%;}
+  @keyframes bunnyIn{0%{transform:scale(.4);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .switch.pulse{animation:swpulse 1s ease-in-out infinite;}
+  @keyframes swpulse{0%,100%{box-shadow:0 0 0 0 rgba(90,158,63,.55);}50%{box-shadow:0 0 0 11px rgba(90,158,63,0);}}
+  @media (prefers-reduced-motion:reduce){.bunnyslot,.switch.pulse{animation:none;}}
   .modal h1{font-size:21px;margin:0 0 8px;}
   .modal p{font-size:14px;color:#6b6355;line-height:1.5;margin:0 0 14px;}
   .modal .tasklist{background:#fff;border-radius:14px;padding:12px;margin:0 0 16px;text-align:left;}
@@ -261,6 +268,19 @@
     .navi{font-size:9px;gap:1px;}
     .navi .icn{width:18px;height:18px;}
     .nav .badge{right:10px;top:-3px;min-width:15px;height:15px;font-size:9px;}
+  }
+
+  /* ---------- Short viewport: not enough vertical room for products ---------- */
+  /* drop the bottom nav so the product list gets that height back */
+  @media (max-height:640px){
+    .nav{display:none;}
+    .scroll{padding-bottom:14px;}
+    .toast{bottom:16px;}
+  }
+  /* short AND wide (e.g. a PC window or landscape): widen and show 4 columns */
+  @media (max-height:640px) and (min-width:820px){
+    .phone{max-width:760px;height:96dvh;}
+    .grid{grid-template-columns:repeat(4,1fr);}
   }
 </style>
 </head>
@@ -341,7 +361,7 @@
     <!-- Welcome modal -->
     <div class="overlay show" id="welcome">
       <div class="modal">
-        <div class="big">🛒🌱</div>
+        <div class="bunnyslot"></div>
         <h1 data-t="wTitle">The vegan shopping race</h1>
         <p data-t="wBody">You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.</p>
         <div class="tasklist" id="wList"></div>
@@ -352,7 +372,7 @@
     <!-- Round 2 intro modal -->
     <div class="overlay" id="round2">
       <div class="modal">
-        <div class="big">⏱️</div>
+        <div class="bunnyslot"></div>
         <h1 data-t="r2Title">Round 1 done!</h1>
         <p id="r2Line" data-t="r2Body">That was the hard way. Now the same 5 items — but this time with <b>Vegan mode ON</b>. Watch how much faster it is.</p>
         <div class="cmp"><div class="cmprow off"><div class="rl" data-t="r2Round1">Round 1 · no filter</div><div class="rvblock"><div class="rv" id="r2Time">00:00</div><div class="rsub" id="r2Sub"></div></div></div></div>
@@ -363,7 +383,7 @@
     <!-- Final comparison modal -->
     <div class="overlay" id="done">
       <div class="modal">
-        <div class="big">🎉</div>
+        <div class="bunnyslot"></div>
         <h1 data-t="dTitle">The filter wins</h1>
         <div class="verdict"><div class="vn" id="speedup">—</div><div class="vl" data-t="dFaster">faster with Vegan mode</div></div>
         <div class="cmp">
@@ -373,6 +393,27 @@
         <p data-t="dBody">Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.</p>
         <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
         <button class="btn ghost" id="continueBtn" data-t="dContinue">Continue the survey →</button>
+      </div>
+    </div>
+
+    <!-- "Too difficult?" nudge (after 5 min without the filter) -->
+    <div class="overlay" id="nudge">
+      <div class="modal">
+        <div class="bunnyslot"></div>
+        <h1 data-t="nTitle">Is this too hard?</h1>
+        <p data-t="nBody">Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.</p>
+        <button class="btn" id="useFilterBtn" data-t="nUse">Use the Vegan filter 🌱</button>
+        <button class="btn ghost" id="continueHardBtn" data-t="nContinue">No thanks, keep looking</button>
+      </div>
+    </div>
+
+    <!-- Filter intro (when switching to the filter round) -->
+    <div class="overlay" id="filterIntro">
+      <div class="modal">
+        <div class="bunnyslot"></div>
+        <h1 data-t="fTitle">Vegan mode is on! 🌱</h1>
+        <p data-t="fBody">Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?</p>
+        <button class="btn" id="filterStartBtn" data-t="fStart">Let's go →</button>
       </div>
     </div>
 
@@ -603,6 +644,22 @@ const P = [
 const TOFU_SVG = '<svg width="52" height="52" viewBox="0 0 52 52" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.12))"><g><rect x="9" y="14" width="34" height="28" rx="4" fill="#f7f0dc" stroke="#e4d8b8" stroke-width="1.5"/><path d="M9 18 L43 18" stroke="#eadfc0" stroke-width="1"/><circle cx="18" cy="27" r="2" fill="#eadfc0"/><circle cx="30" cy="24" r="1.6" fill="#eadfc0"/><circle cx="34" cy="34" r="2.2" fill="#eadfc0"/><circle cx="22" cy="36" r="1.6" fill="#eadfc0"/></g></svg>';
 const TOFU_MINI = '<svg width="38" height="38" viewBox="0 0 52 52"><rect x="9" y="14" width="34" height="28" rx="4" fill="#f7f0dc" stroke="#e4d8b8" stroke-width="1.5"/><circle cx="18" cy="27" r="2" fill="#eadfc0"/><circle cx="34" cy="34" r="2.2" fill="#eadfc0"/></svg>';
 
+// Bao the bunny — the friendly guide shown in the modals
+const BUNNY = '<svg viewBox="0 0 120 120" aria-hidden="true">'+
+  '<ellipse cx="45" cy="30" rx="11" ry="28" fill="#fff" stroke="#e7dcc6" stroke-width="2.5" transform="rotate(-8 45 30)"/>'+
+  '<ellipse cx="75" cy="30" rx="11" ry="28" fill="#fff" stroke="#e7dcc6" stroke-width="2.5" transform="rotate(8 75 30)"/>'+
+  '<ellipse cx="45" cy="32" rx="5" ry="18" fill="#f8c7d0" transform="rotate(-8 45 32)"/>'+
+  '<ellipse cx="75" cy="32" rx="5" ry="18" fill="#f8c7d0" transform="rotate(8 75 32)"/>'+
+  '<circle cx="60" cy="72" r="34" fill="#fff" stroke="#e7dcc6" stroke-width="2.5"/>'+
+  '<circle cx="42" cy="80" r="7" fill="#fbd5db"/><circle cx="78" cy="80" r="7" fill="#fbd5db"/>'+
+  '<circle cx="49" cy="68" r="4.6" fill="#3f342c"/><circle cx="71" cy="68" r="4.6" fill="#3f342c"/>'+
+  '<circle cx="50.6" cy="66.2" r="1.5" fill="#fff"/><circle cx="72.6" cy="66.2" r="1.5" fill="#fff"/>'+
+  '<path d="M60 74 l-4 3.6 h8 z" fill="#f2969f"/>'+
+  '<path d="M60 79 q-5 5 -10 1 M60 79 q5 5 10 1" stroke="#d89aa2" fill="none" stroke-width="2" stroke-linecap="round"/>'+
+  '<path d="M34 73 h-12 M34 78 h-13 M86 73 h12 M86 78 h13" stroke="#e7dcc6" stroke-width="1.6" stroke-linecap="round"/>'+
+  '<path d="M96 40 q10 -6 15 2 q-9 3 -15 -2 z" fill="#7bc043"/><path d="M103 41 q4 -1 7 1" stroke="#5a9e3f" stroke-width="1.2" fill="none"/>'+
+  '</svg>';
+
 /* ---------- i18n ---------- */
 const T = {
   en:{
@@ -617,6 +674,12 @@ const T = {
     dRound1:"Without filter", dRound2:"With Vegan mode", clicks:"clicks", mistakes:"mistakes",
     dBody:"Without the filter you had to read ingredient lists and dodge look-alikes. Vegan mode hides every non-vegan product — including the sneaky ones — so vegans shop in seconds.",
     dAgain:"Play again", dContinue:"Continue the survey →",
+    nTitle:"Is this too hard?",
+    nBody:"Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.",
+    nUse:"Use the Vegan filter 🌱", nContinue:"No thanks, keep looking",
+    fTitle:"Vegan mode is on! 🌱",
+    fBody:"Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?",
+    fStart:"Let's go →",
     round:(r,f)=>"Round "+r+" of 2 · "+(f?"Vegan mode ON — easy 🌱":"no filter — the hard way"),
     items:n=>n+" items", found:n=>n+"/5",
     addToCart:"Add to cart", added:n=>"✓ Added "+n, already:"Already in your cart",
@@ -640,6 +703,12 @@ const T = {
     dRound1:"不用筛选", dRound2:"用纯素模式", clicks:"次点击", mistakes:"次失误",
     dBody:"不用筛选时，你得读配料表、还要避开长得一样的商品。纯素模式隐藏了所有非素商品——包括那些藏得很深的——纯素者几秒就能买好。",
     dAgain:"再玩一次", dContinue:"继续问卷 →",
+    nTitle:"是不是有点难？",
+    nBody:"一个个看配料表来找纯素商品，太累了吧？<b>纯素筛选</b>会立刻隐藏所有肉、海鲜、蛋和奶制品——只剩下纯素商品。",
+    nUse:"使用纯素筛选 🌱", nContinue:"不用了，继续找",
+    fTitle:"纯素模式已开启！🌱",
+    fBody:"看——所有非素商品都不见了。现在再找这 5 样……是不是轻松多了？",
+    fStart:"开始吧 →",
     round:(r,f)=>"第 "+r+"/2 轮 · "+(f?"纯素模式已开 — 很轻松 🌱":"无筛选 — 麻烦的方式"),
     items:n=>n+" 件", found:n=>n+"/5",
     addToCart:"加入购物车", added:n=>"✓ 已加入 "+n, already:"已在购物车中",
@@ -667,6 +736,8 @@ let round=0, roundStart=0, timerInt=null;
 let clicks=0, mistakes=0;            // this round
 let t1=0, t2=0, c1=0, c2=0, m1=0, m2=0;  // per-round results (time / clicks / mistakes)
 let completed=false;
+let nudgeTimer=null, pulseTimer=null, escapeArmed=false;  // 5-min "too hard?" flow
+const NUDGE_AFTER=5*60*1000;         // show the bunny nudge after 5 min in round 1
 const found=new Set();   // satisfied goal keys
 const added=new Set();   // product indices actually added (for the card checkmark)
 // The 5 shopping goals. "item" = find that exact vegan product; "cat" = find ANY
@@ -863,9 +934,11 @@ function applyVeganStyle(on){
 }
 
 /* ---------- rounds ---------- */
+function clearNudge(){clearTimeout(nudgeTimer);clearInterval(pulseTimer);escapeArmed=false;$("#switch").classList.remove("pulse");}
 function startRound(r){
   round=r; found.clear(); added.clear(); clicks=0; mistakes=0; completed=false;
   veganOn=(r===2); filterLocked=true;
+  clearNudge();
   order=(r===1?ORDER1:ORDER2);
   applyVeganStyle(veganOn);
   $("#switch").classList.add("locked");
@@ -875,10 +948,28 @@ function startRound(r){
   updateMiss();
   renderRoundbar(); renderSections(); renderChips();
   startTimer();
+  if(r===1) nudgeTimer=setTimeout(showNudge,NUDGE_AFTER);
   if(r===2) setTimeout(()=>toast(T[lang].onToast(totalCount-veganCount)),400);
 }
-function finishRound(){
+// After 5 min in round 1, the bunny offers the filter as a way out.
+function showNudge(){
+  if(round!==1||completed) return;
+  escapeArmed=true;                        // the toggle now jumps to the filter round
+  $("#switch").classList.remove("locked");
+  $("#lockicon").textContent="";
+  $("#nudge").classList.add("show");
+}
+// Jump from round 1 straight into the filter round (records round-1 progress so far).
+function escapeToFilter(){
+  if(round!==1) return;
   stopTimer();
+  t1=elapsed(); c1=clicks; m1=mistakes;
+  clearNudge();
+  $("#nudge").classList.remove("show");
+  $("#filterIntro").classList.add("show");
+}
+function finishRound(){
+  stopTimer(); clearNudge();
   const time=elapsed();
   if(round===1){
     t1=time; c1=clicks; m1=mistakes;
@@ -902,9 +993,10 @@ function showFinal(){
 function startGame(){$("#welcome").classList.remove("show");startRound(1);}
 function goRound2(){$("#round2").classList.remove("show");startRound(2);}
 function reset(){
-  stopTimer(); round=0; completed=false; found.clear(); added.clear();
+  stopTimer(); clearNudge(); round=0; completed=false; found.clear(); added.clear();
   t1=t2=c1=c2=m1=m2=clicks=mistakes=0;
   $("#done").classList.remove("show");
+  $("#nudge").classList.remove("show"); $("#filterIntro").classList.remove("show");
   $("#timer").textContent="⏱ 00:00"; updateMiss();
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
   veganOn=false; applyVeganStyle(false);
@@ -934,15 +1026,28 @@ $("#sections").addEventListener("click",e=>{
 $("#shAdd").addEventListener("click",()=>{if(sheetI>=0){countClick();addItem(sheetI);}});
 $("#sheetClose").addEventListener("click",closeSheet);
 $("#switch").addEventListener("click",()=>{
+  if(round===1 && escapeArmed){ escapeToFilter(); return; }   // armed after the nudge
   if(filterLocked){toast(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
 });
 $("#startBtn").addEventListener("click",startGame);
 $("#round2Btn").addEventListener("click",goRound2);
+$("#useFilterBtn").addEventListener("click",escapeToFilter);
+$("#continueHardBtn").addEventListener("click",()=>{
+  $("#nudge").classList.remove("show");           // keep looking, but nudge the toggle every 15s
+  clearInterval(pulseTimer);
+  pulseTimer=setInterval(()=>{
+    if(round!==1||completed){clearInterval(pulseTimer);return;}
+    $("#switch").classList.add("pulse");
+    setTimeout(()=>$("#switch").classList.remove("pulse"),3500);
+  },15000);
+});
+$("#filterStartBtn").addEventListener("click",()=>{$("#filterIntro").classList.remove("show");startRound(2);});
 $("#againBtn").addEventListener("click",reset);
 $("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实问卷中，这里会跳转到下一页）":"(In the live survey this continues to the next page)"));
 document.querySelectorAll(".langctl").forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);}));
 
 /* ---------- init ---------- */
+document.querySelectorAll(".bunnyslot").forEach(el=>el.innerHTML=BUNNY);
 renderSections(); renderChips(); renderWelcomeList(); updateMiss();
 // default to Chinese on Chinese-locale devices (still switchable)
 if((navigator.language||"").toLowerCase().startsWith("zh")) setLang("zh");
