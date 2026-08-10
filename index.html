@@ -1180,8 +1180,13 @@ document.querySelectorAll(".bunnycol").forEach(el=>{
   el.innerHTML='<div class="bunnyslot"><img class="bunnyimg" src="'+BUNNY_IMG+'" alt="Loulou"></div><div class="bunnyname" data-t="bunnyName">'+T[lang].bunnyName+'</div>';
 });
 renderSections(); renderChips(); renderWelcomeList(); updateMiss();
-// default to Chinese on Chinese-locale devices (still switchable); sync all copy from the dictionary
-if((navigator.language||"").toLowerCase().startsWith("zh")) lang="zh";
+// pick language: ?lang= / #lang in the URL wins, else the device locale, else English.
+(function(){
+  var forced=(new URLSearchParams(location.search).get("lang")||location.hash.replace(/^#/,"")).toLowerCase();
+  if(/^(zh|cn|zh-cn|chinese|中文)$/.test(forced)) lang="zh";
+  else if(/^(en|english)$/.test(forced)) lang="en";
+  else if((navigator.language||"").toLowerCase().startsWith("zh")) lang="zh";
+})();
 setLang(lang);
 </script>
 </body>
