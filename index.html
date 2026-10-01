@@ -824,8 +824,21 @@ let round=0, roundStart=0, timerInt=null;
 let clicks=0, mistakes=0;            // this round
 let t1=0, t2=0, c1=0, c2=0, m1=0, m2=0;  // per-round results (time / clicks / mistakes)
 let completed=false;
-let nudgeTimer=null, pulseTimer=null, escapeArmed=false;  // 5-min "too hard?" flow
-const NUDGE_AFTER=5*60*1000;         // show the bunny nudge after 5 min in round 1
+let nudgeTimer=null, pulseTimer=null, escapeArmed=false;  // "too hard?" flow
+let gaveUp=false;                    // did the player bail on round 1 via the nudge?
+const NUDGE_AFTER=2*60*1000;         // show the bunny nudge after 2 min in round 1
+// --- Survey hand-off: on "Continue the survey", open the Zoho survey with the
+// game metrics as URL parameters. Set url to your survey link; rename the param
+// keys (values) to match the field "variables" you create in Zoho Survey. ---
+const SURVEY={
+  url:"",   // e.g. "https://survey.zohopublic.eu/zs/ZbBff1"  (leave "" to disable)
+  params:{
+    time_without:"time_without", time_with:"time_with",       // in seconds
+    clicks_without:"clicks_without", clicks_with:"clicks_with",
+    mistakes_without:"mistakes_without", mistakes_with:"mistakes_with",
+    gave_up:"gave_up", lang:"lang"
+  }
+};
 const found=new Set();   // satisfied goal keys
 const added=new Set();   // product indices actually added (for the card checkmark)
 // The 5 shopping goals. "item" = find that exact vegan product; "cat" = find ANY
@@ -1064,7 +1077,7 @@ function showNudge(){
 function escapeToFilter(){
   if(round!==1) return;
   stopTimer();
-  t1=elapsed(); c1=clicks; m1=mistakes;
+  t1=elapsed(); c1=clicks; m1=mistakes; gaveUp=true;
   clearNudge();
   $("#nudge").classList.remove("show");
   $("#filterIntro").classList.add("show");
@@ -1119,7 +1132,7 @@ function startConfetti(){
 }
 function stopConfetti(){cancelAnimationFrame(confettiRAF);const c=$("#confetti");if(c){c.style.display="none";}}
 
-function startGame(){$("#welcome").classList.remove("show");startRound(1);}
+function startGame(){gaveUp=false;$("#welcome").classList.remove("show");startRound(1);}
 function goRound2(){$("#round2").classList.remove("show");startRound(2);}
 function reset(){
   stopTimer(); clearNudge(); stopConfetti(); round=0; completed=false; found.clear(); added.clear();
@@ -1172,7 +1185,16 @@ $("#continueHardBtn").addEventListener("click",()=>{
 });
 $("#filterStartBtn").addEventListener("click",()=>{$("#filterIntro").classList.remove("show");startRound(2);});
 $("#againBtn").addEventListener("click",reset);
-$("#continueBtn").addEventListener("click",()=>toast(lang==="zh"?"（在真实问卷中，这里会跳转到下一页）":"(In the live survey this continues to the next page)"));
+$("#continueBtn").addEventListener("click",()=>{
+  if(!SURVEY.url){ toast(lang==="zh"?"（在真实问卷中，这里会跳转到下一页）":"(In the live survey this continues to the next page)"); return; }
+  const P=SURVEY.params, q=new URLSearchParams();
+  q.set(P.time_without,Math.round(t1)); q.set(P.time_with,Math.round(t2));
+  q.set(P.clicks_without,c1); q.set(P.clicks_with,c2);
+  q.set(P.mistakes_without,m1); q.set(P.mistakes_with,m2);
+  q.set(P.gave_up,gaveUp?"yes":"no"); q.set(P.lang,lang);
+  const dest=SURVEY.url+(SURVEY.url.indexOf("?")<0?"?":"&")+q.toString();
+  (window.top||window).location.href=dest;
+});
 document.querySelectorAll(".langctl").forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("button");if(b)setLang(b.dataset.l);}));
 
 /* ---------- init ---------- */
