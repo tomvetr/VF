@@ -458,8 +458,7 @@
           <div class="cmprow off"><div class="rl" data-t="dRound1">Without filter</div><div class="rvblock"><div class="rv" id="dTime1">00:00</div><div class="rsub" id="dSub1"></div></div></div>
           <div class="cmprow on"><div class="rl" data-t="dRound2">With the filter</div><div class="rvblock"><div class="rv" id="dTime2">00:00</div><div class="rsub" id="dSub2"></div></div></div>
         </div>
-        <button class="btn" id="againBtn" data-t="dAgain">Play again</button>
-        <button class="btn ghost" id="continueBtn" data-t="dContinue">Continue the survey →</button>
+        <button class="btn" id="continueBtn" data-t="dContinue">Continue the survey →</button>
       </div>
     </div>
 
@@ -816,7 +815,7 @@ const T = {
     nTitle:"是不是有点难？",
     nBody:"一个个看配料表来找纯素商品，太累了吧？<b>纯素筛选</b>会立刻隐藏所有肉、海鲜、蛋和奶制品——只剩下纯素商品。",
     bunnyName:"萝萝",
-    introTitle:"2026 中国素食峰会 China Vegan Summit",
+    introTitle:"2026 中国素食峰会",
     introP1:"如果你的网上超市只要一键就能只显示纯素产品，会怎么样？",
     introP2:"<b>纯素筛选</b>是一个让纯素生活更方便的项目概念。它在网上超市里加入一个筛选按钮，隐藏所有非纯素产品——让整个超市在所有品类（从食品饮料到清洁用品）都变成纯素。",
     introP3:"接下来你将体验一个简短有趣的模拟。结束后，我们会问问你的看法。感谢参与！💚",
@@ -859,7 +858,7 @@ const NUDGE_AFTER=2*60*1000;         // show the bunny nudge after 2 min in roun
 // game metrics as URL parameters. Set url to your survey link; rename the param
 // keys (values) to match the field "variables" you create in Zoho Survey. ---
 const SURVEY={
-  url:"",   // e.g. "https://survey.zohopublic.eu/zs/ZbBff1"  (leave "" to disable)
+  url:"https://survey.zohopublic.eu/zs/ZbBff1",   // set to "" to disable the redirect
   params:{
     time_without:"time_without", time_with:"time_with",       // in seconds
     clicks_without:"clicks_without", clicks_with:"clicks_with",
@@ -1213,7 +1212,6 @@ $("#continueHardBtn").addEventListener("click",()=>{
   },15000);
 });
 $("#filterStartBtn").addEventListener("click",()=>{$("#filterIntro").classList.remove("show");startRound(2);});
-$("#againBtn").addEventListener("click",reset);
 $("#continueBtn").addEventListener("click",()=>{
   if(!SURVEY.url){ toast(lang==="zh"?"（在真实问卷中，这里会跳转到下一页）":"(In the live survey this continues to the next page)"); return; }
   const P=SURVEY.params, q=new URLSearchParams();
