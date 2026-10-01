@@ -220,6 +220,11 @@
     max-height:88%;overflow-y:auto;}
   .overlay.show .modal{transform:translateY(0);}
   .modal .big{font-size:44px;margin-bottom:6px;}
+  .introhead{font-size:20px;font-weight:800;text-align:center;margin:2px 0 12px;color:var(--ink);text-wrap:balance;}
+  .introhead .leaf{font-size:22px;}
+  .introbody{text-align:left;margin-bottom:16px;}
+  .introbody p{font-size:14px;line-height:1.55;color:#5b5347;margin:0 0 11px;}
+  .introbody p:last-child{margin-bottom:0;}
   /* bunny speaks through a speech bubble */
   .say{display:flex;gap:8px;align-items:flex-start;text-align:left;margin-bottom:15px;}
   .bunnycol{flex:none;display:flex;flex-direction:column;align-items:center;gap:1px;margin-top:2px;}
@@ -395,8 +400,21 @@
       </div>
     </div>
 
+    <!-- Project intro (shown before the game) -->
+    <div class="overlay show" id="intro">
+      <div class="modal">
+        <div class="introhead"><span class="leaf">🌱</span> <span data-t="introTitle">China Vegan Summit 2026</span></div>
+        <div class="introbody">
+          <p data-t="introP1">What if your online supermarket could show only vegan products at the click of a button?</p>
+          <p data-t="introP2">The <b>Vegan Filter</b> is a project concept designed to make veganism more convenient. It adds a filter button to online supermarkets that hides all non-vegan products — turning the whole shop vegan, across every category (from food and drinks to cleaning supplies).</p>
+          <p data-t="introP3">You're about to try a short, playful simulation of it. Afterwards, we'll ask what you think. Thanks for helping! 💚</p>
+        </div>
+        <button class="btn" id="introBtn" data-t="introStart">Try the vegan filter →</button>
+      </div>
+    </div>
+
     <!-- Welcome modal -->
-    <div class="overlay show" id="welcome">
+    <div class="overlay" id="welcome">
       <div class="modal">
         <div class="say">
           <div class="bunnycol"></div>
@@ -763,6 +781,11 @@ const T = {
     nTitle:"Is this too hard?",
     nBody:"Hunting for vegan items by reading every label is exhausting, right? The <b>Vegan filter</b> instantly hides all meat, fish, eggs &amp; dairy — so only vegan products are left.",
     bunnyName:"Loulou",
+    introTitle:"China Vegan Summit 2026",
+    introP1:"What if your online supermarket could show only vegan products at the click of a button?",
+    introP2:"The <b>Vegan Filter</b> is a project concept designed to make veganism more convenient. It adds a filter button to online supermarkets that hides all non-vegan products — turning the whole shop vegan, across every category (from food and drinks to cleaning supplies).",
+    introP3:"You're about to try a short, playful simulation of it. Afterwards, we'll ask what you think. Thanks for helping! 💚",
+    introStart:"Try the vegan filter →",
     nUse:"Use the Vegan filter 🌱", nContinue:"No thanks, keep looking",
     fTitle:"The vegan filter is on! 🌱",
     fBody:"Watch this — every non-vegan product just disappeared. Now find the same 5 items… so much easier, right?",
@@ -793,6 +816,11 @@ const T = {
     nTitle:"是不是有点难？",
     nBody:"一个个看配料表来找纯素商品，太累了吧？<b>纯素筛选</b>会立刻隐藏所有肉、海鲜、蛋和奶制品——只剩下纯素商品。",
     bunnyName:"萝萝",
+    introTitle:"2026 中国素食峰会 China Vegan Summit",
+    introP1:"如果你的网上超市只要一键就能只显示纯素产品，会怎么样？",
+    introP2:"<b>纯素筛选</b>是一个让纯素生活更方便的项目概念。它在网上超市里加入一个筛选按钮，隐藏所有非纯素产品——让整个超市在所有品类（从食品饮料到清洁用品）都变成纯素。",
+    introP3:"接下来你将体验一个简短有趣的模拟。结束后，我们会问问你的看法。感谢参与！💚",
+    introStart:"试试纯素筛选 →",
     nUse:"使用纯素筛选 🌱", nContinue:"不用了，继续找",
     fTitle:"纯素筛选已开启！🌱",
     fBody:"看——所有非素商品都不见了。现在再找这 5 样……是不是轻松多了？",
@@ -1171,6 +1199,7 @@ $("#switch").addEventListener("click",()=>{
   if(round===1 && escapeArmed){ escapeToFilter(); return; }   // armed after the nudge
   if(filterLocked){loulouSay(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
 });
+$("#introBtn").addEventListener("click",()=>{$("#intro").classList.remove("show");$("#welcome").classList.add("show");});
 $("#startBtn").addEventListener("click",startGame);
 $("#round2Btn").addEventListener("click",goRound2);
 $("#useFilterBtn").addEventListener("click",escapeToFilter);
