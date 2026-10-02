@@ -62,6 +62,8 @@
   /* ---------- Header ---------- */
   .topbar{padding:16px 16px 8px;display:flex;align-items:center;gap:12px;flex:none;}
   .icn{width:24px;height:24px;color:var(--ink);flex:none;}
+  .menubtn{cursor:pointer;}
+  #catBtn{cursor:pointer;}
   .title{font-size:19px;font-weight:800;flex:1;letter-spacing:-.2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .cart{position:relative;}
   .badge{position:absolute;top:-7px;right:-8px;min-width:18px;height:18px;
@@ -95,6 +97,10 @@
   .listcard{margin:6px 14px 2px;background:linear-gradient(180deg,#fff,#fffdf8);
     border:1px solid var(--line);border-radius:16px;padding:11px 13px;flex:none;
     box-shadow:0 2px 8px rgba(74,53,39,.05);}
+  .listcard.flash{animation:listflash .9s ease-out;}
+  @keyframes listflash{0%{box-shadow:0 0 0 0 rgba(90,158,63,.0),0 2px 8px rgba(74,53,39,.05);border-color:var(--line);}
+    20%{box-shadow:0 0 0 4px rgba(90,158,63,.45),0 2px 8px rgba(74,53,39,.05);border-color:var(--green);}
+    100%{box-shadow:0 0 0 0 rgba(90,158,63,0),0 2px 8px rgba(74,53,39,.05);border-color:var(--line);}}
   .listhead{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
   .listhead b{font-size:14px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .timer{font-size:12px;font-weight:800;color:var(--ink);background:#f0e7d6;
@@ -175,6 +181,22 @@
   .saypop .say{margin-bottom:0;}
   .saypop .bubble p{font-size:14px;line-height:1.5;}
   .confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:70;display:none;}
+
+  /* Category quick-nav drawer */
+  .drawer{position:absolute;inset:0;z-index:58;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .drawer.show{opacity:1;pointer-events:auto;}
+  .drawer .drawersc{position:absolute;inset:0;background:rgba(46,34,22,.5);}
+  .drawerpanel{position:absolute;top:0;left:0;bottom:0;width:72%;max-width:290px;background:var(--screen);
+    box-shadow:6px 0 28px rgba(46,34,22,.3);transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;padding:16px 0 10px;}
+  .drawer.show .drawerpanel{transform:translateX(0);}
+  .drawerhead{font-size:17px;font-weight:800;padding:4px 18px 12px;border-bottom:1px solid var(--line);}
+  #catlist{overflow-y:auto;padding:6px 0;}
+  .catrow{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer;font-size:15px;font-weight:700;
+    border-bottom:1px solid var(--line);}
+  .catrow:active{background:rgba(90,158,63,.08);}
+  .catrow .ci{font-size:20px;width:24px;text-align:center;}
+  .catrow .cc{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);}
 
   /* ---------- Coach tooltip ---------- */
   .coach{position:absolute;z-index:45;background:var(--ink);color:#fff;border-radius:14px;
@@ -328,7 +350,7 @@
 
     <!-- Header -->
     <div class="topbar">
-      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icn menubtn" id="menuBtn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       <div class="title" data-t="appTitle">Online supermarket</div>
       <svg class="icn search-icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       <div class="langctl langHdr" id="langHdr"><button data-l="en" class="on">EN</button><button data-l="zh">中</button></div>
@@ -346,11 +368,8 @@
       <button class="switch" id="switch" aria-label="Toggle vegan mode"><span class="knob"></span></button>
     </div>
 
-    <!-- Round indicator -->
-    <div class="roundbar" id="roundbar"><span class="dot"></span><span class="rlabel" id="rlabel"></span></div>
-
     <!-- Shopping list -->
-    <div class="listcard">
+    <div class="listcard" id="listcard">
       <div class="listhead">
         <span>📝</span>
         <b data-t="listTitle">Your shopping list</b>
@@ -368,12 +387,21 @@
     <!-- Bottom nav -->
     <div class="nav">
       <div class="navi active"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span data-t="navHome">Home</span></div>
-      <div class="navi"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span data-t="navCat">Categories</span></div>
+      <div class="navi" id="catBtn"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span data-t="navCat">Categories</span></div>
       <div class="navi cart"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg><span data-t="navCart">Cart</span><span class="badge" id="cartBadge2" style="right:14px;top:-4px;">0</span></div>
       <div class="navi"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-t="navProfile">Profile</span></div>
     </div>
 
     <canvas class="confetti" id="confetti"></canvas>
+
+    <!-- Category quick-nav (hamburger / Categories) -->
+    <div class="drawer" id="catmenu">
+      <div class="drawersc" id="catmenuClose"></div>
+      <div class="drawerpanel">
+        <div class="drawerhead" data-t="catTitle">Categories</div>
+        <div id="catlist"></div>
+      </div>
+    </div>
 
     <div class="toast" id="toast"></div>
 
@@ -565,6 +593,10 @@ const P = [
     ing:{en:"wheat flour, water, yeast, salt",zh:"小麦粉、水、酵母、盐"}},
   {e:"🍞",en:"Sourdough bread",zh:"酸面包",p:12.90,u:"loaf",v:1,c:"bread",
     ing:{en:"wheat flour, water, sourdough starter, salt",zh:"小麦粉、水、天然酵种、盐"}},
+  {e:"🍞",en:"Rye bread",zh:"黑麦面包",p:11.90,u:"loaf",v:1,c:"bread",
+    ing:{en:"rye flour, wheat flour, water, yeast, salt",zh:"黑麦粉、小麦粉、水、酵母、盐"}},
+  {e:"🍞",en:"Multigrain bread",zh:"杂粮面包",p:12.50,u:"loaf",v:1,c:"bread",
+    ing:{en:"wheat flour, oats, mixed seeds, water, yeast, salt",zh:"小麦粉、燕麦、混合籽、水、酵母、盐"}},
   {e:"🍞",en:"Coconut bread",zh:"椰蓉面包",p:7.20,u:"each",v:0,c:"bread",
     ing:{en:"flour, butter, egg, coconut, milk",zh:"面粉、黄油、鸡蛋、椰蓉、牛奶"},bad:{en:"butter & egg",zh:"黄油和鸡蛋"}},
   {e:"🍞",en:"Taro bread",zh:"香芋面包",p:7.50,u:"each",v:0,c:"bread",
@@ -768,7 +800,7 @@ const T = {
   en:{
     appTitle:"Online supermarket", veganMode:"Vegan filter",
     listTitle:"Your shopping list", ingredients:"Ingredients",
-    navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile",
+    navHome:"Home", navCat:"Categories", navCart:"Cart", navProfile:"Profile", catTitle:"Categories",
     wTitle:"The vegan shopping race", wStart:"Start round 1 →",
     wBody:"Hi, I'm <b>Loulou</b>! 🐰 You'll do the <b>same shop twice</b> — once <b>without</b> the vegan filter, once <b>with</b> it — and we'll compare your time. Each round, add these 5 things to your cart. For the <b>bread</b> and <b>noodles</b>, any vegan one counts — but you'll have to <b>read the ingredients</b> to spot it.",
     r2Title:"Round 1 done!", r2Start:"Start round 2 with the filter →", r2Round1:"Round 1 · no filter",
@@ -803,7 +835,7 @@ const T = {
   zh:{
     appTitle:"网上超市", veganMode:"纯素筛选",
     listTitle:"你的购物清单", ingredients:"配料表",
-    navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的",
+    navHome:"首页", navCat:"分类", navCart:"购物车", navProfile:"我的", catTitle:"商品分类",
     wTitle:"纯素购物大比拼", wStart:"开始第 1 轮 →",
     wBody:"你好，我是<b>萝萝</b>！🐰 你会把<b>同样的东西买两次</b>——一次<b>不用</b>纯素筛选，一次<b>用</b>——然后比较用时。每一轮把这 5 样加入购物车。<b>面包</b>和<b>方便面</b>：任意一种纯素的都算，但你得<b>看配料表</b>才能找到它。",
     r2Title:"第 1 轮完成！", r2Start:"用筛选开始第 2 轮 →", r2Round1:"第 1 轮 · 无筛选",
@@ -977,15 +1009,12 @@ function renderSections(){
     // sauce = the soy-sauce goal item). x-flagged items are vegan decoys.
     const isAns = (cat.key==="bread"||cat.key==="noodle") ? (i=>P[i].v && !P[i].x)
                 : (cat.key==="sauce") ? (i=>P[i].g==="soysauce") : null;
-    if(cat.key==="bread" && !veganOn){
-      // push the vegan bread (sourdough) 5 cards deeper so it takes real looking
-      const vi=ids.findIndex(isAns);
-      if(vi>=0){const [it]=ids.splice(vi,1);ids.splice(Math.min(vi+5,ids.length),0,it);}
-    } else if(isAns && isAns(ids[0])){
+    // never show a correct pick as the first card in its aisle (keeps some searching)
+    if(isAns && isAns(ids[0])){
       const j=ids.findIndex(i=>!isAns(i));
       if(j>0){const t=ids[0];ids[0]=ids[j];ids[j]=t;}
     }
-    html+='<div class="cathead"><h2>'+catName(cat.key)+'</h2><span class="cnt">'+T[lang].items(ids.length)+'</span></div>';
+    html+='<div class="cathead" data-cat="'+cat.key+'"><h2>'+catName(cat.key)+'</h2><span class="cnt">'+T[lang].items(ids.length)+'</span></div>';
     html+='<div class="grid">'+ids.map(cardHTML).join("")+'</div>';
   });
   $("#sections").innerHTML=html;
@@ -1016,11 +1045,7 @@ function renderWelcomeList(){
     w.appendChild(d);
   });
 }
-function renderRoundbar(){
-  $("#rlabel").textContent=T[lang].round(round,veganOn);
-  $(".roundbar .dot").style.background=veganOn?"var(--green)":"var(--red)";
-  $("#rlabel").style.color=veganOn?"var(--green-d)":"var(--muted)";
-}
+function renderRoundbar(){ /* round indicator removed */ }
 
 /* ---------- detail sheet ---------- */
 let sheetI=-1;
@@ -1058,6 +1083,7 @@ function addItem(i){
     mistakes++; updateMiss();   // wrong item, off-list item, or already-in-cart
     if(g){loulouSay(T[lang].already,"mistake");return;}
     const b=p.bad?(lang==="zh"?p.bad.zh:p.bad.en):null;
+    if(p.v) flashList();   // vegan, but not on the list -> nudge toward the list
     loulouSay(p.v?T[lang].notList(name(p)):(b?T[lang].notVeganR(name(p),b):T[lang].notVegan(name(p))),"mistake");
   }
 }
@@ -1066,6 +1092,25 @@ function bumpCart(){
   [b1,b2].forEach(b=>{b.textContent=found.size;b.classList.add("pop");setTimeout(()=>b.classList.remove("pop"),200);});
 }
 function updateMiss(){const m=$("#miss");m.textContent="✗ "+mistakes+" "+T[lang].mistakes;m.classList.toggle("bad",mistakes>0);}
+function flashList(){const l=$("#listcard");if(!l)return;l.classList.remove("flash");void l.offsetWidth;l.classList.add("flash");setTimeout(()=>l.classList.remove("flash"),900);}
+
+/* ---------- category quick-nav ---------- */
+const CATICON={protein:"🥩",bread:"🍞",veg:"🥬",noodle:"🍜",sauce:"🍶",pantry:"🍚"};
+function openCatMenu(){
+  const list=$("#catlist"); list.innerHTML="";
+  document.querySelectorAll(".cathead").forEach(h=>{
+    const key=h.dataset.cat, cnt=h.querySelector(".cnt").textContent;
+    const row=document.createElement("div"); row.className="catrow"; row.dataset.cat=key;
+    row.innerHTML='<span class="ci">'+(CATICON[key]||"")+'</span>'+catName(key)+'<span class="cc">'+cnt+'</span>';
+    list.appendChild(row);
+  });
+  $("#catmenu").classList.add("show");
+}
+function closeCatMenu(){$("#catmenu").classList.remove("show");}
+function scrollToCat(key){
+  const h=document.querySelector('.cathead[data-cat="'+key+'"]'), sc=$("#scroll"); if(!h||!sc) return;
+  sc.scrollTo({top:h.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop-4,behavior:"smooth"});
+}
 
 function applyVeganStyle(on){
   document.documentElement.style.setProperty("--accent",on?"var(--green)":"var(--red)");
@@ -1169,7 +1214,6 @@ function reset(){
   $("#timer").textContent="⏱ 00:00"; updateMiss();
   $("#cartBadge").textContent="0"; $("#cartBadge2").textContent="0";
   veganOn=false; applyVeganStyle(false);
-  $("#rlabel").textContent="";
   renderSections(); renderChips();
   $("#welcome").classList.add("show");
 }
@@ -1199,6 +1243,10 @@ $("#switch").addEventListener("click",()=>{
   if(filterLocked){loulouSay(veganOn?T[lang].lockedOn:T[lang].lockedOff);return;}
 });
 $("#introBtn").addEventListener("click",()=>{$("#intro").classList.remove("show");$("#welcome").classList.add("show");});
+$("#menuBtn").addEventListener("click",openCatMenu);
+$("#catBtn").addEventListener("click",openCatMenu);
+$("#catmenuClose").addEventListener("click",closeCatMenu);
+$("#catlist").addEventListener("click",e=>{const r=e.target.closest(".catrow");if(r){scrollToCat(r.dataset.cat);closeCatMenu();}});
 $("#startBtn").addEventListener("click",startGame);
 $("#round2Btn").addEventListener("click",goRound2);
 $("#useFilterBtn").addEventListener("click",escapeToFilter);
