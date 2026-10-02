@@ -97,12 +97,10 @@
   .listcard{margin:6px 14px 2px;background:linear-gradient(180deg,#fff,#fffdf8);
     border:1px solid var(--line);border-radius:16px;padding:11px 13px;flex:none;
     box-shadow:0 2px 8px rgba(74,53,39,.05);}
-  .listcard.flash{animation:listflash 1s ease-out;}
+  .listcard.flash{animation:listflash .7s ease-out;}
   @keyframes listflash{
     0%{box-shadow:0 0 0 0 rgba(90,158,63,.55),0 2px 8px rgba(74,53,39,.05);border-color:var(--green);background:#e7f2d8;transform:scale(1.025);}
-    18%{box-shadow:0 0 0 7px rgba(90,158,63,.5),0 2px 8px rgba(74,53,39,.05);border-color:var(--green);background:#e2efd1;transform:scale(1.025);}
-    40%{box-shadow:0 0 0 0 rgba(90,158,63,0),0 2px 8px rgba(74,53,39,.05);border-color:var(--line);background:#fff;transform:scale(1);}
-    58%{box-shadow:0 0 0 7px rgba(90,158,63,.45),0 2px 8px rgba(74,53,39,.05);border-color:var(--green);background:#e7f2d8;transform:scale(1.02);}
+    22%{box-shadow:0 0 0 7px rgba(90,158,63,.5),0 2px 8px rgba(74,53,39,.05);border-color:var(--green);background:#e2efd1;transform:scale(1.025);}
     100%{box-shadow:0 0 0 0 rgba(90,158,63,0),0 2px 8px rgba(74,53,39,.05);border-color:var(--line);background:#fff;transform:scale(1);}}
   .listhead{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
   .listhead b{font-size:14px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -1095,7 +1093,7 @@ function bumpCart(){
   [b1,b2].forEach(b=>{b.textContent=found.size;b.classList.add("pop");setTimeout(()=>b.classList.remove("pop"),200);});
 }
 function updateMiss(){const m=$("#miss");m.textContent="✗ "+mistakes+" "+T[lang].mistakes;m.classList.toggle("bad",mistakes>0);}
-function flashList(){const l=$("#listcard");if(!l)return;l.classList.remove("flash");void l.offsetWidth;l.classList.add("flash");setTimeout(()=>l.classList.remove("flash"),1000);}
+function flashList(){const l=$("#listcard");if(!l)return;l.classList.remove("flash");void l.offsetWidth;l.classList.add("flash");setTimeout(()=>l.classList.remove("flash"),700);}
 
 /* ---------- category quick-nav ---------- */
 const CATICON={protein:"🥩",bread:"🍞",veg:"🥬",noodle:"🍜",sauce:"🍶",pantry:"🍚"};
