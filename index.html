@@ -43,7 +43,8 @@
     padding:5px 12px;border-radius:999px;cursor:pointer;font:inherit;}
   .lang button.on{background:var(--ink);color:#fff;}
   /* inline header language toggle — only shown on phones (frame off) */
-  .langHdr{display:none;background:#f0e7d6;border-radius:999px;padding:2px;flex:none;}
+  .langHdr{display:none;background:#f0e7d6;border-radius:999px;padding:2px;flex:none;
+    position:relative;z-index:55;}   /* above modal overlays so it isn't blurred */
   .langHdr button{border:0;background:transparent;color:var(--muted);font:inherit;
     font-weight:800;font-size:12px;padding:4px 9px;border-radius:999px;cursor:pointer;}
   .langHdr button.on{background:var(--ink);color:#fff;}
