@@ -1281,12 +1281,10 @@ document.querySelectorAll(".bunnycol").forEach(el=>{
   el.innerHTML='<div class="bunnyslot"><img class="bunnyimg" src="'+BUNNY_IMG+'" alt="Loulou"></div><div class="bunnyname" data-t="bunnyName">'+T[lang].bunnyName+'</div>';
 });
 renderSections(); renderChips(); renderWelcomeList(); updateMiss();
-// pick language: ?lang= / #lang in the URL wins, else the device locale, else English.
+// pick language: ?lang= / #lang in the URL wins; default is Chinese (English via ?lang=en).
 (function(){
   var forced=(new URLSearchParams(location.search).get("lang")||location.hash.replace(/^#/,"")).toLowerCase();
-  if(/^(zh|cn|zh-cn|chinese|中文)$/.test(forced)) lang="zh";
-  else if(/^(en|english)$/.test(forced)) lang="en";
-  else if((navigator.language||"").toLowerCase().startsWith("zh")) lang="zh";
+  lang=/^(en|english)$/.test(forced) ? "en" : "zh";
 })();
 setLang(lang);
 </script>
