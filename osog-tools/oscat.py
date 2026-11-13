@@ -1,7 +1,7 @@
 # Regroup OSOG's US aisle layout into simpler departments.
-DEPTS=[('produce','Fruit & Veg','🥬',112,['Fresh Fruit','Fresh Vegetables','Fresh Herbs','Salads & Packaged Produce']),
- ('meat','Meat, Seafood & Eggs','🥩',6,['Poultry','Red Meat','Sausages, Burgers & Deli','Seafood','Canned Meat & Fish','Eggs']),
+DEPTS=[('meat','Meat, Seafood & Eggs','🥩',6,['Poultry','Red Meat','Sausages, Burgers & Deli','Seafood','Canned Meat & Fish','Eggs']),
  ('dairy','Milk & Dairy','🥛',214,['Milk','Yogurt','Cheese','Butter & Spreads','Cream','Dairy Desserts']),
+ ('produce','Fruit & Veg','🥬',112,['Fresh Fruit','Fresh Vegetables','Fresh Herbs','Salads & Packaged Produce']),
  ('bakery','Bakery','🍞',34,['Bread','Buns & Rolls','Tortillas & Flatbread','Breakfast Bakery','Cakes & Desserts']),
  ('pantry','Pantry & Seasoning','🍚',44,['Pasta','Rice, Grains & Beans','Breakfast & Cereal','Baking','Spices','Oils & Vinegar','Sauces & Marinades','Condiments & Dressings','Spreads, Honey & Syrup','World Foods','Canned Vegetables & Beans','Canned Fruit']),
  ('instant','Instant & Frozen','🍜',18,['Instant Meals','Soups & Broth','Frozen Meals & Pizza','Frozen Fruit & Veg','Frozen Breakfast & Snacks','Ice Cream & Frozen Desserts']),

@@ -57,5 +57,11 @@ r("  img.ph{width:100%;height:100%;object-fit:cover;display:block;}","  #langBtn
 r("<a href=\"#/c/'+(vegan?'tofu':'produce')+'\">","<a href=\"#/\">") if "(vegan?'tofu':'produce')" in s else None
 r("esc(lang==='zh'?p.br[0]:p.br[1])+' · '+L(p.d)","L(p.d)")
 r("(p.b.zh+p.br[0]+p.s.zh+p.d.zh+' '+p.b.en+' '+p.br[1]+' '+p.s.en+' '+p.d.en)","p.b.en")
+r("  else list.sort(byPop);","  else{list.sort(byPop);if(!vegan&&LEAD)list=leadNV(list,LEAD);}")
+r("var d=deptOf(dk);if(!d)return viewHome();","var d=deptOf(dk);if(!d)return viewHome();LEAD=LEADS[d.k]||0;")
+r("function viewSearch(q){","function viewSearch(q){LEAD=0;")
+r("row=vis.filter(function(p){return p.d===d;}).sort(byPop).filter(","row=leadNV(vis.filter(function(p){return p.d===d;}).sort(byPop),vegan?0:(LEADS[d.k]?99:0)).filter(")
+r("function byPop(a,b)","// keep vegan items out of the first rows of these departments (10 = two rows, 5 = one row on the widest layout)\nvar LEADS={meat:10,bakery:5,snacks:5},LEAD=0;\nfunction leadNV(list,n){var a=[],b=[];list.forEach(function(p){(!p.v&&a.length<n?a:b).push(p);});return a.concat(b);}\nfunction byPop(a,b)")
+r("  #langBtn{display:none;}","  #langBtn,#loginBtn{display:none;}")
 open('/home/user/VF/osog.html','w',encoding='utf8').write(s)
 print(len(s),len(data),sum(d[4] for d in data))
