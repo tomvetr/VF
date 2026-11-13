@@ -3,17 +3,22 @@ S=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,S)
 import osog
 sel=set(json.load(open(S+'/ossel.json')))
 rows=[x for x in osog.rows if x['id'] in sel]
-EM={'1':('🥬',112),'2':('🥩',6),'3':('🍞',34),'4':('🥣',44),'5':('🫙',18),'6':('🥫',200),'7':('🍪',330),'8':('🧃',262),'9':('🧊',196)}
+import oscat,collections
+for x in rows: x['nd'],x['ns']=oscat.newcat(x)
 depts=[];di={};si={}
-for c in sorted({x['categoryId'] for x in rows},key=int):
-    subs=sorted({x['subcategoryOrder'] for x in rows if x['categoryId']==c},key=int)
-    di[c]=len(depts)
-    for j,s in enumerate(subs): si[(c,s)]=j
-    depts.append({'k':'c'+c,'en':osog.CN[c],'zh':osog.CN[c],'e':EM[c][0],'hue':EM[c][1],'subs':[{'k':'s'+s,'en':osog.SN[(c,s)],'zh':osog.SN[(c,s)]} for s in subs]})
+for k,en,e,hue,subs in oscat.DEPTS:
+    used=[n for n in subs if any(x['nd']==k and x['ns']==n for x in rows)]
+    assert all(x['ns'] in subs for x in rows if x['nd']==k),[x['ns'] for x in rows if x['nd']==k and x['ns'] not in subs][:3]
+    di[k]=len(depts)
+    for j,n in enumerate(used): si[(k,n)]=j
+    depts.append({'k':k,'en':en,'zh':en,'e':e,'hue':hue,'subs':[{'k':'s%d'%j,'en':n,'zh':n} for j,n in enumerate(used)]})
+cnt=collections.defaultdict(collections.Counter)
+for x in rows: cnt[x['nd']][x['cls']]+=1
+print({k:(v['v'],v['n']) for k,v in cnt.items()})
 def cl(t): return re.sub(r'\s+',' ',t.replace('NULL','')).strip()
 data=[]
-for x in sorted(rows,key=lambda x:(int(x['categoryId']),int(x['subcategoryOrder']),x['h'])):
-    data.append([int(x['id']),cl(x['name']),cl(x['size']),float(x['price']),1 if x['cls']=='v' else 0,di[x['categoryId']],si[(x['categoryId'],x['subcategoryOrder'])],cl(x['ingredients'])])
+for x in sorted(rows,key=lambda x:(di[x['nd']],si[(x['nd'],x['ns'])],x['h'])):
+    data.append([int(x['id']),cl(x['name']),cl(x['size']),float(x['price']),1 if x['cls']=='v' else 0,di[x['nd']],si[(x['nd'],x['ns'])],cl(x['ingredients'])])
 s=open('/home/user/VF/supermarket.html',encoding='utf8').read()
 a=s.index('var TARGET=1000;'); b=s.index('var NVEG=PRODUCTS')
 new='''var DEPTS=%s;
