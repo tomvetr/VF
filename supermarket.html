@@ -490,7 +490,9 @@ var DEPTS=[
 🍦|香草冰淇淋|Vanilla ice cream|29.9|500g|2|0|牛奶、稀奶油、白砂糖、蛋黄、香草|milk, cream, sugar, egg yolk, vanilla|含牛奶和蛋黄|milk and egg yolk
 🍨|巧克力雪糕|Chocolate ice cream bars|19.9|6支|2`),
  S('plant','植物奶','Plant-based',`
-🥛|原味豆浆|Soy milk|6.9|1L|3|1|水、大豆|water, soybeans
+🥛|原味豆浆|Soy milk|6.9|1L|3!|1|水、大豆|water, soybeans
+🍌|香蕉味豆奶|Banana soy milk|7.9|1L|1|1|水、大豆、白砂糖、香蕉浓缩汁|water, soybeans, sugar, banana juice concentrate
+🍫|巧克力豆奶|Chocolate soy milk|7.9|1L|1|1|水、大豆、白砂糖、可可粉|water, soybeans, sugar, cocoa
 🥛|燕麦奶|Oat milk|19.9|1L|3|1|水、燕麦、菜籽油、盐|water, oats, rapeseed oil, salt
 🥛|杏仁奶|Almond milk|18.9|1L|2|1|水、杏仁、盐|water, almonds, salt
 🥥|椰奶|Coconut milk|9.9|400ml|2|1|椰肉汁、水|coconut extract, water
@@ -897,12 +899,12 @@ var PRODUCTS=[],BASES=[];
       s.dept=d;s.hue=(d.hue+si*13)%360;
       s.rows.forEach(function(r,ri){
         var f=r.split('|'),pool=s.brands||d.brands;
-        var b={d:d,s:s,e:f[0],zh:f[1],en:f[2],p:+f[3],sizes:f[4].split(','),nb:+f[5]||1,
+        var b={d:d,s:s,e:f[0],zh:f[1],en:f[2],p:+f[3],sizes:f[4].split(','),nb:parseInt(f[5])||1,keep:/!/.test(f[5]),
           v:f[6]===undefined||f[6]===''?d.dv:+f[6],ingZh:f[7]||'',ingEn:f[8]||'',
           whyZh:f[9]||(s.why||d.why||['含动物成分'])[0],whyEn:f[10]||(s.why||d.why||['','contains animal-derived ingredients'])[1],
           pool:pool,off:(di*3+si*5+ri)%pool.length,skus:[]};
         b.mixed=d.k!=='produce'&&d.k!=='meat';
-        var nbr=!b.mixed?Math.min(b.nb,pool.length):b.v?1:pool.length,nsz=b.mixed&&b.v?1:b.sizes.length;
+        var nbr=!b.mixed||b.keep?Math.min(b.nb,pool.length):b.v?1:pool.length,nsz=b.mixed&&b.v?1:b.sizes.length;
         for(var bi=0;bi<nbr;bi++)for(var zi=0;zi<nsz;zi++)b.skus.push([bi,zi]);
         BASES.push(b);
       });
