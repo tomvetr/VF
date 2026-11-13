@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>禾鲜汇 — 网上超市</title>
+<title>HEXIAN Market — Online Supermarket</title>
 <style>
   :root{
     --brand:#1456d8; --brand-d:#0e41a8; --brand-l:#e8f0ff;
@@ -986,7 +986,7 @@ en:{title:'HEXIAN Market — Online Supermarket',logo:'HEXIAN',stripL:'🎉 ¥20
 };
 
 /* ---------- state & helpers ---------- */
-var lang='zh',vegan=false,cart={},sort='pop',onlyDeal=false,limit=40,lastRoute='';
+var lang='en',vegan=false,cart={},sort='pop',onlyDeal=false,limit=40,lastRoute='';
 var $=function(s){return document.querySelector(s);};
 function t(k){return T[lang][k];}
 function L(o){return lang==='zh'?o.zh:o.en;}
@@ -1166,7 +1166,7 @@ window.addEventListener('hashchange',function(){closeAll();route();});
 /* ---------- init ---------- */
 (function(){
   var qs=new URLSearchParams(location.search);
-  if(/^(en|english)$/i.test(qs.get('lang')||''))lang='en';
+  if(/^(zh|cn|chinese)$/i.test(qs.get('lang')||''))lang='zh';
   try{var c=JSON.parse(localStorage.getItem('hx_cart')||'{}');for(var k in c)if(PRODUCTS[k]&&c[k]>0)cart[k]=c[k];}catch(e){}
   chrome();
   if(qs.get('vegan')==='1')setVegan(true);else route();
