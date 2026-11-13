@@ -269,7 +269,6 @@
 </head>
 <body>
 
-<div class="strip"><div class="wrap"><span id="stripL"></span><span id="stripR"></span></div></div>
 
 <header class="hdr">
   <div class="wrap hrow">
@@ -296,10 +295,6 @@
 
 <main><div class="wrap" id="app"></div></main>
 
-<footer><div class="wrap">
-  <div class="fcols" id="fcols"></div>
-  <div class="disc" id="disc"></div>
-</div></footer>
 
 <div class="tabbar" id="tabbar"></div>
 <div class="ov" id="ov" data-act="closeall"></div>
@@ -1010,7 +1005,7 @@ function visual(p){return isPack(p)?'<span class="pack"><i>'+esc(lang==='zh'?p.b
 function ctl(id){var q=cart[id]||0;return q?'<span class="step"><button data-act="dec" data-id="'+id+'" aria-label="-">−</button><b>'+q+'</b><button data-act="inc" data-id="'+id+'" aria-label="+">+</button></span>':'<button class="addbtn" data-act="inc" data-id="'+id+'" aria-label="'+t('add')+'">+</button>';}
 function card(p){
   var tags=(p.was?'<span class="tag">'+t('tagDeal')+'</span>':'')+(p.org?'<span class="tag org">'+t('tagOrg')+'</span>':p.isNew?'<span class="tag new">'+t('tagNew')+'</span>':p.own?'<span class="tag own">'+t('tagOwn')+'</span>':'');
-  return '<article class="card"><div class="thumb" style="--h:'+p.s.hue+'" data-act="open" data-id="'+p.id+'">'+visual(p)+'<div class="tags">'+tags+'</div>'+(p.v?'<span class="vbadge">🌱 '+t('vb')+'</span>':'')+'</div>'+
+  return '<article class="card"><div class="thumb" style="--h:'+p.s.hue+'" data-act="open" data-id="'+p.id+'">'+visual(p)+'<div class="tags">'+tags+'</div>'+'</div>'+
    '<div class="cbody"><h3 class="cname" data-act="open" data-id="'+p.id+'">'+esc(pname(p))+'</h3><div class="cspec">'+esc(sizeT(p.size))+' · '+t('sold')(p.sold)+'</div>'+
    '<div class="prow">'+priceH(p)+'<span data-ctl="'+p.id+'">'+ctl(p.id)+'</span></div></div></article>';
 }
@@ -1025,7 +1020,6 @@ function viewHome(){
   var h='<section class="hero"><div class="banner"><h1>'+(vegan?t('vheroH'):t('heroH'))+'</h1><p>'+(vegan?t('vheroP')(NVEG):t('heroP'))+'</p><a href="#/c/'+(vegan?'tofu':'produce')+'">'+(vegan?t('vheroB'):t('heroB'))+'</a><div class="art">'+(vegan?'🥦🥕🍄':'🍓🥬🍊')+'</div></div>'+
     '<div class="sidepromo"><div class="promo a"><b>'+t('p1')+'</b><span>'+t('p1s')+'</span><i>🎁</i></div><div class="promo b"><b>'+t('p2')+'</b><span>'+t('p2s')+'</span><i>🏷️</i></div></div></section>';
   h+='<section class="sec"><div class="depts">'+DEPTS.map(function(d){return '<a href="#/c/'+d.k+'" style="--h:'+d.hue+'"><i>'+d.e+'</i>'+L(d)+'</a>';}).join('')+'</div></section>';
-  h+='<section class="sec trust">'+[['🚚','t1'],['✅','t2'],['💰','t3'],['💬','t4']].map(function(x){return '<div><i>'+x[0]+'</i><span>'+t(x[1])+'<small>'+t(x[1]+'s')+'</small></span></div>';}).join('')+'</section>';
   h+='<section class="sec"><div class="sechead"><h2>⚡ '+t('deals')+'</h2><span class="sub">'+t('dealsS')+'</span></div><div class="hscroll">'+deals.map(card).join('')+'</div></section>';
   DEPTS.forEach(function(d){
     var seen={},row=vis.filter(function(p){return p.d===d;}).sort(byPop).filter(function(p){if(seen[p.b.zh])return false;seen[p.b.zh]=1;return true;}).slice(0,6);
@@ -1077,15 +1071,13 @@ function route(){
 /* ---------- chrome (header, footer, tab bar) ---------- */
 function chrome(){
   document.documentElement.lang=lang;document.title=t('title');
-  $('#logoName').textContent=t('logo');$('#stripL').textContent=t('stripL');$('#stripR').textContent=t('stripR');
+  $('#logoName').textContent=t('logo');
   $('#loc').innerHTML='<svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('loc');
   $('#q').placeholder=t('ph');$('#searchBtnT').textContent=t('search');$('#langBtn').textContent=t('lang');$('#loginBtn').textContent=t('login');$('#cartBtnT').textContent=t('cart');
   document.querySelectorAll('.vegan .vl').forEach(function(x){x.textContent=t('vegan');});
   document.querySelectorAll('.vegan').forEach(function(x){x.setAttribute('aria-pressed',vegan);});
   $('#deptbar').innerHTML='<a href="#/" data-k="">'+t('home')+'</a>'+DEPTS.map(function(d){return '<a href="#/c/'+d.k+'" data-k="'+d.k+'">'+L(d)+'</a>';}).join('');
   $('#vnoteT').textContent=t('vnote')(PRODUCTS.length-NVEG);$('#vnoteOff').textContent=t('vnoteOff');
-  $('#fcols').innerHTML=[1,2,3,4].map(function(i){return '<div><h5>'+t('f'+i)+'</h5><span>'+t('f'+i+'a')+'</span><span>'+t('f'+i+'b')+'</span><span>'+t('f'+i+'c')+'</span></div>';}).join('');
-  $('#disc').textContent=t('disc');
   var I={home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',cats:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',cart:'<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/>',me:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
   $('#tabbar').innerHTML=[['home','gohome'],['cats','sheet'],['cart','cart'],['me','demo']].map(function(x){return '<button data-act="'+x[1]+'"'+(x[0]==='home'?' class="on"':'')+'><svg class="ic" viewBox="0 0 24 24">'+I[x[0]]+'</svg>'+t(x[0])+(x[0]==='cart'?'<span class="cnt" data-cnt>0</span>':'')+'</button>';}).join('');
   badge();
