@@ -1,22 +1,37 @@
 # Regroup OSOG's US aisle layout into simpler departments.
 DEPTS=[('produce','Fruit & Veg','🥬',112,['Fresh Fruit','Fresh Vegetables','Fresh Herbs','Salads & Packaged Produce']),
- ('meat','Meat, Seafood & Eggs','🥩',6,['Poultry','Red Meat','Deli & Sausage','Seafood','Canned Meat & Fish','Eggs']),
- ('dairy','Dairy & Plant Milk','🥛',214,['Milk','Plant Milk & Dairy-Free','Yogurt','Cheese','Butter & Spreads','Cream','Dairy Desserts']),
+ ('meat','Meat, Seafood & Eggs','🥩',6,['Poultry','Red Meat','Sausages, Burgers & Deli','Seafood','Canned Meat & Fish','Eggs']),
+ ('dairy','Milk & Dairy','🥛',214,['Milk','Yogurt','Cheese','Butter & Spreads','Cream','Dairy Desserts']),
  ('bakery','Bakery','🍞',34,['Bread','Buns & Rolls','Tortillas & Flatbread','Breakfast Bakery','Cakes & Desserts']),
- ('plant','Tofu & Plant-based','🌱',86,['Tofu & Meat Alternatives']),
  ('pantry','Pantry & Seasoning','🍚',44,['Pasta','Rice, Grains & Beans','Breakfast & Cereal','Baking','Spices','Oils & Vinegar','Sauces & Marinades','Condiments & Dressings','Spreads, Honey & Syrup','World Foods','Canned Vegetables & Beans','Canned Fruit']),
  ('instant','Instant & Frozen','🍜',18,['Instant Meals','Soups & Broth','Frozen Meals & Pizza','Frozen Fruit & Veg','Frozen Breakfast & Snacks','Ice Cream & Frozen Desserts']),
  ('snacks','Snacks','🍪',330,['Chips, Pretzels & Rice Cakes','Crackers','Cookies','Candy, Gum & Mints','Nuts & Dried Fruit','Popcorn','Bars','Dips & Salsa']),
  ('drinks','Drinks','🧃',262,['Water','Flavored & Sparkling Water','Soda','Juice','Bottled Tea','Sport & Energy Drinks','Coffee & Tea','Drink Mixes'])]
+import re
+MEATLIKE=re.compile(r"burger|sausage|dogs?\b|bacon|meatball|crumbles|strips|tenders|jerky|chick|nugget|patt(y|ies)|franks?|deli slices|ground",re.I)
+def alt(x,fallback):
+    n=x['name']
+    if re.search(r"tofu|tempeh",n,re.I): return 'dairy','Cheese'
+    if MEATLIKE.search(n): return 'meat','Sausages, Burgers & Deli'
+    return fallback
+def dairyfree(x):
+    n=x['name'].lower()
+    if re.match(r'(goya|iberia|madame|thai kitchen|native forest)',n): return 'pantry','World Foods'
+    if 'yogurt' in n: return 'dairy','Yogurt'
+    if 'creamer' in n or 'whip' in n: return 'dairy','Cream'
+    if 'spread' in n or 'butter' in n or 'margarine' in n: return 'dairy','Butter & Spreads'
+    if 'cheese' in n or 'shreds' in n or 'slices' in n: return 'dairy','Cheese'
+    return 'dairy','Milk'
 def newcat(x):
     c,s,ss=x['categoryId'],x['subcategoryOrder'],x['subsubcategoryOrder']
     k=(c,s); 
     if c=='1':
-        if s=='5': return ('produce','Fresh Vegetables') if 'mushroom cap' in x['name'].lower() else ('plant','Tofu & Meat Alternatives')
+        if s=='5': return ('produce','Fresh Vegetables') if 'mushroom cap' in x['name'].lower() else alt(x,('produce','Salads & Packaged Produce'))
         if s=='3': return {'3':('snacks','Dips & Salsa'),'4':('drinks','Juice')}.get(ss,('produce','Salads & Packaged Produce'))
         return 'produce',{'1':'Fresh Fruit','2':'Fresh Vegetables','4':'Fresh Herbs'}[s]
     if c=='2':
-        if s=='2': return 'meat',{'2':'Deli & Sausage','3':'Seafood','4':'Poultry','5':'Red Meat'}.get(ss,'Deli & Sausage')
+        if s=='2': return 'meat',{'2':'Sausages, Burgers & Deli','3':'Seafood','4':'Poultry','5':'Red Meat'}.get(ss,'Sausages, Burgers & Deli')
+        if ss=='9': return dairyfree(x)
         return {'1':('dairy','Cheese'),'2':('dairy','Yogurt'),'3':('dairy','Milk'),'4':('dairy','Cream'),'6':('meat','Eggs'),'7':('dairy','Butter & Spreads'),'8':('dairy','Butter & Spreads'),'9':('dairy','Plant Milk & Dairy-Free'),'10':('dairy','Dairy Desserts')}[ss]
     if c=='3':
         if s=='1': return 'bakery',{'1':'Bread','2':'Tortillas & Flatbread','3':'Buns & Rolls','4':'Breakfast Bakery','5':'Cakes & Desserts'}[ss]
@@ -34,5 +49,5 @@ def newcat(x):
     if c=='9':
         if s=='1': return 'bakery','Bread'
         if s=='3': return 'meat','Seafood'
-        if s=='4': return ('plant','Tofu & Meat Alternatives') if ss=='6' else ('instant','Frozen Meals & Pizza')
+        if s=='4': return alt(x,('instant','Frozen Meals & Pizza')) if ss=='6' else ('instant','Frozen Meals & Pizza')
         return 'instant',{'2':'Frozen Breakfast & Snacks','5':'Frozen Fruit & Veg','6':'Frozen Fruit & Veg','7':'Frozen Fruit & Veg','8':'Frozen Breakfast & Snacks','9':'Ice Cream & Frozen Desserts'}[s]
