@@ -310,7 +310,7 @@
    Catalogue line format:
    emoji|中文名|English|price|sizes|brands|vegan|配料|ingredients|非纯素原因|why not vegan
    ===================================================================== */
-var TARGET=1000,VEGAN_SHARE=0.3;
+var TARGET=1000;
 function S(k,zh,en,rows,opt){var o={k:k,zh:zh,en:en,rows:rows.trim().split('\n')};if(opt)for(var x in opt)o[x]=opt[x];return o;}
 var DEPTS=[
 {k:'produce',zh:'蔬菜水果',en:'Fruit & Veg',e:'🥬',hue:112,dv:1,pack:0,
@@ -901,18 +901,19 @@ var PRODUCTS=[],BASES=[];
           v:f[6]===undefined||f[6]===''?d.dv:+f[6],ingZh:f[7]||'',ingEn:f[8]||'',
           whyZh:f[9]||(s.why||d.why||['含动物成分'])[0],whyEn:f[10]||(s.why||d.why||['','contains animal-derived ingredients'])[1],
           pool:pool,off:(di*3+si*5+ri)%pool.length,skus:[]};
-        if(b.v)b.skus.push([0,0]);else for(var bi=0;bi<pool.length;bi++)for(var zi=0;zi<b.sizes.length;zi++)b.skus.push([bi,zi]);
+        b.mixed=d.k!=='produce'&&d.k!=='meat';
+        var nbr=!b.mixed?Math.min(b.nb,pool.length):b.v?1:pool.length,nsz=b.mixed&&b.v?1:b.sizes.length;
+        for(var bi=0;bi<nbr;bi++)for(var zi=0;zi<nsz;zi++)b.skus.push([bi,zi]);
         BASES.push(b);
       });
     });
   });
-  // mix: about 30% vegan. Vegan lines get one or two SKUs; non-vegan lines come in every brand and size.
-  var VT=Math.round(TARGET*VEGAN_SHARE),nv=BASES.filter(function(b){return b.v;}).length,i,b;
-  for(i=0;i<BASES.length&&nv<VT;i++){b=BASES[(i*7)%BASES.length];if(b.v&&b.pool.length>1){b.skus.push([1,0]);nv++;}}
-  for(i=0;i<BASES.length&&nv<VT;i++){b=BASES[(i*7)%BASES.length];if(b.v&&b.sizes.length>1){b.skus.push([0,1]);nv++;}}
+  // mix: fruit & veg and meat keep their natural range; in the mixed departments each vegan
+  // line has one SKU while non-vegan lines come in every brand and size.
+  var i,b;
   var total=BASES.reduce(function(a,b){return a+b.skus.length;},0),guard=0;
   while(total>TARGET&&guard++<20){
-    for(i=0;i<BASES.length&&total>TARGET;i++){b=BASES[(i*7)%BASES.length];if(!b.v&&b.skus.length>2){b.skus.pop();total--;}}
+    for(i=0;i<BASES.length&&total>TARGET;i++){b=BASES[(i*7)%BASES.length];if(b.mixed&&!b.v&&b.skus.length>2){b.skus.pop();total--;}}
   }
   BASES.forEach(function(b){
     var q0=qty(b.sizes[0]);
