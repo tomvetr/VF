@@ -139,6 +139,10 @@
   .side a{display:flex;justify-content:space-between;padding:8px 16px;font-size:13.5px;}
   .side a:hover{background:var(--bg);}
   .side a.on{color:var(--brand);font-weight:800;background:var(--brand-l);}
+  .side a.cur{font-weight:800;}
+  .side .subl{padding:2px 0 6px;}
+  .side .subl a{padding:6px 16px 6px 40px;font-size:13px;}
+  .side{max-height:calc(100vh - 150px);overflow-y:auto;}
   .side a span{color:var(--mut);font-size:11.5px;font-weight:500;}
   .side hr{border:0;border-top:1px solid var(--line);margin:8px 0;}
   .cathead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
@@ -439,9 +443,10 @@ function viewCat(dk,sk){
   var all=PRODUCTS.filter(function(p){return p.d===d&&(!sub||p.s===sub);});
   var cnt=function(f){return count(PRODUCTS.filter(f));};
   var chips='<div class="chips"><a class="chip'+(sub?'':' on')+'" href="#/c/'+d.k+'">'+t('all')+'</a>'+d.subs.map(function(s){return '<a class="chip'+(s===sub?' on':'')+'" href="#/c/'+d.k+'/'+s.k+'">'+L(s)+'</a>';}).join('')+'</div>';
-  var side='<aside class="side"><h4>'+L(d)+'</h4><a class="'+(sub?'':'on')+'" href="#/c/'+d.k+'">'+t('all')+'<span>'+cnt(function(p){return p.d===d;})+'</span></a>'+
-    d.subs.map(function(s){return '<a class="'+(s===sub?'on':'')+'" href="#/c/'+d.k+'/'+s.k+'">'+L(s)+'<span>'+cnt(function(p){return p.s===s;})+'</span></a>';}).join('')+'<hr><h4>'+t('cats')+'</h4>'+
-    DEPTS.filter(function(x){return x!==d;}).map(function(x){return '<a href="#/c/'+x.k+'">'+x.e+' '+L(x)+'</a>';}).join('')+'</aside>';
+  var side='<aside class="side"><h4>'+t('cats')+'</h4>'+DEPTS.map(function(x){
+    var h='<a class="'+(x===d?(sub?'cur':'on'):'')+'" href="#/c/'+x.k+'">'+x.e+' '+L(x)+(x===d?'<span>'+cnt(function(p){return p.d===x;})+'</span>':'')+'</a>';
+    if(x===d)h+='<div class="subl">'+x.subs.map(function(s){return '<a class="'+(s===sub?'on':'')+'" href="#/c/'+x.k+'/'+s.k+'">'+L(s)+'<span>'+cnt(function(p){return p.s===s;})+'</span></a>';}).join('')+'</div>';
+    return h;}).join('')+'</aside>';
   var crumb='<div class="crumb"><a href="#/">'+t('home')+'</a> › '+(sub?'<a href="#/c/'+d.k+'">'+L(d)+'</a> › '+L(sub):L(d))+'</div>';
   return crumb+listView(all,'<h1>'+d.e+' '+(sub?L(sub):L(d))+'</h1>',chips,side);
 }
