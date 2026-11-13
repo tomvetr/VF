@@ -51,5 +51,6 @@ r("localStorage.setItem('hx_cart'","localStorage.setItem('os_cart'")
 r("  img.ph{width:100%;height:100%;object-fit:cover;display:block;}","  #langBtn{display:none;}\n  img.ph{width:100%;height:100%;object-fit:contain;display:block;background:#fff;}")
 r("<a href=\"#/c/'+(vegan?'tofu':'produce')+'\">","<a href=\"#/\">") if "(vegan?'tofu':'produce')" in s else None
 r("esc(lang==='zh'?p.br[0]:p.br[1])+' · '+L(p.d)","L(p.d)")
+r("(p.b.zh+p.br[0]+p.s.zh+p.d.zh+' '+p.b.en+' '+p.br[1]+' '+p.s.en+' '+p.d.en)","p.b.en")
 open('/home/user/VF/osog.html','w',encoding='utf8').write(s)
 print(len(s),len(data),sum(d[4] for d in data))

@@ -2,7 +2,8 @@ import sys,os,json,collections,io,time,urllib.request,concurrent.futures as cf
 S=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,S+'/pylib'); sys.path.insert(0,S)
 from PIL import Image
 import osog
-Q={'1':(72,18),'2':(30,150),'3':(28,82),'4':(32,98),'5':(32,88),'6':(26,74),'7':(30,100),'8':(20,30),'9':(20,70)}
+Q={'1':(60,15),'2':(45,145),'3':(28,82),'4':(32,98),'5':(32,88),'6':(26,74),'7':(30,95),'8':(20,30),'9':(30,70)}
+PRIOR={'1':(lambda x:x['subcategoryOrder']=='5',12),'3':(lambda x:x['subcategoryOrder']=='1' and x['subsubcategoryOrder'] in('1','2','3'),16),'9':(lambda x:x['subcategoryOrder']=='4' and x['subsubcategoryOrder']=='6',15)}
 OUT='/home/user/VF/osog-images'
 badf=S+'/osbad.json'; bad=set(json.load(open(badf))) if os.path.exists(badf) else set()
 def fetch(x):
@@ -22,6 +23,9 @@ def pick():
     for c,(nv,nn) in Q.items():
         for cls,n in (('v',nv),('n',nn)):
             pool=[x for x in osog.rows if x['categoryId']==c and x['cls']==cls and x['id'] not in bad and x['name'].strip()]
+            if cls=='v' and c in PRIOR:
+                f,cap=PRIOR[c]; pr=sorted([x for x in pool if f(x)],key=lambda x:x['h'])[:cap]
+                sel+=pr; n-=len(pr); pool=[x for x in pool if not f(x)]
             g=collections.defaultdict(list)
             for x in pool: g[(x['subcategoryOrder'],x['subsubcategoryOrder'])].append(x)
             for k in g: g[k].sort(key=lambda x:x['h'])

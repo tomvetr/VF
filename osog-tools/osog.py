@@ -34,7 +34,9 @@ def classify(x):
     if re.search(r"glycerol|gum base",t): return '?'
     if re.search(STRICT_AMB,t): return '?'
     if len(ing)<25 and c!='1' and ',' not in ing and not marker: pass
-    if re.search(NAMENV,name):
+    strong=re.search(r"vegan|meatless|meat[- ]free|veggie|vegetarian|plant[- ]based|dairy[- ]free|non[- ]?dairy",x['name'].lower())
+    plantsec=(c=='1' and sub=='5') or (c=='9' and sub=='4' and ss=='6')
+    if re.search(NAMENV,name) and not strong and not plantsec:
         if (c=='6' and sub=='1') or (c=='9' and sub=='3'): return 'n'
         return '?'
     if c=='2' and sub=='1' and ss!='9' and not marker: return '?'
