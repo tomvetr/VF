@@ -82,6 +82,10 @@
   .pack i{display:block;width:100%;background:hsl(var(--h),58%,42%);color:#fff;font-style:normal;font-size:9.5px;font-weight:800;text-align:center;padding:3px 2px;white-space:nowrap;overflow:hidden;letter-spacing:.3px;}
   .pack .em{font-size:44px;margin:auto 0 0;filter:none;}
   .pack u{text-decoration:none;font-size:9px;color:#8a909c;margin:4px 0 6px;font-weight:700;}
+  img.ph{width:100%;height:100%;object-fit:cover;display:block;}
+  .thumb:has(img.ph){height:170px;background:#fff;}
+  .pd .pimg:has(img.ph){align-items:stretch;overflow:hidden;}
+  .line .li{overflow:hidden;}
   .tags{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;}
   .tag{font-size:10.5px;font-weight:800;border-radius:5px;padding:2px 6px;color:#fff;background:var(--price);}
   .tag.new{background:#f59e0b;} .tag.org{background:#0f9d58;} .tag.own{background:#334155;}
@@ -892,6 +896,8 @@ var TAILS={
 function hsh(n){n=(n+1)*2654435761>>>0;n^=n>>>15;n=Math.imul(n,2246822519)>>>0;n^=n>>>13;return n>>>0;}
 function qty(s){var m=/^([\d.]+)\s*(kg|g|ml|L)?/.exec(s),x=/x(\d+)/.exec(s);if(!m)return 0;var n=parseFloat(m[1]);if(m[2]==='kg'||m[2]==='L')n*=1000;return n*(x?+x[1]:1);}
 function nice(v){if(v>=100)return Math.round(v);if(v<5)return Math.round(v*10)/10;var f=Math.floor(v);return f+(v-f<0.45?0.5:0.9);}
+var PHOTOS="almond-milk,avocado,banana,beef-brisket,beef-jerky,beef-shank,bell-pepper,bird-s-eye-chili,bitter-melon,blueberry,bok-choy,broccoli,butter,butter-croissant,button-mushroom,caesar-salad,cantonese-sausage,carrot,cauliflower,celery,century-eggs,cheese-slices,cherries,chicken-breast-salad,chicken-feet,chinese-chives,chinese-kale,chocolate-cake-plant-based,chocolate-ice-cream-bars,clams,coconut-ice-cream,coconut-milk,cod-fillet,condensed-milk,coriander,crab-sticks,crayfish,cream-cheese,cucumber,cupcakes,cured-pork,custard-buns,daikon-radish,donuts,dried-kelp,dried-tofu,duck-legs,egg-tarts,egg-yolk-lotus-mooncake,eggplant,fish-balls,fish-tofu,five-nut-mooncake,french-baguette,fried-tofu-puffs,frozen-tofu,fuji-apple,garden-salad,garlic,greek-yogurt,green-pepper,grilled-eel,ground-beef,hairy-crab,hami-melon,honey-bagel,king-oyster-mushroom,kiwi,kyoho-grapes,lamb-chops,lemon,lettuce,luncheon-meat,mandarin,mango,milk-mantou,mozzarella,multigrain-bread,navel-orange,oat-milk,octopus,onion,oyster-mushroom,oysters,pancakes,peeled-prawns,pineapple-bun,plain-bagel,plain-yogurt,pork-belly,pork-floss,pork-floss-bun,pork-ribs,pork-shoulder-slices,pork-trotters,potato,pumpkin,quail-eggs,red-bean-bun,red-bean-buns,roast-duck,rye-bread,salmon-sashimi,salted-duck-eggs,scallion-rolls,scallops,seaweed-salad,shiitake-mushroom,sliced-ham,sole-fillet,sourdough-bread,steamed-buns-mantou,strawberry,strawberry-cream-cake,sweet-corn,swimming-crab,taiwanese-sausage,tofu-sheets,tofu-skin-sticks-yuba,tomato,vanilla-ice-cream,waffles,wakame,watermelon,whipping-cream,whole-wheat-bread,winter-melon,yellow-croaker,young-coconut";/*PHOTOS*/
+function slug(x){return x.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 var PRODUCTS=[],BASES=[];
 (function build(){
   DEPTS.forEach(function(d,di){
@@ -917,7 +923,9 @@ var PRODUCTS=[],BASES=[];
   while(total>TARGET&&guard++<20){
     for(i=0;i<BASES.length&&total>TARGET;i++){b=BASES[(i*7)%BASES.length];if(b.mixed&&!b.v&&b.skus.length>2){b.skus.pop();total--;}}
   }
+  var has={};PHOTOS.split(',').forEach(function(x){has[x]=1;});
   BASES.forEach(function(b){
+    var sl=slug(b.en);b.ph=has[sl]?'images/'+sl+'.jpg':'';
     var q0=qty(b.sizes[0]);
     b.skus.forEach(function(k){
       var br=b.pool[(b.off+k[0])%b.pool.length],sz=b.sizes[k[1]],q=qty(sz);
@@ -1003,7 +1011,8 @@ function priceH(p){var s=p.price.toFixed(2).split('.');return '<span class="pric
 var TOFU={T1:['#f7f0dc','#e4d8b8'],T2:['#c9a26b','#a9824c'],T3:['#f2d98a','#d9bb5c']};
 function em(e){if(TOFU[e]){var c=TOFU[e];return '<svg class="em" viewBox="0 0 52 52" width="1em" height="1em" style="width:1em;height:1em"><rect x="7" y="13" width="38" height="28" rx="5" fill="'+c[0]+'" stroke="'+c[1]+'" stroke-width="2"/><circle cx="18" cy="26" r="2.2" fill="'+c[1]+'"/><circle cx="31" cy="23" r="1.8" fill="'+c[1]+'"/><circle cx="35" cy="33" r="2.4" fill="'+c[1]+'"/><circle cx="22" cy="35" r="1.8" fill="'+c[1]+'"/></svg>';}return '<span class="em">'+e+'</span>';}
 function isPack(p){return p.s.pack!==undefined?p.s.pack:p.d.pack;}
-function visual(p){return isPack(p)?'<span class="pack"><i>'+esc(lang==='zh'?p.br[0]:p.br[1])+'</i>'+em(p.b.e)+'<u>'+esc(sizeT(p.size))+'</u></span>':em(p.b.e);}
+function photo(p){return '<img class="ph" loading="lazy" alt="" src="'+p.b.ph+'">';}
+function visual(p){return p.b.ph?photo(p):isPack(p)?'<span class="pack"><i>'+esc(lang==='zh'?p.br[0]:p.br[1])+'</i>'+em(p.b.e)+'<u>'+esc(sizeT(p.size))+'</u></span>':em(p.b.e);}
 function ctl(id){var q=cart[id]||0;return q?'<span class="step"><button data-act="dec" data-id="'+id+'" aria-label="-">−</button><b>'+q+'</b><button data-act="inc" data-id="'+id+'" aria-label="+">+</button></span>':'<button class="addbtn" data-act="inc" data-id="'+id+'" aria-label="'+t('add')+'">+</button>';}
 function card(p){
   var tags=(p.was?'<span class="tag">'+t('tagDeal')+'</span>':'')+(p.org?'<span class="tag org">'+t('tagOrg')+'</span>':p.isNew?'<span class="tag new">'+t('tagNew')+'</span>':p.own?'<span class="tag own">'+t('tagOwn')+'</span>':'');
@@ -1095,7 +1104,7 @@ function renderCart(){
   if(!ids.length){h+='<div class="dbody"><div class="empty" style="box-shadow:none"><i>🧺</i><b>'+t('cartEmpty')+'</b><div>'+t('cartEmptyS')+'</div></div></div><div class="dfoot"><button class="cta" data-act="closeall">'+t('goShop')+'</button></div>';}
   else{
     h+='<div class="ship">'+(tt.sub>=99?t('shipOk'):t('shipMore')((99-tt.sub).toFixed(1)))+'<div class="bar"><i style="width:'+Math.min(100,tt.sub/99*100)+'%"></i></div></div><div class="dbody">'+
-      ids.map(function(id){var p=PRODUCTS[id];return '<div class="line"><div class="li" style="--h:'+p.s.hue+'" data-act="open" data-id="'+id+'">'+em(p.b.e)+'</div><div class="ln"><b>'+esc(pname(p))+'</b><span>'+esc(sizeT(p.size))+'</span>'+(vegan&&!p.v?'<span class="nv">'+t('nv')+'</span>':'')+'<span class="lp">¥'+(p.price*cart[id]).toFixed(2)+'</span></div><span data-ctl="'+id+'">'+ctl(id)+'</span></div>';}).join('')+
+      ids.map(function(id){var p=PRODUCTS[id];return '<div class="line"><div class="li" style="--h:'+p.s.hue+'" data-act="open" data-id="'+id+'">'+(p.b.ph?photo(p):em(p.b.e))+'</div><div class="ln"><b>'+esc(pname(p))+'</b><span>'+esc(sizeT(p.size))+'</span>'+(vegan&&!p.v?'<span class="nv">'+t('nv')+'</span>':'')+'<span class="lp">¥'+(p.price*cart[id]).toFixed(2)+'</span></div><span data-ctl="'+id+'">'+ctl(id)+'</span></div>';}).join('')+
       '</div><div class="dfoot"><div class="sum"><span>'+t('subtotal')+'</span><span>¥'+tt.sub.toFixed(2)+'</span></div><div class="sum"><span>'+t('ship')+'</span><span>'+(tt.ship?'¥'+tt.ship.toFixed(2):t('free'))+'</span></div><div class="sum t"><span>'+t('total')+'</span><b>¥'+tt.total.toFixed(2)+'</b></div><button class="cta" data-act="checkout">'+t('checkout')+'</button></div>';
   }
   $('#cart').innerHTML=h;
