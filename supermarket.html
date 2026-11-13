@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>禾鲜汇 — 网上超市</title>
+<style>
+  :root{
+    --brand:#1456d8; --brand-d:#0e41a8; --brand-l:#e8f0ff;
+    --green:#12924a; --green-d:#0c7038; --green-l:#e6f6ec;
+    --price:#e23a2e; --ink:#1b1f27; --mut:#6b7280; --line:#e7e9ee;
+    --bg:#f3f4f7; --card:#ffffff; --warn:#fff6dd;
+    --r:12px; --shadow:0 1px 2px rgba(20,28,45,.06),0 4px 14px rgba(20,28,45,.05);
+  }
+  html.vg{ --brand:var(--green); --brand-d:var(--green-d); --brand-l:var(--green-l); }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--brand);outline-offset:2px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
+  svg.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* ---------- top strip + header ---------- */
+  .strip{background:var(--brand-d);color:#fff;font-size:12px;transition:background .3s;}
+  .strip .wrap{display:flex;justify-content:space-between;gap:12px;padding-top:6px;padding-bottom:6px;}
+  .strip span{opacity:.92;white-space:nowrap;}
+  .hdr{background:#fff;position:sticky;top:0;z-index:30;box-shadow:0 1px 0 var(--line);}
+  .hrow{display:flex;align-items:center;gap:16px;padding-top:12px;padding-bottom:12px;}
+  .logo{display:flex;align-items:center;gap:9px;flex:none;}
+  .logo .mark{width:38px;height:38px;border-radius:11px;background:var(--brand);display:flex;align-items:center;justify-content:center;color:#fff;transition:background .3s;}
+  .logo .mark svg{width:23px;height:23px;}
+  .logo b{font-size:21px;letter-spacing:.5px;display:block;line-height:1.05;}
+  .logo small{font-size:9.5px;letter-spacing:1.6px;color:var(--mut);display:block;}
+  .loc{display:flex;align-items:center;gap:4px;font-size:12.5px;color:var(--mut);flex:none;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .loc svg{width:15px;height:15px;color:var(--brand);}
+  .search{flex:1;display:flex;min-width:0;border:2px solid var(--brand);border-radius:10px;overflow:hidden;transition:border-color .3s;background:#fff;}
+  .search input{flex:1;min-width:0;border:0;outline:0;padding:9px 12px;font:inherit;background:transparent;color:var(--ink);}
+  .search button{background:var(--brand);color:#fff;padding:0 18px;font-weight:700;display:flex;align-items:center;gap:6px;transition:background .3s;}
+  .vegan{display:flex;align-items:center;gap:8px;flex:none;border:2px solid var(--green);border-radius:999px;padding:6px 8px 6px 12px;
+    color:var(--green-d);font-weight:800;background:#fff;transition:.25s;}
+  .vegan .sw{width:38px;height:22px;border-radius:999px;background:#cfd4dc;position:relative;transition:background .25s;flex:none;}
+  .vegan .sw:after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .25s;}
+  html.vg .vegan{background:var(--green);color:#fff;}
+  html.vg .vegan .sw{background:rgba(255,255,255,.35);}
+  html.vg .vegan .sw:after{left:18px;}
+  .hact{display:flex;align-items:center;gap:6px;flex:none;}
+  .hbtn{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:9px;font-size:13px;color:#3b4250;}
+  .hbtn:hover{background:var(--bg);}
+  .cartbtn{background:var(--brand-l);color:var(--brand-d);font-weight:800;padding:9px 14px;border-radius:10px;display:flex;align-items:center;gap:8px;transition:.3s;position:relative;}
+  .cartbtn .cnt{background:var(--price);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;}
+  .deptbar{background:var(--brand);transition:background .3s;}
+  .deptbar .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+  .deptbar .wrap::-webkit-scrollbar{display:none;}
+  .deptbar a{color:#fff;padding:10px 13px;font-weight:600;white-space:nowrap;font-size:13.5px;border-bottom:3px solid transparent;opacity:.93;}
+  .deptbar a:hover{background:rgba(255,255,255,.12);}
+  .deptbar a.on{border-bottom-color:#fff;opacity:1;background:rgba(255,255,255,.14);}
+  .vnote{background:var(--green-l);color:var(--green-d);font-weight:600;font-size:13px;display:none;border-bottom:1px solid #cfe9d9;}
+  html.vg .vnote{display:block;}
+  .vnote .wrap{display:flex;align-items:center;gap:10px;padding-top:8px;padding-bottom:8px;}
+  .vnote button{margin-left:auto;text-decoration:underline;font-weight:700;white-space:nowrap;}
+
+  /* ---------- generic ---------- */
+  main{min-height:60vh;padding:16px 0 40px;}
+  .sec{margin-top:22px;}
+  .sechead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+  .sechead h2{font-size:19px;margin:0;}
+  .sechead .sub{color:var(--mut);font-size:12.5px;}
+  .sechead a{margin-left:auto;color:var(--brand);font-weight:700;font-size:13px;white-space:nowrap;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:12px;}
+  .rowgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .hscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity;}
+  .hscroll .card{flex:0 0 186px;scroll-snap-align:start;}
+
+  /* ---------- product card ---------- */
+  .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;position:relative;min-width:0;}
+  .thumb{height:150px;background:hsl(var(--h),62%,95%);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;}
+  .thumb .em{font-size:66px;line-height:1;filter:drop-shadow(0 4px 5px rgba(0,0,0,.14));}
+  .pack{width:92px;height:112px;background:#fff;border-radius:9px 9px 12px 12px;box-shadow:0 6px 14px rgba(20,28,45,.16);display:flex;flex-direction:column;align-items:center;overflow:hidden;}
+  .pack i{display:block;width:100%;background:hsl(var(--h),58%,42%);color:#fff;font-style:normal;font-size:9.5px;font-weight:800;text-align:center;padding:3px 2px;white-space:nowrap;overflow:hidden;letter-spacing:.3px;}
+  .pack .em{font-size:44px;margin:auto 0 0;filter:none;}
+  .pack u{text-decoration:none;font-size:9px;color:#8a909c;margin:4px 0 6px;font-weight:700;}
+  .tags{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;}
+  .tag{font-size:10.5px;font-weight:800;border-radius:5px;padding:2px 6px;color:#fff;background:var(--price);}
+  .tag.new{background:#f59e0b;} .tag.org{background:#0f9d58;} .tag.own{background:#334155;}
+  .vbadge{position:absolute;top:8px;right:8px;background:var(--green);color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 8px;display:none;}
+  html.vg .vbadge{display:block;}
+  .cbody{padding:10px 11px 11px;display:flex;flex-direction:column;gap:4px;flex:1;}
+  .cname{font-size:13.5px;font-weight:600;line-height:1.35;height:2.7em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;cursor:pointer;margin:0;}
+  .cspec{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .prow{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;padding-top:4px;gap:6px;}
+  .price{color:var(--price);font-weight:800;font-size:19px;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .price em{font-style:normal;font-size:12px;margin-right:1px;}
+  .price small{font-size:12px;}
+  .price s{color:#a0a6b1;font-weight:500;font-size:11.5px;margin-left:5px;}
+  .addbtn{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .3s,transform .1s;flex:none;}
+  .addbtn:active{transform:scale(.88);}
+  .step{display:flex;align-items:center;border:1.5px solid var(--brand);border-radius:999px;height:30px;flex:none;}
+  .step button{width:28px;height:27px;font-size:17px;color:var(--brand);font-weight:700;}
+  .step b{min-width:20px;text-align:center;font-size:13px;font-variant-numeric:tabular-nums;}
+
+  /* ---------- home ---------- */
+  .hero{display:grid;grid-template-columns:2.2fr 1fr;gap:12px;}
+  .banner{border-radius:16px;padding:30px 34px;color:#fff;position:relative;overflow:hidden;min-height:230px;display:flex;flex-direction:column;justify-content:center;
+    background:linear-gradient(120deg,var(--brand-d),var(--brand) 60%,#4f8dff);transition:background .3s;}
+  html.vg .banner{background:linear-gradient(120deg,#0b6a35,#12924a 60%,#48c07d);}
+  .banner h1{font-size:34px;margin:0 0 8px;line-height:1.15;max-width:15em;text-wrap:balance;}
+  .banner p{margin:0 0 18px;opacity:.92;font-size:15px;}
+  .banner a{align-self:flex-start;background:#fff;color:var(--brand-d);font-weight:800;padding:10px 20px;border-radius:999px;}
+  .banner .art{position:absolute;right:18px;bottom:-6px;font-size:86px;letter-spacing:-12px;opacity:.95;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2));pointer-events:none;}
+  .sidepromo{display:grid;grid-template-rows:1fr 1fr;gap:12px;}
+  .promo{border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+  .promo b{font-size:18px;} .promo span{font-size:12.5px;opacity:.8;margin-top:3px;}
+  .promo i{position:absolute;right:12px;bottom:4px;font-size:52px;font-style:normal;}
+  .promo.a{background:#fff1d6;color:#7a4a00;} .promo.b{background:#ffe3e0;color:#8b1c14;}
+  .depts{display:grid;grid-template-columns:repeat(11,1fr);gap:8px;background:#fff;border-radius:16px;padding:16px 12px;box-shadow:var(--shadow);}
+  .depts a{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12.5px;font-weight:600;text-align:center;}
+  .depts a i{width:54px;height:54px;border-radius:50%;background:hsl(var(--h),62%,93%);display:flex;align-items:center;justify-content:center;font-size:28px;font-style:normal;transition:transform .15s;}
+  .depts a:hover i{transform:translateY(-3px);}
+  .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .trust div{background:#fff;border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:10px;font-weight:700;box-shadow:var(--shadow);}
+  .trust div small{display:block;font-weight:500;color:var(--mut);font-size:11.5px;}
+  .trust div i{font-style:normal;font-size:24px;}
+
+  /* ---------- category / search ---------- */
+  .crumb{font-size:12.5px;color:var(--mut);margin-bottom:10px;}
+  .crumb a{color:var(--brand);}
+  .cat>div{min-width:0;}
+  .cat{display:grid;grid-template-columns:210px minmax(0,1fr);gap:16px;align-items:start;}
+  .side{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:10px 0;position:sticky;top:128px;}
+  .side h4{margin:6px 16px 6px;font-size:12px;color:var(--mut);font-weight:700;letter-spacing:.5px;}
+  .side a{display:flex;justify-content:space-between;padding:8px 16px;font-size:13.5px;}
+  .side a:hover{background:var(--bg);}
+  .side a.on{color:var(--brand);font-weight:800;background:var(--brand-l);}
+  .side a span{color:var(--mut);font-size:11.5px;font-weight:500;}
+  .side hr{border:0;border-top:1px solid var(--line);margin:8px 0;}
+  .cathead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+  .cathead h1{font-size:22px;margin:0;}
+  .cathead .n{color:var(--mut);font-size:13px;}
+  .hid{background:var(--green-l);color:var(--green-d);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{white-space:nowrap;padding:6px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+  .tools{display:flex;align-items:center;gap:14px;background:#fff;border-radius:10px;padding:8px 12px;margin-bottom:12px;box-shadow:var(--shadow);font-size:13px;flex-wrap:wrap;}
+  .tools select{font:inherit;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:#fff;color:var(--ink);}
+  .tools label{display:flex;align-items:center;gap:6px;cursor:pointer;}
+  .more{display:block;margin:18px auto 0;background:#fff;border:1.5px solid var(--brand);color:var(--brand);font-weight:800;padding:10px 34px;border-radius:999px;}
+  .empty{background:#fff;border-radius:var(--r);padding:50px 20px;text-align:center;color:var(--mut);box-shadow:var(--shadow);}
+  .empty i{font-size:46px;font-style:normal;display:block;margin-bottom:8px;}
+
+  /* ---------- footer ---------- */
+  footer{background:#fff;border-top:1px solid var(--line);margin-top:20px;padding:26px 0 90px;color:#4b5563;font-size:13px;}
+  .fcols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .fcols h5{margin:0 0 8px;font-size:13.5px;color:var(--ink);}
+  .fcols span{display:block;margin:5px 0;}
+  .disc{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);}
+
+  /* ---------- overlays ---------- */
+  .ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,20,32,.5);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .ov.show{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:410px;max-width:100%;background:#fff;z-index:51;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  .drawer.show{transform:none;}
+  .dhead{display:flex;align-items:center;gap:8px;padding:15px 18px;border-bottom:1px solid var(--line);font-size:17px;font-weight:800;}
+  .dhead button{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--bg);font-size:18px;}
+  .ship{padding:10px 18px;background:var(--warn);font-size:12.5px;}
+  .ship .bar{height:6px;border-radius:999px;background:#f2e2b3;margin-top:6px;overflow:hidden;}
+  .ship .bar i{display:block;height:100%;background:#f59e0b;border-radius:999px;transition:width .3s;}
+  .dbody{flex:1;overflow-y:auto;padding:6px 18px;}
+  .line{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center;}
+  .line .li{width:56px;height:56px;border-radius:10px;background:hsl(var(--h),62%,94%);display:flex;align-items:center;justify-content:center;font-size:30px;flex:none;}
+  .line .ln{flex:1;min-width:0;}
+  .line .ln b{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .line .ln span{font-size:12px;color:var(--mut);}
+  .line .nv{display:inline-block;background:#fde8e6;color:#b3261e;border-radius:5px;font-size:10.5px;font-weight:800;padding:1px 6px;margin-left:6px;}
+  .line .lp{color:var(--price);font-weight:800;font-variant-numeric:tabular-nums;display:block;margin-top:2px;font-size:13.5px;}
+  .dfoot{border-top:1px solid var(--line);padding:14px 18px 18px;}
+  .sum{display:flex;justify-content:space-between;margin:4px 0;font-size:13px;color:#4b5563;}
+  .sum.t{font-size:16px;font-weight:800;color:var(--ink);margin-top:8px;}
+  .sum.t b{color:var(--price);font-size:20px;}
+  .cta{display:block;width:100%;background:var(--brand);color:#fff;font-weight:800;font-size:15.5px;padding:13px;border-radius:12px;margin-top:12px;transition:background .3s;text-align:center;}
+  .cta:disabled{background:#c5cad3;cursor:not-allowed;}
+  .cta.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand);}
+  .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.97);opacity:0;pointer-events:none;transition:.25s;z-index:52;background:#fff;border-radius:18px;
+    width:780px;max-width:calc(100% - 24px);max-height:calc(100% - 40px);overflow-y:auto;}
+  .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
+  .modal .x{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:var(--bg);font-size:18px;z-index:2;}
+  .pd{display:grid;grid-template-columns:300px 1fr;}
+  .pd .pimg{background:hsl(var(--h),62%,95%);display:flex;align-items:center;justify-content:center;min-height:320px;border-radius:18px 0 0 18px;}
+  .pd .pimg .em{font-size:130px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.16));}
+  .pd .pimg .pack{transform:scale(1.9);}
+  .pd .pimg .pack .em{font-size:44px;filter:none;}
+  .pinfo{padding:26px 26px 22px;}
+  .pinfo .br{color:var(--brand);font-weight:800;font-size:12.5px;letter-spacing:.3px;}
+  .pinfo h2{margin:4px 0 6px;font-size:21px;line-height:1.3;padding-right:30px;}
+  .pinfo .meta{color:var(--mut);font-size:12.5px;margin-bottom:12px;}
+  .pinfo .price{font-size:30px;}
+  .pinfo .price em{font-size:16px;} .pinfo .price small{font-size:17px;} .pinfo .price s{font-size:13px;}
+  .vok{display:none;margin:12px 0 0;background:var(--green-l);color:var(--green-d);border-radius:10px;padding:9px 12px;font-weight:700;font-size:13px;}
+  html.vg .vok{display:block;}
+  .pinfo dl{margin:14px 0 0;display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13px;}
+  .pinfo dt{color:var(--mut);white-space:nowrap;}
+  .pinfo dd{margin:0;}
+  .pinfo .buy{display:flex;align-items:center;gap:12px;margin-top:18px;}
+  .pinfo .buy .step{height:40px;} .pinfo .buy .step button{width:38px;height:36px;font-size:20px;} .pinfo .buy .step b{min-width:30px;font-size:15px;}
+  .pinfo .buy .cta{margin:0;flex:1;}
+  .co{padding:24px 26px;}
+  .co h2{margin:0 0 14px;font-size:20px;}
+  .co .box{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:13px;}
+  .co .box b{display:block;margin-bottom:3px;}
+  .co .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+  .co .pay span{border:1.5px solid var(--line);border-radius:9px;padding:6px 12px;font-weight:700;}
+  .co .pay span.on{border-color:var(--brand);color:var(--brand);background:var(--brand-l);}
+  .co .demo{background:var(--warn);border-radius:10px;padding:9px 12px;font-size:12.5px;margin:10px 0;}
+  .okmark{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-size:34px;display:flex;align-items:center;justify-content:center;margin:6px auto 12px;}
+  .sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;z-index:51;border-radius:18px 18px 0 0;transform:translateY(100%);transition:transform .28s;max-height:80%;overflow-y:auto;padding:8px 0 18px;}
+  .sheet.show{transform:none;}
+  .sheet h3{margin:10px 18px 8px;font-size:16px;}
+  .sheet a{display:flex;align-items:center;gap:12px;padding:12px 18px;font-weight:600;border-top:1px solid var(--line);}
+  .sheet a i{font-style:normal;font-size:22px;}
+  .sheet a span{margin-left:auto;color:var(--mut);font-size:12px;font-weight:500;}
+  .toast{position:fixed;left:50%;bottom:86px;transform:translate(-50%,16px);background:rgba(20,24,34,.94);color:#fff;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;
+    opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:88%;text-align:center;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+  .tabbar{display:none;}
+  .mveg{display:none;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1100px){ .rowgrid{grid-template-columns:repeat(4,1fr);} .rowgrid .card:nth-child(n+5){display:none;} .depts{grid-template-columns:repeat(6,1fr);row-gap:14px;} .loc{display:none;} }
+  @media (max-width:760px){
+    body{font-size:13.5px;padding-bottom:58px;}
+    .wrap{padding:0 10px;}
+    .strip{display:none;}
+    .hrow{flex-wrap:wrap;gap:8px 10px;padding-top:8px;padding-bottom:8px;}
+    .logo .mark{width:32px;height:32px;border-radius:9px;} .logo b{font-size:18px;} .logo small{display:none;}
+    .hact{margin-left:auto;} .hact .login,.cartbtn{display:none;}
+    .hrow .vegan{display:none;}
+    .search{order:5;flex:1 1 100%;} .search input{padding:8px 11px;} .search button span{display:none;} .search button{padding:0 14px;}
+    .mveg{display:flex;align-items:center;gap:8px;background:#fff;border-top:1px solid var(--line);padding:7px 10px;}
+    .mveg .vegan{flex:1;justify-content:space-between;padding:6px 8px 6px 12px;display:flex;}
+    .deptbar a{padding:8px 11px;font-size:13px;}
+    main{padding-top:10px;}
+    .hero{grid-template-columns:1fr;} .sidepromo{grid-template-rows:none;grid-template-columns:1fr 1fr;}
+    .banner{padding:20px 18px;min-height:150px;} .banner h1{font-size:22px;} .banner p{font-size:13px;margin-bottom:12px;} .banner .art{font-size:54px;right:8px;opacity:.55;}
+    .promo{padding:12px 13px;} .promo b{font-size:14.5px;} .promo span{font-size:11.5px;} .promo i{font-size:34px;right:6px;}
+    .depts{grid-template-columns:repeat(4,1fr);padding:12px 6px;} .depts a i{width:46px;height:46px;font-size:24px;} .depts a{font-size:12px;}
+    .trust{grid-template-columns:1fr 1fr;gap:8px;} .trust div{padding:9px 10px;font-size:12.5px;} .trust div i{font-size:20px;}
+    .grid{grid-template-columns:1fr 1fr;gap:8px;} .rowgrid{grid-template-columns:1fr 1fr;gap:8px;}
+    .hscroll .card{flex-basis:150px;}
+    .thumb{height:124px;} .thumb .em{font-size:54px;} .pack{width:78px;height:96px;} .pack .em{font-size:36px;}
+    .cbody{padding:8px 9px 9px;} .cname{font-size:13px;} .price{font-size:17px;}
+    .sechead h2{font-size:17px;}
+    .cat{grid-template-columns:minmax(0,1fr);} .side{display:none;}
+    .cathead h1{font-size:19px;}
+    .fcols{grid-template-columns:1fr 1fr;}
+    .pd{grid-template-columns:1fr;} .pd .pimg{min-height:210px;border-radius:18px 18px 0 0;} .pd .pimg .em{font-size:96px;} .pd .pimg .pack{transform:scale(1.5);} .pd .pimg .pack .em{font-size:36px;}
+    .pinfo{padding:16px 16px 18px;} .pinfo h2{font-size:18px;}
+    .drawer{width:100%;}
+    .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;height:56px;background:#fff;border-top:1px solid var(--line);z-index:40;}
+    .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;color:var(--mut);font-weight:600;position:relative;}
+    .tabbar button.on{color:var(--brand);}
+    .tabbar .cnt{position:absolute;top:4px;left:calc(50% + 6px);background:var(--price);color:#fff;border-radius:999px;font-size:10px;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+    .toast{bottom:70px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+</style>
+</head>
+<body>
+
+<div class="strip"><div class="wrap"><span id="stripL"></span><span id="stripR"></span></div></div>
+
+<header class="hdr">
+  <div class="wrap hrow">
+    <a class="logo" href="#/" aria-label="Home">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-1.6 9.2A2 2 0 0 1 17.4 20H6.6a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9l3-5M16 9l-3-5M9 13v3M12 13v3M15 13v3"/></svg></span>
+      <span><b id="logoName">禾鲜汇</b><small>HEXIAN MARKET</small></span>
+    </a>
+    <span class="loc" id="loc"></span>
+    <form class="search" id="searchForm" role="search">
+      <input id="q" type="search" autocomplete="off" />
+      <button type="submit"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span id="searchBtnT"></span></button>
+    </form>
+    <button class="vegan" data-act="vegan" aria-pressed="false"><span>🌱</span><span class="vl"></span><i class="sw"></i></button>
+    <div class="hact">
+      <button class="hbtn" data-act="lang" id="langBtn"></button>
+      <button class="hbtn login" data-act="demo" id="loginBtn"></button>
+      <button class="cartbtn" data-act="cart"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg><span id="cartBtnT"></span><span class="cnt" data-cnt>0</span></button>
+    </div>
+  </div>
+  <div class="mveg"><button class="vegan" data-act="vegan" aria-pressed="false"><span>🌱 <span class="vl"></span></span><i class="sw"></i></button></div>
+  <nav class="deptbar"><div class="wrap" id="deptbar"></div></nav>
+  <div class="vnote"><div class="wrap"><span id="vnoteT"></span><button data-act="vegan" id="vnoteOff"></button></div></div>
+</header>
+
+<main><div class="wrap" id="app"></div></main>
+
+<footer><div class="wrap">
+  <div class="fcols" id="fcols"></div>
+  <div class="disc" id="disc"></div>
+</div></footer>
+
+<div class="tabbar" id="tabbar"></div>
+<div class="ov" id="ov" data-act="closeall"></div>
+<aside class="drawer" id="cart" aria-label="Cart"></aside>
+<div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+<div class="sheet" id="sheet"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   禾鲜汇 HEXIAN MARKET — a realistic demo supermarket with a vegan filter.
+   Single self-contained file. 1,000 fictional products are generated from
+   the compact catalogue below (brands, prices and products are made up).
+   Catalogue line format:
+   emoji|中文名|English|price|sizes|brands|vegan|配料|ingredients|非纯素原因|why not vegan
+   ===================================================================== */
+var TARGET=1000;
+function S(k,zh,en,rows,opt){var o={k:k,zh:zh,en:en,rows:rows.trim().split('\n')};if(opt)for(var x in opt)o[x]=opt[x];return o;}
+var DEPTS=[
+{k:'produce',zh:'蔬菜水果',en:'Fruit & Veg',e:'🥬',hue:112,dv:1,pack:0,
+ brands:[['禾鲜','HEXIAN'],['田野鲜','FieldFresh'],['绿谷有机','GreenValley Organic'],['云岭','Yunling']],
+ subs:[
+ S('leafy','叶菜','Leafy greens',`
+🥬|小白菜|Bok choy|3.9|300g,500g|2
+🥬|大白菜|Napa cabbage|4.5|1颗|2
+🥬|菠菜|Spinach|4.8|300g|2
+🥬|生菜|Lettuce|3.6|1颗|2
+🥬|油麦菜|Celtuce leaves|3.9|300g|2
+🥬|空心菜|Water spinach|4.2|300g|2
+🥬|芥兰|Chinese kale|5.5|300g|2
+🥦|西兰花|Broccoli|6.9|1颗|2
+🥦|花菜|Cauliflower|6.5|1颗|2
+🥬|芹菜|Celery|4.9|400g|2
+🌿|韭菜|Chinese chives|3.5|250g|2
+🌿|香菜|Coriander|2.9|100g|1`),
+ S('roots','根茎瓜果','Roots & gourds',`
+🍅|番茄|Tomato|5.9|500g,1kg|2
+🥒|黄瓜|Cucumber|4.5|500g|2
+🍆|茄子|Eggplant|4.9|500g|2
+🥔|土豆|Potato|3.5|1kg|2
+🥕|胡萝卜|Carrot|3.2|500g|2
+🥕|白萝卜|Daikon radish|2.9|1根|2
+🎃|南瓜|Pumpkin|5.9|1个|2
+🥒|冬瓜|Winter melon|3.9|1kg|1
+🌽|甜玉米|Sweet corn|6.9|2根|2
+🍠|红薯|Sweet potato|5.5|1kg|2
+🍠|紫薯|Purple sweet potato|6.5|1kg|1
+🥔|山药|Chinese yam|9.9|500g|1
+🫑|青椒|Green pepper|4.9|400g|2
+🫑|彩椒|Bell pepper|7.9|3个|1
+🌶️|小米辣|Bird's eye chili|3.9|100g|1
+🥒|苦瓜|Bitter melon|4.9|500g|1
+🥒|西葫芦|Zucchini|4.5|500g|1`),
+ S('mushroom','菌菇','Mushrooms',`
+🍄|香菇|Shiitake mushroom|8.9|250g|2
+🍄|金针菇|Enoki mushroom|3.9|200g|2
+🍄|杏鲍菇|King oyster mushroom|6.9|300g|2
+🍄|平菇|Oyster mushroom|5.5|300g|1
+🍄|口蘑|Button mushroom|7.9|250g|1`),
+ S('aroma','葱姜蒜','Aromatics',`
+🧄|大蒜|Garlic|4.9|250g|2
+🌱|生姜|Ginger|5.9|250g|2
+🌿|小葱|Scallion|2.5|100g|2
+🧅|洋葱|Onion|3.9|1kg|2`),
+ S('fruit','新鲜水果','Fresh fruit',`
+🍎|红富士苹果|Fuji apple|12.9|4个,8个|2
+🍌|香蕉|Banana|6.9|1kg|2
+🍊|脐橙|Navel orange|13.9|1kg,2kg|2
+🍊|砂糖橘|Mandarin|9.9|1kg|1
+🍐|雪梨|Snow pear|9.9|4个|2
+🍇|巨峰葡萄|Kyoho grapes|15.9|500g|2
+🍉|西瓜|Watermelon|19.9|1个|2
+🍑|水蜜桃|Honey peach|16.9|4个|1
+🥭|芒果|Mango|14.9|2个|2
+🍍|凤梨|Pineapple|12.9|1个|1
+🥝|猕猴桃|Kiwi|15.9|6个|2
+🍓|草莓|Strawberry|25.9|300g|2
+🫐|蓝莓|Blueberry|19.9|125g|2
+🍋|柠檬|Lemon|6.9|3个|2
+🍒|车厘子|Cherries|49.9|500g|1
+🥥|椰青|Young coconut|12.9|1个|1
+🥑|牛油果|Avocado|15.9|2个|2
+🍈|哈密瓜|Hami melon|18.9|1个|1`),
+ S('salad','沙拉净菜','Salads & fresh-cut',`
+🥗|田园蔬菜沙拉|Garden salad|12.9|200g|2|1|生菜、紫甘蓝、胡萝卜、玉米粒、油醋汁|lettuce, red cabbage, carrot, corn, vinaigrette
+🥗|凯撒沙拉|Caesar salad|16.9|220g|2|0|罗马生菜、面包丁、帕玛森奶酪、凯撒酱(鳀鱼、蛋黄)|romaine, croutons, parmesan cheese, Caesar dressing (anchovy, egg yolk)|含奶酪、鳀鱼和蛋黄|cheese, anchovy and egg yolk
+🥗|鸡胸肉沙拉|Chicken breast salad|19.9|250g|2|0|生菜、鸡胸肉、番茄、鸡蛋、沙拉酱|lettuce, chicken breast, tomato, egg, dressing|含鸡肉和鸡蛋|chicken and egg
+🥗|藜麦牛油果沙拉|Quinoa avocado salad|21.9|230g|1|1|藜麦、牛油果、羽衣甘蓝、鹰嘴豆、柠檬汁|quinoa, avocado, kale, chickpeas, lemon juice
+🍉|水果切盒|Fresh-cut fruit box|15.9|300g|2|1|西瓜、哈密瓜、菠萝、葡萄|watermelon, melon, pineapple, grapes
+🍓|蜂蜜酸奶水果杯|Honey yogurt fruit cup|13.9|200g|1|0|酸奶、蜂蜜、草莓、蓝莓、燕麦|yogurt, honey, strawberry, blueberry, oats|含酸奶和蜂蜜|yogurt and honey`,{pack:1})
+ ]},
+{k:'meat',zh:'肉禽蛋品',en:'Meat & Eggs',e:'🥩',hue:6,dv:0,pack:0,why:['属于肉类','it is meat'],
+ brands:[['禾鲜','HEXIAN'],['谷饲坊','GrainFed'],['草原牧歌','Prairie Song'],['鲜牧','FreshRanch']],
+ subs:[
+ S('pork','猪肉','Pork',`
+🥩|猪五花肉|Pork belly|26.9|500g|3
+🥩|猪里脊|Pork tenderloin|24.9|400g|2
+🍖|猪肋排|Pork ribs|39.9|500g,1kg|2
+🥩|猪肉馅|Ground pork|19.9|400g|2
+🍖|猪蹄|Pork trotters|29.9|600g|1
+🥩|梅花肉片|Pork shoulder slices|22.9|300g|2`),
+ S('beef','牛羊肉','Beef & Lamb',`
+🥩|牛腩|Beef brisket|49.9|500g|2
+🥩|原切牛排|Sirloin steak|39.9|200g|3
+🥩|肥牛卷|Beef hotpot rolls|35.9|300g|3
+🥩|牛肉馅|Ground beef|32.9|400g|2
+🍖|羊肉卷|Lamb hotpot rolls|42.9|300g|2
+🍖|羊排|Lamb chops|59.9|500g|2
+🥩|牛腱子|Beef shank|45.9|500g|1`),
+ S('poultry','禽肉','Poultry',`
+🍗|鸡胸肉|Chicken breast|15.9|500g,1kg|2
+🍗|鸡腿|Chicken drumsticks|17.9|500g|2
+🍗|鸡翅中|Chicken wings|29.9|500g|3
+🐔|三黄鸡|Whole chicken|35.9|1只|2
+🦆|鸭腿|Duck legs|19.9|500g|2
+🦆|烤鸭|Roast duck|49.9|半只|1
+🍗|鸡爪|Chicken feet|16.9|400g|1`),
+ S('eggs','蛋类','Eggs',`
+🥚|鲜鸡蛋|Fresh eggs|9.9|10枚,30枚|3
+🥚|土鸡蛋|Free-range eggs|19.9|10枚|2
+🥚|咸鸭蛋|Salted duck eggs|12.9|6枚|2
+🥚|皮蛋|Century eggs|11.9|6枚|2
+🥚|鹌鹑蛋|Quail eggs|8.9|30枚|1`,{why:['属于蛋类','it is egg']}),
+ S('deli','熟食腌腊','Deli & cured',`
+🥓|培根|Bacon|21.9|200g|3
+🍖|切片火腿|Sliced ham|18.9|200g|2
+🌭|台式香肠|Taiwanese sausage|25.9|400g|2
+🌭|广式腊肠|Cantonese sausage|32.9|250g|2
+🥫|午餐肉罐头|Luncheon meat|14.9|340g|2
+🥓|湖南腊肉|Cured pork|36.9|400g|1
+🍖|猪肉松|Pork floss|19.9|150g|2
+🍖|牛肉干|Beef jerky|29.9|150g|2`,{pack:1})
+ ]},
+{k:'seafood',zh:'海鲜水产',en:'Seafood',e:'🦐',hue:196,dv:0,pack:0,why:['属于水产海鲜','it is seafood'],
+ brands:[['禾鲜','HEXIAN'],['渔港码头','Harbor Dock'],['深蓝渔家','DeepBlue']],
+ subs:[
+ S('fish','鱼类','Fish',`
+🐟|鲈鱼|Sea bass|29.9|1条|2
+🐟|三文鱼刺身|Salmon sashimi|59.9|200g|3
+🐟|鳕鱼块|Cod fillet|45.9|300g|2
+🐟|带鱼段|Hairtail cuts|32.9|500g|2
+🐟|黄花鱼|Yellow croaker|28.9|500g|2
+🐟|龙利鱼柳|Sole fillet|26.9|400g|2
+🐟|蒲烧鳗鱼|Grilled eel|49.9|200g|1
+🐟|金枪鱼块|Tuna steak|55.9|200g|1`),
+ S('shrimp','虾蟹','Shrimp & crab',`
+🦐|基围虾|Live shrimp|49.9|500g|2
+🦐|大虾仁|Peeled prawns|45.9|400g|3
+🦞|小龙虾|Crayfish|59.9|750g|2
+🦀|大闸蟹|Hairy crab|89|4只|2
+🦀|梭子蟹|Swimming crab|69|2只|1
+🦞|波士顿龙虾|Boston lobster|168|1只|1`),
+ S('shell','贝类软体','Shellfish',`
+🦪|生蚝|Oysters|39.9|6只|2
+🦪|扇贝|Scallops|35.9|6只|2
+🦪|花蛤|Clams|19.9|500g|2
+🦪|青口贝|Mussels|24.9|500g|1
+🦪|鲍鱼|Abalone|79|6只|1
+🦑|鱿鱼|Squid|29.9|500g|2
+🐙|八爪鱼|Octopus|35.9|400g|1
+🦑|即食海参|Sea cucumber|199|6只|1`),
+ S('fishprod','鱼糜制品','Surimi & smoked',`
+🍢|鱼丸|Fish balls|15.9|400g|3|0|鱼糜、淀粉、蛋清、盐|surimi, starch, egg white, salt|含鱼肉和蛋清|fish and egg white
+🍢|蟹味棒|Crab sticks|13.9|250g|2|0|鱼糜、淀粉、蟹味香精、蛋清|surimi, starch, crab flavouring, egg white|含鱼肉和蛋清|fish and egg white
+🍤|虾滑|Shrimp paste|25.9|150g|2|0|虾仁、淀粉、盐|shrimp, starch, salt|含虾肉|shrimp
+🍥|鱼豆腐|Fish tofu|13.9|200g|2|0|鱼糜、淀粉、大豆蛋白、蛋清、盐|surimi, starch, soy protein, egg white, salt|含鱼肉和蛋清|fish and egg white
+🐟|烟熏三文鱼|Smoked salmon|39.9|100g|1`,{pack:1}),
+ S('seaweed','海藻','Seaweed',`
+🌿|干海带|Dried kelp|8.9|200g|2|1
+🌿|紫菜|Dried laver|6.9|50g|2|1
+🌿|裙带菜|Wakame|9.9|100g|1|1
+🌿|凉拌海藻|Seaweed salad|12.9|200g|1|1|裙带菜、芝麻、辣椒、醋、酱油|wakame, sesame, chili, vinegar, soy sauce`,{pack:1})
+ ]},
+{k:'dairy',zh:'乳品冷饮',en:'Dairy & Plant Milk',e:'🥛',hue:214,dv:0,pack:1,why:['含牛奶','contains cow\'s milk'],
+ brands:[['朝露牧场','Morning Dew'],['雪原','Snowfield'],['欧芮','Aurelle'],['禾鲜','HEXIAN']],
+ subs:[
+ S('milk','牛奶','Milk',`
+🥛|纯牛奶|Whole milk|12.9|1L,250mlx12|3
+🥛|低脂牛奶|Low-fat milk|13.9|1L|2
+🥛|鲜牛奶|Fresh milk|16.9|950ml|2
+🥛|儿童成长奶|Kids growing-up milk|39.9|200mlx12|1
+🥛|全脂奶粉|Whole milk powder|89|800g|2`),
+ S('yogurt','酸奶奶酪','Yogurt & cheese',`
+🥛|原味酸奶|Plain yogurt|9.9|4杯|3
+🍓|草莓酸奶|Strawberry yogurt|11.9|4杯|2
+🥛|希腊酸奶|Greek yogurt|15.9|400g|2
+🥤|乳酸菌饮料|Probiotic milk drink|12.9|5瓶|2|0|水、脱脂奶粉、白砂糖、乳酸菌|water, skim milk powder, sugar, lactic cultures|含奶粉|milk powder
+🧀|马苏里拉芝士|Mozzarella|25.9|200g|2
+🧀|芝士片|Cheese slices|19.9|12片|2
+🧀|奶油奶酪|Cream cheese|28.9|200g|1
+🧈|动物黄油|Butter|24.9|200g|2
+🥛|淡奶油|Whipping cream|19.9|250ml|2
+🥫|炼乳|Condensed milk|14.9|350g|1
+🍦|香草冰淇淋|Vanilla ice cream|29.9|500g|2|0|牛奶、稀奶油、白砂糖、蛋黄、香草|milk, cream, sugar, egg yolk, vanilla|含牛奶和蛋黄|milk and egg yolk
+🍨|巧克力雪糕|Chocolate ice cream bars|19.9|6支|2`),
+ S('plant','植物奶','Plant-based',`
+🥛|原味豆浆|Soy milk|6.9|1L|3|1|水、大豆|water, soybeans
+🥛|燕麦奶|Oat milk|19.9|1L|3|1|水、燕麦、菜籽油、盐|water, oats, rapeseed oil, salt
+🥛|杏仁奶|Almond milk|18.9|1L|2|1|水、杏仁、盐|water, almonds, salt
+🥥|椰奶|Coconut milk|9.9|400ml|2|1|椰肉汁、水|coconut extract, water
+🌰|核桃乳|Walnut milk drink|35.9|240mlx12|1|0|水、核桃仁、白砂糖、酪蛋白酸钠|water, walnut, sugar, sodium caseinate|含酪蛋白酸钠(来自牛奶)|sodium caseinate (from milk)
+🥥|椰子酸奶(植物基)|Coconut yogurt (plant-based)|15.9|350g|2|1|椰浆、水、木薯淀粉、活性菌|coconut cream, water, tapioca starch, live cultures
+🧈|植物黄油|Plant spread|16.9|250g|2|0|植物油、水、乳清粉、盐|vegetable oils, water, whey powder, salt|含乳清粉(来自牛奶)|whey powder (from milk)
+🧈|纯植物黄油|Dairy-free plant butter|22.9|250g|1|1|椰子油、葵花籽油、水、盐|coconut oil, sunflower oil, water, salt
+🍨|椰子冰淇淋|Coconut ice cream|32.9|450g|1|1|椰浆、蔗糖、可可粉|coconut cream, cane sugar, cocoa
+🧀|植物芝士片|Plant-based cheese slices|25.9|10片|1|1|水、椰子油、淀粉、盐|water, coconut oil, starch, salt`,
+ {brands:[['豆本初','SoyOrigin'],['燕语','OatSong'],['禾鲜','HEXIAN']]})
+ ]},
+{k:'bakery',zh:'面包烘焙',en:'Bakery',e:'🍞',hue:34,dv:0,pack:1,tail:'bake',why:['含蛋奶','contains egg or dairy'],
+ brands:[['麦香坊','Wheat & Co'],['晨焙','MorningBake'],['禾鲜','HEXIAN']],
+ subs:[
+ S('bread','面包','Bread',`
+🍞|牛奶吐司|Milk toast|9.9|400g|3|0|小麦粉、牛奶、黄油、鸡蛋、白砂糖|wheat flour, milk, butter, egg, sugar|含牛奶、黄油和鸡蛋|milk, butter and egg
+🍞|全麦面包|Whole-wheat bread|11.9|400g|3|0|全麦粉、牛奶、黄油、白砂糖|whole-wheat flour, milk, butter, sugar|含牛奶和黄油|milk and butter
+🥖|法棍|French baguette|8.9|1根|2|1|小麦粉、水、酵母、盐|wheat flour, water, yeast, salt
+🍞|天然酵种酸面包|Sourdough bread|15.9|500g|2|1|小麦粉、水、天然酵种、盐|wheat flour, water, sourdough starter, salt
+🍞|黑麦面包|Rye bread|13.9|400g|2|1|黑麦粉、小麦粉、水、酵母、盐|rye flour, wheat flour, water, yeast, salt
+🍞|杂粮面包|Multigrain bread|14.9|400g|2|1|小麦粉、燕麦、亚麻籽、水、酵母、盐|wheat flour, oats, flaxseed, water, yeast, salt
+🥐|黄油牛角包|Butter croissant|12.9|4个|2|0|小麦粉、黄油、牛奶、鸡蛋|wheat flour, butter, milk, egg|含黄油、牛奶和鸡蛋|butter, milk and egg
+🍞|菠萝包|Pineapple bun|9.9|4个|2|0|小麦粉、黄油、鸡蛋、白砂糖、牛奶|wheat flour, butter, egg, sugar, milk|含黄油和鸡蛋|butter and egg
+🍞|肉松面包|Pork floss bun|10.9|3个|2|0|小麦粉、鸡蛋、猪肉松、沙拉酱|wheat flour, egg, pork floss, mayonnaise|含猪肉松和鸡蛋|pork floss and egg
+🥯|原味贝果|Plain bagel|11.9|4个|2|1|高筋小麦粉、水、白砂糖、酵母、盐|bread flour, water, sugar, yeast, salt
+🥯|蜂蜜贝果|Honey bagel|12.9|4个|1|0|高筋小麦粉、水、蜂蜜、酵母、盐|bread flour, water, honey, yeast, salt|含蜂蜜|honey
+🍞|红豆面包|Red bean bun|9.9|4个|2|0|小麦粉、红豆沙、鸡蛋、牛奶|wheat flour, red bean paste, egg, milk|含鸡蛋和牛奶|egg and milk`),
+ S('chinese','中式面点','Steamed buns',`
+🍞|白馒头|Steamed buns (mantou)|5.9|6个|3|1|小麦粉、水、酵母|wheat flour, water, yeast
+🍞|葱油花卷|Scallion rolls|6.9|6个|2|1|小麦粉、水、葱、植物油、酵母、盐|wheat flour, water, scallion, vegetable oil, yeast, salt
+🍞|奶香馒头|Milk mantou|7.9|6个|2|0|小麦粉、牛奶、白砂糖、酵母|wheat flour, milk, sugar, yeast|含牛奶|milk
+🥟|鲜肉包|Pork buns|12.9|6个|2|0|小麦粉、猪肉、葱、酱油|wheat flour, pork, scallion, soy sauce|含猪肉|pork
+🥟|香菇青菜包|Mushroom & greens buns|10.9|6个|2|1|小麦粉、青菜、香菇、豆干、植物油|wheat flour, greens, shiitake, dried tofu, vegetable oil
+🥟|豆沙包|Red bean buns|9.9|6个|2|1|小麦粉、红豆、白砂糖、植物油|wheat flour, red beans, sugar, vegetable oil
+🥟|奶黄包|Custard buns|11.9|6个|2|0|小麦粉、鸡蛋、牛奶、黄油、白砂糖|wheat flour, egg, milk, butter, sugar|含鸡蛋和牛奶|egg and milk`),
+ S('cake','蛋糕甜点','Cakes & pastry',`
+🍰|草莓奶油蛋糕|Strawberry cream cake|39.9|1块|2|0|小麦粉、鸡蛋、稀奶油、草莓、白砂糖|wheat flour, egg, cream, strawberry, sugar|含鸡蛋和奶油|egg and cream
+🧁|纸杯蛋糕|Cupcakes|19.9|4个|2|0|小麦粉、鸡蛋、黄油、白砂糖|wheat flour, egg, butter, sugar|含鸡蛋和黄油|egg and butter
+🥧|葡式蛋挞|Egg tarts|16.9|4个|2|0|小麦粉、鸡蛋、牛奶、黄油|wheat flour, egg, milk, butter|含鸡蛋和牛奶|egg and milk
+🍩|甜甜圈|Donuts|15.9|4个|2|0|小麦粉、鸡蛋、牛奶、白砂糖、植物油|wheat flour, egg, milk, sugar, vegetable oil|含鸡蛋和牛奶|egg and milk
+🥮|蛋黄莲蓉月饼|Egg-yolk lotus mooncake|35.9|4个|1|0|莲蓉、咸蛋黄、小麦粉、糖浆|lotus paste, salted egg yolk, wheat flour, syrup|含咸蛋黄|salted egg yolk
+🥮|五仁月饼|Five-nut mooncake|32.9|4个|1|0|小麦粉、核桃、杏仁、芝麻、猪油、白砂糖|wheat flour, walnut, almond, sesame, lard, sugar|含猪油|lard
+🍰|巧克力蛋糕(植物基)|Chocolate cake (plant-based)|35.9|1块|1|1|小麦粉、可可粉、豆奶、植物油、白砂糖|wheat flour, cocoa, soy milk, vegetable oil, sugar
+🧇|华夫饼|Waffles|14.9|6片|2|0|小麦粉、鸡蛋、牛奶、黄油|wheat flour, egg, milk, butter|含鸡蛋和牛奶|egg and milk
+🥞|松饼|Pancakes|13.9|6片|1|0|小麦粉、鸡蛋、牛奶、白砂糖|wheat flour, egg, milk, sugar|含鸡蛋和牛奶|egg and milk`)
+ ]},
+{k:'tofu',zh:'豆制品素食',en:'Tofu & Plant-based',e:'🌱',hue:86,dv:1,pack:1,
+ brands:[['豆满园','BeanGarden'],['素可','Suke'],['禾鲜','HEXIAN']],
+ subs:[
+ S('tofu','豆腐豆干','Tofu',`
+T1|北豆腐|Firm tofu|4.5|400g|3|1|水、大豆、凝固剂|water, soybeans, coagulant
+T1|内酯豆腐|Silken tofu|3.9|350g|3|1|水、大豆、葡萄糖酸内酯|water, soybeans, glucono delta-lactone
+T2|香干|Dried tofu|5.9|250g|3|1|大豆、水、酱油、香辛料|soybeans, water, soy sauce, spices
+T3|腐竹|Tofu skin sticks (yuba)|12.9|200g|2|1|大豆、水|soybeans, water
+T3|千张|Tofu sheets|4.9|250g|2|1|大豆、水、盐|soybeans, water, salt
+T3|油豆腐|Fried tofu puffs|6.9|200g|2|1|大豆、水、植物油|soybeans, water, vegetable oil
+T1|冻豆腐|Frozen tofu|5.5|400g|1|1|水、大豆、凝固剂|water, soybeans, coagulant
+T3|日本豆腐|Egg tofu|3.9|3条|2|0|鸡蛋、水、大豆蛋白、盐|egg, water, soy protein, salt|主要原料是鸡蛋|made mainly from egg
+T2|素鸡|Tofu roll (su ji)|7.9|300g|2|1|大豆、水、盐|soybeans, water, salt
+T2|卤豆干|Braised tofu|8.9|200g|2|1|大豆、水、酱油、八角、桂皮|soybeans, water, soy sauce, star anise, cinnamon
+🥢|纳豆|Natto|12.9|3盒|2|0|大豆、纳豆菌；酱包(酱油、鲣鱼提取物)|soybeans, natto culture; sauce sachet (soy sauce, bonito extract)|附带酱包含鲣鱼提取物|sauce sachet contains bonito (fish) extract
+T2|天贝|Tempeh|15.9|200g|1|1|大豆、根霉菌|soybeans, tempeh culture`),
+ S('plantmeat','植物肉','Plant-based meat',`
+🍔|植物肉汉堡饼|Plant-based burger patties|29.9|2片|3|1|大豆蛋白、椰子油、甜菜汁、淀粉|soy protein, coconut oil, beet juice, starch
+🥘|植物肉馅|Plant-based mince|25.9|300g|2|1|大豆蛋白、植物油、香辛料|soy protein, vegetable oil, spices
+🍗|植物鸡块|Plant-based nuggets|22.9|300g|2|1|大豆蛋白、小麦粉、植物油|soy protein, wheat flour, vegetable oil
+🌭|素肠|Vegetarian sausage|12.9|250g|2|0|大豆蛋白、蛋清粉、淀粉、香辛料|soy protein, egg white powder, starch, spices|含蛋清粉|egg white powder
+🌭|豌豆蛋白香肠|Pea-protein sausage|16.9|250g|1|1|豌豆蛋白、植物油、香辛料|pea protein, vegetable oil, spices
+🍖|素火腿|Vegetarian ham|13.9|300g|2|0|大豆蛋白、乳清蛋白、淀粉|soy protein, whey protein, starch|含乳清蛋白(来自牛奶)|whey protein (from milk)
+🍤|魔芋素虾仁|Konjac "shrimp"|14.9|200g|1|1|魔芋粉、水、海藻提取物|konjac flour, water, seaweed extract`),
+ S('other','面筋芽菜','Gluten & sprouts',`
+🍜|魔芋丝|Konjac noodles|5.9|300g|2|1|魔芋粉、水|konjac flour, water
+🍞|烤麸|Wheat gluten (kaofu)|8.9|250g|2|1|小麦蛋白、水|wheat gluten, water
+🧆|油面筋|Fried gluten puffs|7.9|150g|1|1|小麦蛋白、植物油|wheat gluten, vegetable oil
+🌱|黄豆芽|Soybean sprouts|2.9|350g|2|1
+🌱|绿豆芽|Mung bean sprouts|2.5|350g|2|1
+🥟|春卷皮|Spring roll wrappers|6.9|250g|1|1|小麦粉、水、盐|wheat flour, water, salt
+🍲|素高汤|Vegetable stock|9.9|500ml|2|1|水、香菇、白萝卜、玉米、盐|water, shiitake, daikon, corn, salt`)
+ ]},
+{k:'pantry',zh:'粮油调味',en:'Pantry & Seasoning',e:'🍚',hue:44,dv:1,pack:1,
+ brands:[['金穗','GoldenEar'],['老灶台','OldStove'],['味之源','FlavorRoot'],['禾鲜','HEXIAN']],
+ subs:[
+ S('grain','米面杂粮','Rice, flour & noodles',`
+🍚|东北大米|Northeast rice|39.9|5kg,10kg|3|1
+🍚|泰国香米|Thai jasmine rice|59.9|5kg|2|1
+🍚|糯米|Glutinous rice|12.9|1kg|2|1
+🌾|小米|Millet|11.9|1kg|2|1
+🥣|燕麦片|Rolled oats|15.9|1kg|3|1
+🌾|中筋面粉|All-purpose flour|12.9|2.5kg|3|1
+🌾|高筋面粉|Bread flour|16.9|2.5kg|1|1
+🌽|玉米面|Cornmeal|8.9|1kg|1|1
+🍜|龙须挂面|Dried wheat noodles|6.9|800g|3|1|小麦粉、水、盐|wheat flour, water, salt
+🍜|鸡蛋挂面|Egg noodles|7.9|800g|2|0|小麦粉、鸡蛋、盐|wheat flour, egg, salt|含鸡蛋|egg
+🍝|意大利面|Spaghetti|9.9|500g|2|1|硬粒小麦粉|durum wheat semolina
+🍜|米粉|Rice vermicelli|7.5|400g|2|1|大米、水|rice, water
+🍜|红薯粉条|Sweet potato glass noodles|8.9|400g|2|1|红薯淀粉、水|sweet potato starch, water
+🥣|牛奶燕麦片|Milk oatmeal|19.9|700g|1|0|燕麦、全脂奶粉、白砂糖|oats, whole milk powder, sugar|含全脂奶粉|whole milk powder`),
+ S('oil','食用油','Cooking oil',`
+🫒|特级初榨橄榄油|Extra-virgin olive oil|69.9|750ml|2|1
+🥜|压榨花生油|Peanut oil|89.9|5L|2|1
+🌻|葵花籽油|Sunflower oil|59.9|5L|2|1
+🌼|菜籽油|Rapeseed oil|65.9|5L|2|1
+🍶|芝麻香油|Sesame oil|19.9|400ml|3|1
+🧈|猪油|Lard|13.9|500g|2|0|猪板油|rendered pork fat|猪油是动物油脂|lard is animal fat`),
+ S('sauce','酱油调味汁','Sauces',`
+🍶|生抽酱油|Light soy sauce|9.9|500ml,1.28L|3|1|水、大豆、小麦、盐|water, soybeans, wheat, salt
+🍶|老抽酱油|Dark soy sauce|10.9|500ml|2|1|水、大豆、小麦、盐、焦糖色|water, soybeans, wheat, salt, caramel colour
+🍶|蒸鱼豉油|Seasoned soy sauce for seafood|11.9|450ml|2|0|酱油、白砂糖、鱼露、酵母提取物|soy sauce, sugar, fish sauce, yeast extract|含鱼露|fish sauce
+🍶|米醋|Rice vinegar|6.5|500ml|2|1|水、大米、盐|water, rice, salt
+🍶|镇江香醋|Zhenjiang black vinegar|8.9|500ml|2|1|水、糯米、麦麸、盐|water, glutinous rice, wheat bran, salt
+🍶|料酒|Cooking wine|7.9|500ml|2|1|水、黄酒、盐、香辛料|water, rice wine, salt, spices
+🍶|蚝油|Oyster sauce|11.9|510g|3|0|蚝汁、白砂糖、盐、淀粉|oyster extract, sugar, salt, starch|含蚝汁(牡蛎)|oyster extract
+🍶|香菇素蚝油|Mushroom vegetarian stir-fry sauce|13.9|510g|2|1|香菇提取物、酱油、白砂糖、淀粉|shiitake extract, soy sauce, sugar, starch
+🍶|鱼露|Fish sauce|12.9|500ml|1|0|鳀鱼、盐|anchovy, salt|由鳀鱼发酵制成|made from fermented anchovy
+🌶️|郫县豆瓣酱|Pixian broad-bean paste|9.9|500g|2|1|辣椒、蚕豆、盐、小麦粉|chili, broad beans, salt, wheat flour
+🌶️|油泼辣子|Chili crisp oil|12.9|280g|2|1|辣椒、菜籽油、花生、花椒、盐|chili, rapeseed oil, peanuts, Sichuan pepper, salt
+🌶️|牛肉辣酱|Beef chili sauce|14.9|280g|2|0|辣椒、牛肉、大豆油、豆豉|chili, beef, soybean oil, fermented black beans|含牛肉|beef
+🍄|香菇酱|Mushroom sauce|13.9|210g|2|1|香菇、大豆油、黄豆酱、辣椒|shiitake, soybean oil, soybean paste, chili
+🥫|沙茶酱|Shacha sauce|15.9|250g|1|0|大豆油、扁鱼干、虾米、蒜、辣椒|soybean oil, dried flatfish, dried shrimp, garlic, chili|含鱼干和虾米|dried fish and dried shrimp
+🥫|XO酱|XO sauce|39.9|200g|1|0|瑶柱、虾米、火腿、辣椒油|dried scallop, dried shrimp, ham, chili oil|含瑶柱、虾米和火腿|scallop, shrimp and ham
+🥜|芝麻酱|Sesame paste|14.9|300g|2|1|芝麻|sesame
+🥜|花生酱|Peanut butter|16.9|340g|2|1|花生、盐、植物油|peanuts, salt, vegetable oil
+🍯|洋槐蜂蜜|Acacia honey|35.9|500g|2|0|蜂蜜|honey|蜂蜜来自蜜蜂|honey is made by bees
+🍁|枫糖浆|Maple syrup|45.9|250ml|1|1
+🍅|番茄酱|Tomato ketchup|8.9|320g|2|1|番茄、白砂糖、醋、盐|tomato, sugar, vinegar, salt
+🥫|沙拉酱|Salad dressing (mayo style)|12.9|400g|2|0|大豆油、蛋黄、白醋、白砂糖|soybean oil, egg yolk, vinegar, sugar|含蛋黄|egg yolk
+🥫|无蛋沙拉酱|Egg-free mayo|18.9|300g|1|1|大豆油、豆浆、醋、芥末|soybean oil, soy milk, vinegar, mustard
+🍛|咖喱块|Curry roux blocks|14.9|100g|2|0|小麦粉、牛油、咖喱粉、脱脂奶粉|wheat flour, beef tallow, curry powder, skim milk powder|含牛油和奶粉|beef tallow and milk powder
+🍛|椰香咖喱酱|Coconut curry paste|16.9|200g|1|1|椰浆、咖喱粉、香茅、辣椒、盐|coconut cream, curry powder, lemongrass, chili, salt`),
+ S('season','调味品','Seasoning',`
+🧂|加碘食盐|Iodised salt|2.5|400g|2|1
+🍬|白砂糖|White sugar|6.9|1kg|2|1
+🍬|红糖|Brown sugar|8.9|500g|1|1
+🧂|味精|MSG|5.9|400g|1|1|谷氨酸钠|monosodium glutamate
+🐔|鸡精|Chicken bouillon powder|9.9|200g|3|0|盐、味精、鸡肉粉、鸡油|salt, MSG, chicken powder, chicken fat|含鸡肉粉和鸡油|chicken powder and chicken fat
+🍄|菌菇调味粉|Mushroom seasoning powder|12.9|200g|2|1|盐、香菇粉、酵母提取物|salt, shiitake powder, yeast extract
+🍲|鸡汤浓汤宝|Chicken stock cubes|9.9|4块|2|0|水、鸡肉、鸡油、盐|water, chicken, chicken fat, salt|含鸡肉和鸡油|chicken and chicken fat
+🍲|菌菇浓汤宝|Mushroom stock cubes|9.9|4块|2|0|水、棕榈油、香菇、鸡油、盐|water, palm oil, shiitake, chicken fat, salt|含鸡油|chicken fat
+🌶️|牛油火锅底料|Beef-tallow hotpot base|19.9|400g|2|0|牛油、辣椒、花椒、豆瓣酱|beef tallow, chili, Sichuan pepper, broad-bean paste|含牛油|beef tallow
+🌶️|清油火锅底料|Vegetable-oil hotpot base|18.9|400g|2|1|菜籽油、辣椒、花椒、豆瓣酱、姜|rapeseed oil, chili, Sichuan pepper, broad-bean paste, ginger
+🍅|番茄火锅底料|Tomato hotpot base|16.9|200g|1|1|番茄、白砂糖、盐、植物油|tomato, sugar, salt, vegetable oil
+⭐|八角|Star anise|5.9|50g|1|1
+🌶️|花椒|Sichuan peppercorn|9.9|50g|1|1
+🧂|十三香|Thirteen-spice powder|6.9|45g|1|1`),
+ S('dried','干货罐头','Dried & canned',`
+🍄|干香菇|Dried shiitake|25.9|200g|2|1
+🍄|黑木耳|Dried wood ear|19.9|150g|2|1
+🍒|红枣|Red dates|19.9|500g|2|1
+🍒|枸杞|Goji berries|22.9|250g|1|1
+🥜|生花生米|Raw peanuts|9.9|500g|2|1
+🌰|红豆|Adzuki beans|8.9|500g|2|1
+🌰|绿豆|Mung beans|8.5|500g|2|1
+🌰|黄豆|Soybeans|7.9|500g|2|1
+🌽|甜玉米罐头|Canned sweet corn|6.9|425g|2|1|玉米、水、盐|corn, water, salt
+🐟|金枪鱼罐头|Canned tuna|15.9|185g|2|0|金枪鱼、大豆油、盐|tuna, soybean oil, salt|含金枪鱼|tuna
+🍅|去皮番茄罐头|Canned peeled tomatoes|8.9|400g|1|1
+🥫|八宝粥|Eight-treasure congee|4.5|360g|2|1|水、糯米、红豆、花生、桂圆、白砂糖|water, glutinous rice, red beans, peanuts, longan, sugar
+🥫|银耳莲子羹|Tremella & lotus-seed soup|5.9|360g|1|1|水、银耳、莲子、冰糖|water, tremella, lotus seeds, rock sugar
+🐟|豆豉鲮鱼罐头|Canned dace with black beans|16.9|227g|1|0|鲮鱼、豆豉、大豆油|dace, fermented black beans, soybean oil|含鲮鱼|fish
+🥒|涪陵榨菜|Pickled mustard tuber|2.5|80g|2|1|榨菜、盐、辣椒、香辛料|mustard tuber, salt, chili, spices
+🥬|韩式泡菜|Kimchi|15.9|500g|2|0|白菜、辣椒、蒜、鱼露、虾酱|napa cabbage, chili, garlic, fish sauce, shrimp paste|含鱼露和虾酱|fish sauce and shrimp paste
+🥬|素泡菜|Plant-based kimchi|17.9|500g|1|1|白菜、辣椒、蒜、姜、海带汁|napa cabbage, chili, garlic, ginger, kelp stock`)
+ ]},
+{k:'instant',zh:'方便速食',en:'Instant & Frozen',e:'🍜',hue:18,dv:0,pack:1,tail:'inst',
+ brands:[['一碗香','OneBowl'],['快厨','QuickChef'],['北方面馆','North Noodle House'],['禾鲜','HEXIAN']],
+ subs:[
+ S('noodle','方便面粉','Instant noodles',`
+🍜|红烧牛肉面|Braised beef noodles|4.5|1袋,5连包|3|0|面饼、牛肉粒、牛油、酱油粉|noodle cake, beef bits, beef tallow, soy sauce powder|含牛肉和牛油|beef and beef tallow
+🍜|香菇炖鸡面|Mushroom chicken noodles|4.5|1袋,5连包|2|0|面饼、香菇、鸡肉粉、鸡油|noodle cake, shiitake, chicken powder, chicken fat|含鸡肉粉和鸡油|chicken powder and chicken fat
+🍜|番茄鸡蛋面|Tomato & egg noodles|4.8|5连包|2|0|面饼、番茄粉、鸡蛋粒|noodle cake, tomato powder, egg bits|含鸡蛋|egg
+🍜|老坛酸菜牛肉面|Pickled-cabbage beef noodles|4.5|5连包|2|0|面饼、酸菜、牛肉粉、牛油|noodle cake, pickled cabbage, beef powder, beef tallow|含牛肉粉和牛油|beef powder and beef tallow
+🍜|鲜虾鱼板面|Shrimp & fishcake noodles|4.9|5连包|2|0|面饼、虾粉、鱼板|noodle cake, shrimp powder, fishcake|含虾和鱼板|shrimp and fishcake
+🍜|香菇青菜面|Shiitake & greens noodles|4.9|5连包|2|1|面饼、香菇、青菜、酱油粉|noodle cake, shiitake, greens, soy sauce powder
+🍜|川味麻辣面|Sichuan mala noodles|5.2|5连包|2|1|面饼、辣椒、花椒、花生、酱油粉|noodle cake, chili, Sichuan pepper, peanuts, soy sauce powder
+🍜|番茄浓汤面|Tomato soup noodles|4.9|5连包|2|0|面饼、番茄粉、白蛋白、白砂糖|noodle cake, tomato powder, albumin, sugar|含白蛋白(来自蛋清)|albumin (from egg white)
+🍜|麻酱拌面|Sesame paste noodles|5.5|4连包|2|0|面饼、芝麻酱、白蛋白、酱油粉|noodle cake, sesame paste, albumin, soy sauce powder|含白蛋白(来自蛋清)|albumin (from egg white)
+🍜|日式咖喱乌冬|Japanese curry udon|8.9|2人份|2|0|乌冬面、咖喱块(牛脂、脱脂奶粉)|udon, curry roux (beef fat, skim milk powder)|咖喱块含牛脂和奶粉|curry roux contains beef fat and milk powder
+🍜|酸辣粉|Hot & sour glass noodles|6.9|1桶|3|1|红薯粉、辣椒、醋、花生、大豆|sweet potato noodles, chili, vinegar, peanuts, soybeans
+🍜|螺蛳粉|Luosifen rice noodles|12.9|1袋,3袋|2|0|米粉、螺肉、猪骨汤料、酸笋|rice noodles, river snail, pork-bone soup base, pickled bamboo|含螺肉和猪骨汤|river snail and pork-bone broth
+🍜|菌汤螺蛳粉|Mushroom-broth luosifen|13.9|1袋|1|1|米粉、酸笋、腐竹、菌菇汤料、辣椒油|rice noodles, pickled bamboo, yuba, mushroom soup base, chili oil
+🍜|重庆小面|Chongqing noodles|5.9|4连包|2|0|面饼、辣椒、猪油、花椒|noodle cake, chili, lard, Sichuan pepper|含猪油|lard`),
+ S('selfheat','自热食品','Self-heating meals',`
+🍲|自热牛油火锅|Self-heating beef hotpot|32.9|1盒|2|0|牛肉片、土豆、粉条、牛油底料|beef slices, potato, glass noodles, beef-tallow base|含牛肉和牛油|beef and beef tallow
+🍲|自热素菜火锅|Self-heating vegetable hotpot|25.9|1盒|2|0|土豆、莲藕、木耳、粉条、火锅底料(牛油)|potato, lotus root, wood ear, glass noodles, hotpot base (beef tallow)|火锅底料含牛油|the soup base contains beef tallow
+🍚|自热米饭(宫保鸡丁)|Self-heating rice (kung pao chicken)|18.9|1盒|2|0|米饭、鸡肉、花生、辣椒|rice, chicken, peanuts, chili|含鸡肉|chicken
+🍚|自热米饭(鱼香茄子)|Self-heating rice (yuxiang eggplant)|16.9|1盒|2|1|米饭、茄子、豆瓣酱、蒜、白砂糖、醋|rice, eggplant, broad-bean paste, garlic, sugar, vinegar
+🍚|自热米饭(麻婆豆腐)|Self-heating rice (mapo tofu)|16.9|1盒|1|0|米饭、豆腐、猪肉末、豆瓣酱|rice, tofu, minced pork, broad-bean paste|含猪肉末|minced pork`),
+ S('dumpling','水饺汤圆','Dumplings',`
+🥟|猪肉白菜水饺|Pork & cabbage dumplings|19.9|1kg|3|0|小麦粉、猪肉、白菜、葱|wheat flour, pork, cabbage, scallion|含猪肉|pork
+🥟|虾仁三鲜水饺|Shrimp dumplings|29.9|800g|2|0|小麦粉、虾仁、猪肉、韭菜|wheat flour, shrimp, pork, chives|含虾仁和猪肉|shrimp and pork
+🥟|韭菜鸡蛋水饺|Chive & egg dumplings|17.9|1kg|2|0|小麦粉、韭菜、鸡蛋、粉丝|wheat flour, chives, egg, glass noodles|含鸡蛋|egg
+🥟|素三鲜水饺|"Three-fresh" vegetable dumplings|18.9|1kg|2|0|小麦粉、韭菜、鸡蛋、虾皮、粉丝|wheat flour, chives, egg, dried shrimp, glass noodles|含鸡蛋和虾皮|egg and dried shrimp
+🥟|香菇青菜水饺|Shiitake & greens dumplings|17.9|1kg|2|1|小麦粉、青菜、香菇、豆干、植物油|wheat flour, greens, shiitake, dried tofu, vegetable oil
+🥟|玉米蔬菜蒸饺|Corn & vegetable steamed dumplings|18.9|800g|1|1|小麦粉、玉米、胡萝卜、木耳、植物油|wheat flour, corn, carrot, wood ear, vegetable oil
+🥟|鲜肉小馄饨|Pork wontons|15.9|500g|2|0|小麦粉、猪肉、葱、姜|wheat flour, pork, scallion, ginger|含猪肉|pork
+🥟|小笼包|Soup dumplings (xiaolongbao)|22.9|12只|2|0|小麦粉、猪肉、猪皮冻|wheat flour, pork, pork-skin jelly|含猪肉|pork
+🥟|烧麦|Shumai|19.9|12只|1|0|糯米、猪肉、香菇|glutinous rice, pork, shiitake|含猪肉|pork
+🍡|黑芝麻汤圆|Black sesame tangyuan|13.9|400g|3|0|糯米粉、黑芝麻、白砂糖、猪油|glutinous rice flour, black sesame, sugar, lard|馅料含猪油|the filling contains lard
+🍡|花生汤圆|Peanut tangyuan|13.9|400g|2|1|糯米粉、花生、白砂糖、植物油|glutinous rice flour, peanuts, sugar, vegetable oil`),
+ S('frozen','速冻食品','Frozen food',`
+🫓|原味手抓饼|Flaky pancakes (plain)|12.9|10片|2|1|小麦粉、水、植物油、盐|wheat flour, water, vegetable oil, salt
+🫓|葱油饼|Scallion pancakes|13.9|10片|2|0|小麦粉、葱、猪油、盐|wheat flour, scallion, lard, salt|含猪油|lard
+🥟|蔬菜春卷|Vegetable spring rolls|14.9|20个|2|1|小麦粉、卷心菜、胡萝卜、粉丝、植物油|wheat flour, cabbage, carrot, glass noodles, vegetable oil
+🍕|芝士披萨|Cheese pizza|25.9|1个|2|0|小麦粉、马苏里拉芝士、番茄酱|wheat flour, mozzarella, tomato sauce|含芝士|cheese
+🍕|田园蔬菜披萨(无芝士)|Garden vegetable pizza (no cheese)|27.9|1个|1|1|小麦粉、番茄酱、彩椒、蘑菇、玉米、橄榄油|wheat flour, tomato sauce, peppers, mushroom, corn, olive oil
+🍟|冷冻薯条|Frozen fries|15.9|1kg|2|1|马铃薯、植物油|potato, vegetable oil
+🍗|黄金鸡块|Chicken nuggets|22.9|500g|2|0|鸡肉、小麦粉、植物油|chicken, wheat flour, vegetable oil|含鸡肉|chicken
+🌽|速冻甜玉米粒|Frozen sweet corn|8.9|500g|2|1
+🌱|速冻毛豆|Frozen edamame|9.9|500g|2|1
+🥦|速冻什锦蔬菜|Frozen mixed vegetables|9.9|500g|2|1
+🍙|鲜肉粽|Zongzi (pork)|19.9|4只|2|0|糯米、猪肉、酱油、粽叶|glutinous rice, pork, soy sauce, bamboo leaf|含猪肉|pork
+🍙|蜜枣粽|Zongzi (jujube)|16.9|4只|2|1|糯米、蜜枣、粽叶|glutinous rice, candied jujube, bamboo leaf
+🍚|扬州炒饭|Yangzhou fried rice|12.9|400g|2|0|米饭、鸡蛋、火腿、虾仁|rice, egg, ham, shrimp|含鸡蛋、火腿和虾仁|egg, ham and shrimp
+🍚|菌菇炒饭|Mushroom fried rice|12.9|400g|1|1|米饭、香菇、杏鲍菇、玉米、酱油、植物油|rice, shiitake, king oyster mushroom, corn, soy sauce, vegetable oil`)
+ ]},
+{k:'snacks',zh:'休闲零食',en:'Snacks',e:'🍪',hue:330,dv:1,pack:1,tail:'snack',
+ brands:[['乐脆','CrispJoy'],['糖小铺','SweetNook'],['山野集','WildTrail'],['禾鲜','HEXIAN']],
+ subs:[
+ S('chips','膨化薯片','Chips & crisps',`
+🥔|原味薯片|Original potato chips|7.9|70g,135g|3|1|马铃薯、植物油、盐|potato, vegetable oil, salt
+🥔|烧烤味薯片|BBQ potato chips|7.9|70g,135g|2|0|马铃薯、植物油、烧烤调味料(乳粉)|potato, vegetable oil, BBQ seasoning (milk powder)|调味料含乳粉|the seasoning contains milk powder
+🥒|黄瓜味薯片|Cucumber potato chips|7.9|70g|2|1|马铃薯、植物油、黄瓜调味料|potato, vegetable oil, cucumber seasoning
+🍅|番茄味薯片|Tomato potato chips|7.9|70g|2|1|马铃薯、植物油、番茄调味料|potato, vegetable oil, tomato seasoning
+🧀|芝士味玉米片|Cheese tortilla chips|9.9|150g|2|0|玉米、植物油、芝士粉|corn, vegetable oil, cheese powder|含芝士粉|cheese powder
+🦐|鲜虾条|Shrimp crackers|5.9|80g|2|0|小麦粉、虾粉、植物油|wheat flour, shrimp powder, vegetable oil|含虾粉|shrimp powder
+🍘|小米锅巴|Millet crisps|6.9|150g|2|1|小米、大米、植物油、盐|millet, rice, vegetable oil, salt
+🍘|雪饼|Frosted rice crackers|9.9|240g|2|1|大米、白砂糖、植物油|rice, sugar, vegetable oil
+🍿|奶油爆米花|Butter popcorn|9.9|150g|2|0|玉米、黄油、白砂糖|corn, butter, sugar|含黄油|butter
+🍿|焦糖爆米花|Caramel popcorn|9.9|150g|2|1|玉米、白砂糖、植物油、盐|corn, sugar, vegetable oil, salt
+🌶️|大辣条|Spicy gluten strips (latiao)|5.9|106g|2|1|小麦粉、植物油、辣椒、香辛料|wheat flour, vegetable oil, chili, spices
+🍙|海苔卷|Seaweed rolls|9.9|36g|2|1|紫菜、植物油、盐|laver, vegetable oil, salt
+🍙|海苔肉松卷|Seaweed pork-floss rolls|12.9|60g|1|0|紫菜、猪肉松、芝麻|laver, pork floss, sesame|含猪肉松|pork floss`),
+ S('biscuit','饼干糕点','Biscuits',`
+🍘|苏打饼干|Soda crackers|8.9|400g|2|1|小麦粉、植物油、酵母、盐|wheat flour, vegetable oil, yeast, salt
+🍪|黄油曲奇|Butter cookies|25.9|340g|2|0|小麦粉、黄油、白砂糖、鸡蛋|wheat flour, butter, sugar, egg|含黄油和鸡蛋|butter and egg
+🍪|夹心饼干|Sandwich cookies|9.9|300g|2|0|小麦粉、白砂糖、植物油、乳清粉|wheat flour, sugar, vegetable oil, whey powder|含乳清粉(来自牛奶)|whey powder (from milk)
+🍪|可可夹心饼干|Cocoa sandwich cookies|11.9|300g|1|1|小麦粉、白砂糖、植物油、可可粉|wheat flour, sugar, vegetable oil, cocoa
+🧇|威化饼干|Wafer biscuits|10.9|200g|2|0|小麦粉、白砂糖、全脂奶粉、植物油|wheat flour, sugar, whole milk powder, vegetable oil|含全脂奶粉|whole milk powder
+🍪|消化饼干|Digestive biscuits|12.9|400g|2|0|小麦粉、全麦粉、植物油、白砂糖、乳清粉|wheat flour, wholemeal flour, vegetable oil, sugar, whey powder|含乳清粉(来自牛奶)|whey powder (from milk)
+🍪|燕麦饼干|Oat cookies|11.9|300g|1|1|燕麦、小麦粉、植物油、白砂糖|oats, wheat flour, vegetable oil, sugar
+🥚|蛋黄酥|Egg-yolk pastry|19.9|6枚|2|0|小麦粉、咸蛋黄、红豆沙、黄油|wheat flour, salted egg yolk, red bean paste, butter|含咸蛋黄和黄油|salted egg yolk and butter
+🍘|沙琪玛|Sachima|12.9|400g|2|0|小麦粉、鸡蛋、白砂糖、植物油|wheat flour, egg, sugar, vegetable oil|含鸡蛋|egg
+🥨|麻花|Fried dough twists|9.9|300g|2|1|小麦粉、植物油、白砂糖、芝麻|wheat flour, vegetable oil, sugar, sesame`),
+ S('nuts','坚果果干','Nuts & dried fruit',`
+🥜|每日坚果|Daily mixed nuts|39.9|10袋|2|1|核桃、腰果、扁桃仁、蔓越莓干|walnuts, cashews, almonds, dried cranberries
+🌻|原味瓜子|Sunflower seeds|9.9|300g|2|1
+🥜|开心果|Pistachios|35.9|250g|2|1
+🥜|盐焗腰果|Salted cashews|32.9|250g|2|1
+🌰|蜂蜜黄油扁桃仁|Honey butter almonds|19.9|130g|2|0|扁桃仁、蜂蜜、黄油、白砂糖|almonds, honey, butter, sugar|含蜂蜜和黄油|honey and butter
+🌰|糖炒栗子仁|Roasted chestnuts|12.9|150g|1|1
+🥭|芒果干|Dried mango|14.9|120g|2|1|芒果、白砂糖|mango, sugar
+🍇|葡萄干|Raisins|9.9|250g|2|1
+🍒|山楂片|Hawthorn flakes|6.9|200g|1|1|山楂、白砂糖|hawthorn, sugar
+🥥|椰子脆片|Coconut chips|12.9|80g|1|1`),
+ S('sweets','糖果巧克力','Candy & chocolate',`
+🍬|水果软糖|Fruit gummies|8.9|100g|3|0|白砂糖、葡萄糖浆、明胶、浓缩果汁|sugar, glucose syrup, gelatin, fruit juice concentrate|含明胶(动物来源)|gelatin (animal-derived)
+🍬|果胶软糖|Pectin fruit jellies|9.9|100g|2|1|白砂糖、葡萄糖浆、果胶、浓缩果汁|sugar, glucose syrup, pectin, fruit juice concentrate
+🍡|棉花糖|Marshmallows|9.9|150g|2|0|白砂糖、葡萄糖浆、明胶|sugar, glucose syrup, gelatin|含明胶(动物来源)|gelatin (animal-derived)
+🍭|水果硬糖|Fruit hard candy|7.9|200g|2|1|白砂糖、葡萄糖浆、柠檬酸|sugar, glucose syrup, citric acid
+🍬|牛奶糖|Milk candy|12.9|200g|2|0|白砂糖、全脂奶粉、麦芽糖浆|sugar, whole milk powder, maltose syrup|含全脂奶粉|whole milk powder
+🍬|薄荷糖|Mints|6.9|50g|2|1
+🍬|无糖口香糖|Sugar-free gum|8.9|40粒|2|1
+🍫|牛奶巧克力|Milk chocolate|15.9|100g|3|0|白砂糖、可可脂、全脂奶粉、可可液块|sugar, cocoa butter, whole milk powder, cocoa mass|含全脂奶粉|whole milk powder
+🍫|72%黑巧克力|72% dark chocolate|19.9|100g|2|1|可可液块、可可脂、白砂糖|cocoa mass, cocoa butter, sugar
+🍫|醇黑巧克力|Dark chocolate|17.9|100g|2|0|可可液块、白砂糖、可可脂、无水奶油|cocoa mass, sugar, cocoa butter, anhydrous milk fat|含无水奶油(来自牛奶)|anhydrous milk fat (from milk)
+🍮|鸡蛋布丁|Egg pudding|9.9|3杯|2|0|牛奶、鸡蛋、白砂糖|milk, egg, sugar|含牛奶和鸡蛋|milk and egg
+🍮|水果果冻|Fruit jelly cups|8.9|6杯|2|1|水、白砂糖、果汁、卡拉胶|water, sugar, fruit juice, carrageenan
+🍮|龟苓膏|Herbal jelly (guilinggao)|9.9|3杯|1|0|水、龟板提取物、土茯苓、红糖|water, tortoise-shell extract, smilax, brown sugar|含龟板提取物|tortoise-shell extract
+🌿|烧仙草|Grass jelly|8.9|3杯|1|1|水、仙草、白砂糖、淀粉|water, mesona herb, sugar, starch`),
+ S('savory','肉脯卤味','Savoury snacks',`
+🥩|五香牛肉粒|Spiced beef bites|25.9|100g|2|0|牛肉、白砂糖、酱油、香辛料|beef, sugar, soy sauce, spices|含牛肉|beef
+🦑|手撕鱿鱼丝|Shredded squid|19.9|80g|2|0|鱿鱼、白砂糖、盐|squid, sugar, salt|含鱿鱼|squid
+🦆|麻辣鸭脖|Spicy duck neck|16.9|120g|2|0|鸭脖、辣椒、花椒、酱油|duck neck, chili, Sichuan pepper, soy sauce|含鸭肉|duck
+🍗|泡椒凤爪|Pickled chicken feet|15.9|200g|2|0|鸡爪、泡椒、盐|chicken feet, pickled chili, salt|含鸡爪|chicken feet
+T2|香辣豆干|Spicy tofu snack|9.9|200g|2|1|大豆、植物油、辣椒、香辛料|soybeans, vegetable oil, chili, spices
+🥚|卤蛋|Marinated eggs|12.9|6枚|2|0|鸡蛋、酱油、香辛料|egg, soy sauce, spices|含鸡蛋|egg
+🌭|即食火腿肠|Ready-to-eat ham sausage|14.9|10支|2|0|猪肉、鸡肉、淀粉、盐|pork, chicken, starch, salt|含猪肉和鸡肉|pork and chicken
+🍫|蛋白能量棒|Protein bar|12.9|3支|2|0|乳清蛋白、燕麦、蜂蜜、坚果|whey protein, oats, honey, nuts|含乳清蛋白和蜂蜜|whey protein and honey
+🥜|坚果能量棒|Nut energy bar|13.9|3支|1|1|椰枣、腰果、扁桃仁、可可粉|dates, cashews, almonds, cocoa`)
+ ]},
+{k:'drinks',zh:'酒水饮料',en:'Drinks',e:'🧃',hue:262,dv:1,pack:1,
+ brands:[['清泉里','ClearSpring'],['果汽','FizzFruit'],['茶屿','TeaIsle'],['禾鲜','HEXIAN']],
+ subs:[
+ S('water','水与汽水','Water & soda',`
+💧|饮用天然水|Natural drinking water|1.9|550ml,550mlx24,5L|3|1
+💧|苏打气泡水|Sparkling water|4.9|330ml,330mlx6|2|1
+🥤|可乐|Cola|3.5|500ml,2L,330mlx6|2|1|水、白砂糖、二氧化碳、焦糖色|water, sugar, carbon dioxide, caramel colour
+🥤|无糖可乐|Zero-sugar cola|3.5|500ml,330mlx6|2|1
+🍋|柠檬味汽水|Lemon soda|3.5|500ml,2L|2|1
+🍊|橙味汽水|Orange soda|3.5|500ml|2|1
+🥤|运动饮料|Sports drink|5.5|600ml|2|1
+⚡|能量饮料|Energy drink|6.5|250ml,250mlx6|2|1|水、白砂糖、牛磺酸(合成)、咖啡因、维生素|water, sugar, taurine (synthetic), caffeine, vitamins`),
+ S('juice','果汁植物饮','Juice & plant drinks',`
+🧃|100%橙汁|100% orange juice|15.9|1L|3|1
+🧃|苹果汁|Apple juice|12.9|1L|2|1
+🥥|椰子水|Coconut water|8.9|330ml,1L|2|1
+🍅|番茄汁|Tomato juice|9.9|1L|1|1
+🥭|芒果汁饮料|Mango juice drink|6.9|500ml|2|1
+🍑|蜜桃汁饮料|Peach juice drink|6.9|500ml|1|0|水、桃汁、白砂糖、蜂蜜|water, peach juice, sugar, honey|含蜂蜜|honey
+🥛|豆奶|Soy drink|3.9|250ml,250mlx12|2|1|水、大豆、白砂糖|water, soybeans, sugar
+🥛|巧克力豆奶|Chocolate soy drink|4.5|250ml|1|1|水、大豆、白砂糖、可可粉|water, soybeans, sugar, cocoa
+🍵|酸梅汤|Sour plum drink|5.9|500ml|2|1|水、乌梅、山楂、冰糖|water, smoked plum, hawthorn, rock sugar`),
+ S('tea','茶饮咖啡','Tea & coffee drinks',`
+🍵|无糖绿茶|Unsweetened green tea|4.5|500ml|3|1
+🍵|乌龙茶|Oolong tea|4.9|500ml|2|1
+🍵|茉莉花茶|Jasmine tea drink|4.5|500ml|2|1
+🍋|冰红茶|Iced lemon tea|3.9|500ml|2|1
+🧋|经典奶茶|Classic milk tea|5.9|450ml|3|0|水、红茶、全脂奶粉、白砂糖|water, black tea, whole milk powder, sugar|含全脂奶粉|whole milk powder
+🧋|燕麦奶茶|Oat milk tea|7.9|450ml|1|1|水、红茶、燕麦奶、白砂糖|water, black tea, oat milk, sugar
+☕|拿铁咖啡|Latte coffee|8.9|300ml|3|0|水、牛奶、咖啡、白砂糖|water, milk, coffee, sugar|含牛奶|milk
+☕|美式黑咖啡|Black americano|6.9|300ml|2|1|水、咖啡|water, coffee
+☕|燕麦拿铁|Oat latte|9.9|300ml|2|1|水、燕麦奶、咖啡|water, oat milk, coffee
+🍯|蜂蜜柚子茶|Honey citron tea|19.9|500g|2|0|柚子、蜂蜜、白砂糖|citron, honey, sugar|含蜂蜜|honey`),
+ S('brew','茶叶冲调','Tea leaves & instant',`
+🍵|龙井绿茶|Longjing green tea|59.9|100g|2|1
+🍵|正山小种红茶|Lapsang souchong black tea|49.9|100g|1|1
+🍵|普洱茶饼|Pu'er tea cake|89|357g|1|1
+🌼|菊花茶|Chrysanthemum tea|19.9|50g|2|1
+☕|速溶黑咖啡|Instant black coffee|25.9|48条|2|1
+☕|三合一速溶咖啡|3-in-1 instant coffee|22.9|30条|3|0|白砂糖、植脂末(酪蛋白酸钠)、速溶咖啡|sugar, creamer (sodium caseinate), instant coffee|植脂末含酪蛋白酸钠(来自牛奶)|the creamer contains sodium caseinate (from milk)
+☕|挂耳咖啡|Drip-bag coffee|39.9|10包|2|1
+🍫|麦芽可可粉|Malted cocoa drink powder|29.9|400g|2|0|麦芽提取物、可可粉、脱脂奶粉、白砂糖|malt extract, cocoa, skim milk powder, sugar|含脱脂奶粉|skim milk powder
+🥣|黑芝麻糊|Black sesame cereal|19.9|480g|2|1|黑芝麻、大米、白砂糖|black sesame, rice, sugar
+🥛|豆奶粉|Soy milk powder|19.9|500g|2|0|大豆、白砂糖、全脂奶粉|soybeans, sugar, whole milk powder|含全脂奶粉|whole milk powder
+🥣|藕粉|Lotus root starch drink|18.9|300g|1|1`),
+ S('alcohol','酒类','Beer, wine & spirits',`
+🍺|精酿啤酒|Craft lager beer|6.9|500ml,500mlx6|3|1|水、麦芽、啤酒花、酵母|water, malt, hops, yeast
+🍺|小麦白啤|Wheat beer|8.9|500ml|2|1|水、小麦芽、啤酒花、酵母|water, wheat malt, hops, yeast
+🍶|白酒|Baijiu|59|500ml|2|1|高粱、水、小麦|sorghum, water, wheat
+🍷|赤霞珠干红葡萄酒|Cabernet Sauvignon red wine|79|750ml|2|0|葡萄、二氧化硫；澄清工艺使用蛋清|grapes, sulphites; fined with egg white|酿造时用蛋清澄清|fined with egg white during winemaking
+🍷|有机干红葡萄酒(未用动物澄清剂)|Organic red wine (no animal fining)|89|750ml|1|1|葡萄、二氧化硫；膨润土澄清|grapes, sulphites; fined with bentonite clay
+🥂|起泡酒|Sparkling wine|69|750ml|1|0|葡萄、二氧化硫；澄清工艺使用鱼胶|grapes, sulphites; fined with isinglass|酿造时用鱼胶澄清|fined with isinglass (from fish)
+🍶|绍兴黄酒|Shaoxing rice wine|19.9|500ml|2|1|水、糯米、小麦|water, glutinous rice, wheat
+🍑|青梅酒|Plum wine|39.9|330ml|1|1
+🥃|奶油利口酒|Cream liqueur|99|700ml|1|0|稀奶油、威士忌、白砂糖|cream, whiskey, sugar|含奶油|cream`)
+ ]},
+{k:'home',zh:'个护清洁',en:'Household & Care',e:'🧴',hue:172,dv:1,pack:1,
+ brands:[['洁朗','CleanBright'],['净叶','PureLeaf'],['柔云','SoftCloud'],['沐然','Muran']],
+ subs:[
+ S('clean','衣物家居清洁','Laundry & cleaning',`
+🧴|洗衣液|Laundry detergent|29.9|2kg,3kgx2|3|1|水、表面活性剂(植物来源)、香精|water, surfactants (plant-derived), fragrance
+🧴|洗衣凝珠|Laundry pods|39.9|50颗|2|1
+🧴|衣物柔顺剂|Fabric softener|25.9|2L|2|0|水、酯基季铵盐(牛油基)、香精|water, esterquat (tallow-based), fragrance|柔顺成分来自牛油|the softening agent is derived from beef tallow
+🧴|植物基柔顺剂|Plant-based fabric softener|27.9|2L|1|1|水、酯基季铵盐(菜籽油基)、香精|water, esterquat (rapeseed-based), fragrance
+🧴|洗洁精|Dish soap|9.9|1kg|3|1
+🧴|洗碗机洗涤块|Dishwasher tablets|49.9|40块|1|1
+🧴|厨房油污清洁剂|Kitchen degreaser|15.9|500ml|2|1
+🧴|洁厕剂|Toilet cleaner|9.9|500ml|2|1
+🧴|84消毒液|Disinfectant bleach|8.9|1L|2|1
+🧴|玻璃清洁剂|Glass cleaner|12.9|500ml|1|1
+🕯️|蜂蜡香薰蜡烛|Beeswax scented candle|49.9|1个|1|0|蜂蜡、棉芯、精油|beeswax, cotton wick, essential oil|含蜂蜡|beeswax
+🕯️|大豆蜡香薰蜡烛|Soy-wax scented candle|45.9|1个|2|1|大豆蜡、棉芯、精油|soy wax, cotton wick, essential oil`),
+ S('paper','纸品用具','Paper & tools',`
+🧻|卷纸|Toilet rolls|25.9|12卷,27卷|3|1
+🧻|抽纸|Facial tissues|19.9|100抽x10|3|1
+🧻|厨房纸巾|Kitchen towels|12.9|4卷|2|1
+🧻|湿巾|Wet wipes|9.9|80抽|2|1
+🧻|乳霜保湿纸巾|Lotion tissues|15.9|3包|1|0|原生木浆、羊毛脂、甘油|virgin wood pulp, lanolin, glycerin|含羊毛脂(来自绵羊)|lanolin (from sheep's wool)
+🗑️|垃圾袋|Trash bags|9.9|100只|2|1
+🧽|洗碗海绵|Dish sponges|6.9|5片|2|1
+🧤|橡胶手套|Rubber gloves|8.9|1双|1|1
+🧹|猪鬃清洁刷|Boar-bristle scrub brush|12.9|1把|1|0|木柄、猪鬃|wooden handle, boar bristle|刷毛为猪鬃|bristles are boar hair
+🧹|椰棕清洁刷|Coconut-fibre scrub brush|11.9|1把|1|1|木柄、椰棕|wooden handle, coconut fibre`),
+ S('care','个人护理','Personal care',`
+🧼|香皂|Bar soap|9.9|3块|3|0|脂肪酸钠(牛油基)、水、香精|sodium tallowate, water, fragrance|皂基来自牛油|the soap base is made from beef tallow
+🧼|植物精油皂|Plant-oil soap|15.9|2块|2|1|橄榄油、椰子油、水、精油|olive oil, coconut oil, water, essential oil
+🧴|沐浴露|Body wash|29.9|720ml|3|1
+🥛|牛奶沐浴露|Milk body wash|32.9|720ml|2|0|水、表面活性剂、牛奶蛋白、香精|water, surfactants, milk protein, fragrance|含牛奶蛋白|milk protein
+🧴|洗发水|Shampoo|39.9|500ml|3|1
+🧴|角蛋白修护护发素|Keratin repair conditioner|42.9|400ml|2|0|水、鲸蜡醇、水解角蛋白、香精|water, cetyl alcohol, hydrolysed keratin, fragrance|含角蛋白(动物来源)|keratin (animal-derived)
+🧴|椰子油护发素|Coconut-oil conditioner|39.9|400ml|1|1|水、鲸蜡醇(植物来源)、椰子油、香精|water, cetyl alcohol (plant-derived), coconut oil, fragrance
+🪥|含氟牙膏|Fluoride toothpaste|12.9|120g|3|1
+🪥|蜂胶牙膏|Propolis toothpaste|19.9|120g|2|0|水、山梨醇、蜂胶提取物、氟化钠|water, sorbitol, propolis extract, sodium fluoride|含蜂胶(来自蜜蜂)|propolis (from bees)
+🪥|软毛牙刷|Soft toothbrush|9.9|2支|2|1
+🧴|洗手液|Hand wash|12.9|500ml|3|1
+💄|蜂蜡润唇膏|Beeswax lip balm|19.9|1支|2|0|蜂蜡、橄榄油、维生素E|beeswax, olive oil, vitamin E|含蜂蜡|beeswax
+💄|小烛树蜡润唇膏|Candelilla-wax lip balm|22.9|1支|1|1|小烛树蜡、椰子油、乳木果油|candelilla wax, coconut oil, shea butter
+🧴|绵羊油护手霜|Lanolin hand cream|15.9|80g|2|0|水、甘油、羊毛脂、香精|water, glycerin, lanolin, fragrance|含羊毛脂(来自绵羊)|lanolin (from sheep's wool)
+🧴|乳木果护手霜|Shea butter hand cream|19.9|80g|2|1|水、甘油、乳木果油、香精|water, glycerin, shea butter, fragrance
+🧴|防晒霜SPF50|Sunscreen SPF50|59.9|50ml|2|1
+🧴|胶原蛋白面膜|Collagen face mask|49.9|5片|2|0|水、甘油、水解胶原蛋白|water, glycerin, hydrolysed collagen|含胶原蛋白(动物来源)|collagen (animal-derived)
+🧴|芦荟面膜|Aloe face mask|39.9|5片|1|1|水、甘油、芦荟提取物|water, glycerin, aloe extract
+🐌|蜗牛原液面霜|Snail essence cream|79|50g|1|0|水、蜗牛分泌物滤液、甘油|water, snail secretion filtrate, glycerin|含蜗牛分泌物|snail secretion
+🪒|剃须泡沫|Shaving foam|25.9|200ml|2|1
+🖌️|山羊毛化妆刷|Goat-hair makeup brush|35.9|1支|1|0|木柄、山羊毛|wooden handle, goat hair|刷毛为山羊毛|bristles are goat hair
+🖌️|纤维毛化妆刷|Synthetic makeup brush|29.9|1支|1|1|木柄、合成纤维毛|wooden handle, synthetic fibre
+🧴|卸妆水|Micellar cleansing water|49.9|400ml|1|1`)
+ ]}
+];
+var TAILS={
+ bake:{zh:['白砂糖','食用盐','酵母','大豆卵磷脂(E322)','抗坏血酸(E300)','丙酸钙(E282)','瓜尔胶(E412)','麦芽粉'],en:['sugar','salt','yeast','soy lecithin (E322)','ascorbic acid (E300)','calcium propionate (E282)','guar gum (E412)','malt flour']},
+ inst:{zh:['棕榈油','食用盐','白砂糖','味精(E621)','酵母抽提物','碳酸钾(E501)','瓜尔胶(E412)','焦糖色(E150a)','大蒜粉','香辛料'],en:['palm oil','salt','sugar','MSG (E621)','yeast extract','potassium carbonate (E501)','guar gum (E412)','caramel colour (E150a)','garlic powder','spices']},
+ snack:{zh:['食用盐','麦芽糊精','大豆卵磷脂(E322)','柠檬酸(E330)','维生素E(E306)','食用香精','碳酸氢钠(E500)'],en:['salt','maltodextrin','soy lecithin (E322)','citric acid (E330)','vitamin E (E306)','flavouring','sodium bicarbonate (E500)']}
+};
+
+/* ---------- catalogue generator ---------- */
+function hsh(n){n=(n+1)*2654435761>>>0;n^=n>>>15;n=Math.imul(n,2246822519)>>>0;n^=n>>>13;return n>>>0;}
+function qty(s){var m=/^([\d.]+)\s*(kg|g|ml|L)?/.exec(s),x=/x(\d+)/.exec(s);if(!m)return 0;var n=parseFloat(m[1]);if(m[2]==='kg'||m[2]==='L')n*=1000;return n*(x?+x[1]:1);}
+function nice(v){if(v>=100)return Math.round(v);if(v<5)return Math.round(v*10)/10;var f=Math.floor(v);return f+(v-f<0.45?0.5:0.9);}
+var PRODUCTS=[],BASES=[];
+(function build(){
+  DEPTS.forEach(function(d,di){
+    d.subs.forEach(function(s,si){
+      s.dept=d;s.hue=(d.hue+si*13)%360;
+      s.rows.forEach(function(r,ri){
+        var f=r.split('|'),pool=s.brands||d.brands;
+        var b={d:d,s:s,e:f[0],zh:f[1],en:f[2],p:+f[3],sizes:f[4].split(','),nb:+f[5]||1,
+          v:f[6]===undefined||f[6]===''?d.dv:+f[6],ingZh:f[7]||'',ingEn:f[8]||'',
+          whyZh:f[9]||(s.why||d.why||['含动物成分'])[0],whyEn:f[10]||(s.why||d.why||['','contains animal-derived ingredients'])[1],
+          pool:pool,off:(di*3+si*5+ri)%pool.length,skus:[]};
+        for(var bi=0;bi<b.nb&&bi<pool.length;bi++)for(var zi=0;zi<b.sizes.length;zi++)b.skus.push([bi,zi]);
+        BASES.push(b);
+      });
+    });
+  });
+  var total=BASES.reduce(function(a,b){return a+b.skus.length;},0),guard=0;
+  while(total<TARGET&&guard++<20){               // pad: give popular lines one more brand
+    for(var i=0;i<BASES.length&&total<TARGET;i++){
+      var b=BASES[(i*7)%BASES.length],used=b.skus.reduce(function(m,x){return Math.max(m,x[0]);},0);
+      if(used+1<b.pool.length){b.skus.push([used+1,0]);total++;}
+    }
+  }
+  for(var j=BASES.length-1;j>=0&&total>TARGET;j--){ if(BASES[j].skus.length>1){BASES[j].skus.pop();total--;} }
+  BASES.forEach(function(b){
+    var q0=qty(b.sizes[0]);
+    b.skus.forEach(function(k){
+      var br=b.pool[(b.off+k[0])%b.pool.length],sz=b.sizes[k[1]],q=qty(sz);
+      var price=b.p*(q0&&q?Math.pow(q/q0,0.88):1+0.7*k[1]);
+      if(k[0]>0||k[1]>0) price=nice(price*(br[0]==='禾鲜'?0.93:1+0.07*k[0]));
+      var id=PRODUCTS.length,h=hsh(id);
+      var p={id:id,b:b,d:b.d,s:b.s,br:br,size:sz,price:price,v:b.v,h:h,pop:h%1000,sold:120+h%4800,
+        rate:(4.5+(h%5)/10).toFixed(1)};
+      if(h%8===0){p.was=nice(price/(0.72+(h%17)/100));if(p.was<=price)p.was=0;}
+      p.isNew=h%13===5; p.org=br[0].indexOf('有机')>=0; p.own=br[0]==='禾鲜';
+      PRODUCTS.push(p);
+    });
+  });
+})();
+var NVEG=PRODUCTS.filter(function(p){return p.v;}).length;
+
+/* ---------- i18n ---------- */
+var T={
+zh:{title:'禾鲜汇 — 网上超市',logo:'禾鲜汇',stripL:'🎉 新人首单立减 ¥20 · 满 ¥99 免配送费',stripR:'客服热线 400-000-0000 · 每日 7:00–23:00 配送',
+ loc:'配送至 上海市 浦东新区',ph:'搜索 1000 件商品，如“豆腐”“方便面”',search:'搜索',vegan:'纯素筛选',lang:'EN',login:'登录 / 注册',cart:'购物车',
+ vnote:function(n){return '🌱 纯素筛选已开启 · 已为你隐藏 '+n+' 件含动物成分的商品';},vnoteOff:'关闭筛选',
+ home:'首页',cats:'分类',me:'我的',all:'全部',
+ heroH:'新鲜好物，最快 30 分钟送达',heroP:'每日清晨直采 · 1000 件商品任你选 · 满 ¥99 免运费',heroB:'逛逛蔬菜水果',
+ vheroH:'纯素筛选已开启',vheroP:function(n){return '全场 '+n+' 件纯素商品，已逐一核对配料，放心选购';},vheroB:'逛逛豆制品素食',
+ p1:'新人专享',p1s:'首单立减 ¥20',p2:'周三会员日',p2s:'全场 88 折起',
+ t1:'最快30分钟达',t1s:'门店 3 公里内',t2:'品质保证',t2s:'不满意可退',t3:'满 ¥99 免运费',t3s:'未满收 ¥6',t4:'无忧售后',t4s:'在线客服',
+ deals:'限时特惠',dealsS:'每日 10 点上新',hot:'热卖',seeAll:'查看全部 ›',
+ items:function(n){return '共 '+n+' 件商品';},hidden:function(n){return '已隐藏 '+n+' 件非纯素';},
+ sort:'排序',sPop:'综合推荐',sAsc:'价格从低到高',sDesc:'价格从高到低',sSold:'销量优先',onlyDeal:'只看特惠',more:'加载更多',
+ results:function(q){return '“'+q+'”的搜索结果';},none:'没有找到相关商品',noneV:'纯素筛选已开启，可能有商品被隐藏',
+ sold:function(n){return '月售 '+(n>=1000?(n/1000).toFixed(1)+'k':n)+'+';},
+ tagDeal:'特惠',tagNew:'新品',tagOrg:'有机',tagOwn:'自有品牌',vb:'纯素',
+ add:'加入购物车',added:function(n){return '已加入购物车：'+n;},ing:'配料表',origin:'产地',store:'储存方式',life:'保质期',brand:'品牌',spec:'规格',rating:'评分',
+ vok:'🌱 纯素商品 · 已核对配料，不含动物成分',
+ cartT:'购物车',cartEmpty:'购物车还是空的',cartEmptyS:'去逛逛，挑点好东西吧',goShop:'去逛逛',subtotal:'商品小计',ship:'配送费',free:'免运费',total:'合计',
+ shipMore:function(v){return '再买 ¥'+v+' 即可免运费';},shipOk:'已满足免运费条件 🎉',checkout:'去结算',nv:'非纯素',remove:'删除',
+ coT:'确认订单',addr:'收货地址',addrV:'上海市浦东新区 世纪大道 100 号 · 张先生 138****0000',time:'配送时间',timeV:'今天 尽快送达（约 30 分钟）',pay:'支付方式',wx:'微信支付',ali:'支付宝',card:'银行卡',
+ demo:'这是演示网站：商品、价格与品牌均为虚构，订单不会真实提交，也不会扣款。',submit:'提交订单',okT:'演示订单已生成',okP:'感谢体验！这只是一个演示，不会有真实配送。',back:'继续逛逛',
+ demoToast:'演示网站：该功能未开放',
+ f1:'购物指南',f1a:'新手入门',f1b:'会员权益',f1c:'优惠券说明',f2:'配送服务',f2a:'配送范围',f2b:'配送时间',f2c:'运费说明',f3:'售后服务',f3a:'退换货政策',f3b:'发票服务',f3c:'联系客服',f4:'关于我们',f4a:'品牌故事',f4b:'食品安全',f4c:'加入我们',
+ disc:'演示网站 · 禾鲜汇为虚构品牌，所有商品、品牌、价格与配料表仅用于演示“纯素筛选”功能，不构成真实销售或营养建议。',
+ originV:['上海','山东','云南','广东','四川','浙江','江苏','福建'],storeV:{produce:'冷藏 0–8℃',meat:'冷藏 0–4℃',seafood:'冷藏或冷冻',dairy:'冷藏 2–6℃',bakery:'常温避光',tofu:'冷藏 0–8℃',pantry:'阴凉干燥处',instant:'常温或冷冻',snacks:'阴凉干燥处',drinks:'常温避光',home:'阴凉干燥处'},
+ lifeV:{produce:'3–7 天',meat:'3–5 天',seafood:'2–4 天',dairy:'7–21 天',bakery:'3–7 天',tofu:'5–10 天',pantry:'12–24 个月',instant:'6–12 个月',snacks:'9–12 个月',drinks:'12 个月',home:'36 个月'}},
+en:{title:'HEXIAN Market — Online Supermarket',logo:'HEXIAN',stripL:'🎉 ¥20 off your first order · Free delivery over ¥99',stripR:'Hotline 400-000-0000 · Delivery 7:00–23:00 daily',
+ loc:'Deliver to Pudong, Shanghai',ph:'Search 1,000 products, e.g. "tofu", "noodles"',search:'Search',vegan:'Vegan filter',lang:'中文',login:'Sign in',cart:'Cart',
+ vnote:function(n){return '🌱 Vegan filter is on · '+n+' products with animal ingredients are hidden';},vnoteOff:'Turn off',
+ home:'Home',cats:'Categories',me:'Account',all:'All',
+ heroH:'Fresh groceries, delivered in 30 minutes',heroP:'Sourced every morning · 1,000 products · Free delivery over ¥99',heroB:'Shop fruit & veg',
+ vheroH:'Vegan filter is on',vheroP:function(n){return 'Showing '+n+' vegan products — every ingredient list checked';},vheroB:'Shop tofu & plant-based',
+ p1:'New customers',p1s:'¥20 off your first order',p2:'Member Wednesday',p2s:'12% off storewide',
+ t1:'30-minute delivery',t1s:'Within 3 km of a store',t2:'Quality promise',t2s:'Refund if not happy',t3:'Free delivery over ¥99',t3s:'Otherwise ¥6',t4:'Easy returns',t4s:'Live support',
+ deals:'Deals of the day',dealsS:'New every day at 10:00',hot:'Popular',seeAll:'See all ›',
+ items:function(n){return n+' products';},hidden:function(n){return n+' non-vegan hidden';},
+ sort:'Sort',sPop:'Recommended',sAsc:'Price: low to high',sDesc:'Price: high to low',sSold:'Best selling',onlyDeal:'Deals only',more:'Load more',
+ results:function(q){return 'Results for "'+q+'"';},none:'No products found',noneV:'The vegan filter is on, so some products may be hidden',
+ sold:function(n){return (n>=1000?(n/1000).toFixed(1)+'k':n)+'+ sold';},
+ tagDeal:'Deal',tagNew:'New',tagOrg:'Organic',tagOwn:'Own brand',vb:'Vegan',
+ add:'Add to cart',added:function(n){return 'Added to cart: '+n;},ing:'Ingredients',origin:'Origin',store:'Storage',life:'Shelf life',brand:'Brand',spec:'Size',rating:'Rating',
+ vok:'🌱 Vegan · ingredients checked, no animal-derived ingredients',
+ cartT:'Your cart',cartEmpty:'Your cart is empty',cartEmptyS:'Have a look around and pick something nice',goShop:'Start shopping',subtotal:'Subtotal',ship:'Delivery',free:'Free',total:'Total',
+ shipMore:function(v){return 'Add ¥'+v+' more for free delivery';},shipOk:'You have free delivery 🎉',checkout:'Checkout',nv:'Not vegan',remove:'Remove',
+ coT:'Confirm order',addr:'Delivery address',addrV:'100 Century Avenue, Pudong, Shanghai · Mr. Zhang 138****0000',time:'Delivery time',timeV:'Today, as soon as possible (about 30 min)',pay:'Payment',wx:'WeChat Pay',ali:'Alipay',card:'Bank card',
+ demo:'This is a demo site: products, prices and brands are fictional. No real order is placed and nothing is charged.',submit:'Place order',okT:'Demo order created',okP:'Thanks for trying it out! This is only a demo — nothing will be delivered.',back:'Keep shopping',
+ demoToast:'Demo site: this feature is not available',
+ f1:'Shopping guide',f1a:'Getting started',f1b:'Membership',f1c:'Coupons',f2:'Delivery',f2a:'Delivery area',f2b:'Delivery times',f2c:'Delivery fees',f3:'After-sales',f3a:'Returns',f3b:'Invoices',f3c:'Contact us',f4:'About',f4a:'Our story',f4b:'Food safety',f4c:'Careers',
+ disc:'Demo site · HEXIAN Market is a fictional brand. All products, brands, prices and ingredient lists exist only to demonstrate the "vegan filter" concept and are not real offers or dietary advice.',
+ originV:['Shanghai','Shandong','Yunnan','Guangdong','Sichuan','Zhejiang','Jiangsu','Fujian'],storeV:{produce:'Chilled 0–8°C',meat:'Chilled 0–4°C',seafood:'Chilled or frozen',dairy:'Chilled 2–6°C',bakery:'Room temperature',tofu:'Chilled 0–8°C',pantry:'Cool, dry place',instant:'Ambient or frozen',snacks:'Cool, dry place',drinks:'Room temperature',home:'Cool, dry place'},
+ lifeV:{produce:'3–7 days',meat:'3–5 days',seafood:'2–4 days',dairy:'7–21 days',bakery:'3–7 days',tofu:'5–10 days',pantry:'12–24 months',instant:'6–12 months',snacks:'9–12 months',drinks:'12 months',home:'36 months'}}
+};
+
+/* ---------- state & helpers ---------- */
+var lang='zh',vegan=false,cart={},sort='pop',onlyDeal=false,limit=40,lastRoute='';
+var $=function(s){return document.querySelector(s);};
+function t(k){return T[lang][k];}
+function L(o){return lang==='zh'?o.zh:o.en;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var UNITS=[['连包','-pack'],['人份',' servings'],['半只',' half'],['枚',' pcs'],['个',' pcs'],['颗',' pcs'],['根',' pcs'],['条',' pcs'],['只',' pcs'],['片',' slices'],['块',' pcs'],['杯',' cups'],['瓶',' bottles'],['袋',' bag'],['盒',' box'],['桶',' tub'],['支',' pcs'],['卷',' rolls'],['抽',' sheets'],['包',' packs'],['双',' pair'],['把',' pc'],['粒',' pcs']];
+function sizeT(s){s=s.replace('x','×');if(lang==='zh')return s;UNITS.forEach(function(u){s=s.split(u[0]).join(u[1]);});return s;}
+function pname(p){return lang==='zh'?p.br[0]+' '+p.b.zh+' '+sizeT(p.size):p.br[1]+' '+p.b.en+' '+sizeT(p.size);}
+function shown(p){return !vegan||p.v;}
+function money(v){return v.toFixed(v%1?1:0);}
+function priceH(p){var s=p.price.toFixed(2).split('.');return '<span class="price"><em>¥</em>'+s[0]+'<small>.'+s[1]+'</small>'+(p.was?'<s>¥'+money(p.was)+'</s>':'')+'</span>';}
+var TOFU={T1:['#f7f0dc','#e4d8b8'],T2:['#c9a26b','#a9824c'],T3:['#f2d98a','#d9bb5c']};
+function em(e){if(TOFU[e]){var c=TOFU[e];return '<svg class="em" viewBox="0 0 52 52" width="1em" height="1em" style="width:1em;height:1em"><rect x="7" y="13" width="38" height="28" rx="5" fill="'+c[0]+'" stroke="'+c[1]+'" stroke-width="2"/><circle cx="18" cy="26" r="2.2" fill="'+c[1]+'"/><circle cx="31" cy="23" r="1.8" fill="'+c[1]+'"/><circle cx="35" cy="33" r="2.4" fill="'+c[1]+'"/><circle cx="22" cy="35" r="1.8" fill="'+c[1]+'"/></svg>';}return '<span class="em">'+e+'</span>';}
+function isPack(p){return p.s.pack!==undefined?p.s.pack:p.d.pack;}
+function visual(p){return isPack(p)?'<span class="pack"><i>'+esc(lang==='zh'?p.br[0]:p.br[1])+'</i>'+em(p.b.e)+'<u>'+esc(sizeT(p.size))+'</u></span>':em(p.b.e);}
+function ctl(id){var q=cart[id]||0;return q?'<span class="step"><button data-act="dec" data-id="'+id+'" aria-label="-">−</button><b>'+q+'</b><button data-act="inc" data-id="'+id+'" aria-label="+">+</button></span>':'<button class="addbtn" data-act="inc" data-id="'+id+'" aria-label="'+t('add')+'">+</button>';}
+function card(p){
+  var tags=(p.was?'<span class="tag">'+t('tagDeal')+'</span>':'')+(p.org?'<span class="tag org">'+t('tagOrg')+'</span>':p.isNew?'<span class="tag new">'+t('tagNew')+'</span>':p.own?'<span class="tag own">'+t('tagOwn')+'</span>':'');
+  return '<article class="card"><div class="thumb" style="--h:'+p.s.hue+'" data-act="open" data-id="'+p.id+'">'+visual(p)+'<div class="tags">'+tags+'</div>'+(p.v?'<span class="vbadge">🌱 '+t('vb')+'</span>':'')+'</div>'+
+   '<div class="cbody"><h3 class="cname" data-act="open" data-id="'+p.id+'">'+esc(pname(p))+'</h3><div class="cspec">'+esc(sizeT(p.size))+' · '+t('sold')(p.sold)+'</div>'+
+   '<div class="prow">'+priceH(p)+'<span data-ctl="'+p.id+'">'+ctl(p.id)+'</span></div></div></article>';
+}
+function byPop(a,b){return (b.pop+(b.was?400:0))-(a.pop+(a.was?400:0));}
+function count(list){return list.filter(shown).length;}
+function deptOf(k){for(var i=0;i<DEPTS.length;i++)if(DEPTS[i].k===k)return DEPTS[i];return null;}
+
+/* ---------- views ---------- */
+function viewHome(){
+  var vis=PRODUCTS.filter(shown);
+  var deals=vis.filter(function(p){return p.was;}).sort(byPop).slice(0,14);
+  var h='<section class="hero"><div class="banner"><h1>'+(vegan?t('vheroH'):t('heroH'))+'</h1><p>'+(vegan?t('vheroP')(NVEG):t('heroP'))+'</p><a href="#/c/'+(vegan?'tofu':'produce')+'">'+(vegan?t('vheroB'):t('heroB'))+'</a><div class="art">'+(vegan?'🥦🥕🍄':'🍓🥬🍊')+'</div></div>'+
+    '<div class="sidepromo"><div class="promo a"><b>'+t('p1')+'</b><span>'+t('p1s')+'</span><i>🎁</i></div><div class="promo b"><b>'+t('p2')+'</b><span>'+t('p2s')+'</span><i>🏷️</i></div></div></section>';
+  h+='<section class="sec"><div class="depts">'+DEPTS.map(function(d){return '<a href="#/c/'+d.k+'" style="--h:'+d.hue+'"><i>'+d.e+'</i>'+L(d)+'</a>';}).join('')+'</div></section>';
+  h+='<section class="sec trust">'+[['🚚','t1'],['✅','t2'],['💰','t3'],['💬','t4']].map(function(x){return '<div><i>'+x[0]+'</i><span>'+t(x[1])+'<small>'+t(x[1]+'s')+'</small></span></div>';}).join('')+'</section>';
+  h+='<section class="sec"><div class="sechead"><h2>⚡ '+t('deals')+'</h2><span class="sub">'+t('dealsS')+'</span></div><div class="hscroll">'+deals.map(card).join('')+'</div></section>';
+  DEPTS.forEach(function(d){
+    var seen={},row=vis.filter(function(p){return p.d===d;}).sort(byPop).filter(function(p){if(seen[p.b.zh])return false;seen[p.b.zh]=1;return true;}).slice(0,6);
+    if(!row.length)return;
+    h+='<section class="sec"><div class="sechead"><h2>'+d.e+' '+L(d)+'</h2><span class="sub">'+t('hot')+'</span><a href="#/c/'+d.k+'">'+t('seeAll')+'</a></div><div class="rowgrid">'+row.map(card).join('')+'</div></section>';
+  });
+  return h;
+}
+function listView(all,head,chips,side){
+  var list=all.filter(shown);if(onlyDeal)list=list.filter(function(p){return p.was;});
+  var hid=all.length-all.filter(shown).length;
+  if(sort==='asc')list.sort(function(a,b){return a.price-b.price;});
+  else if(sort==='desc')list.sort(function(a,b){return b.price-a.price;});
+  else if(sort==='sold')list.sort(function(a,b){return b.sold-a.sold;});
+  else list.sort(byPop);
+  var h='<div class="cathead">'+head+'<span class="n">'+t('items')(list.length)+'</span>'+(vegan&&hid?'<span class="hid">🌱 '+t('hidden')(hid)+'</span>':'')+'</div>'+chips+
+    '<div class="tools"><span>'+t('sort')+'</span><select id="sortSel">'+[['pop','sPop'],['asc','sAsc'],['desc','sDesc'],['sold','sSold']].map(function(o){return '<option value="'+o[0]+'"'+(sort===o[0]?' selected':'')+'>'+t(o[1])+'</option>';}).join('')+'</select>'+
+    '<label><input type="checkbox" id="dealChk"'+(onlyDeal?' checked':'')+'> '+t('onlyDeal')+'</label></div>';
+  if(!list.length) h+='<div class="empty"><i>🔍</i><b>'+t('none')+'</b>'+(vegan?'<div>'+t('noneV')+'</div>':'')+'</div>';
+  else h+='<div class="grid">'+list.slice(0,limit).map(card).join('')+'</div>'+(list.length>limit?'<button class="more" data-act="more">'+t('more')+' ('+(list.length-limit)+')</button>':'');
+  return side?'<div class="cat">'+side+'<div>'+h+'</div></div>':h;
+}
+function viewCat(dk,sk){
+  var d=deptOf(dk);if(!d)return viewHome();
+  var sub=null;d.subs.forEach(function(s){if(s.k===sk)sub=s;});
+  var all=PRODUCTS.filter(function(p){return p.d===d&&(!sub||p.s===sub);});
+  var cnt=function(f){return count(PRODUCTS.filter(f));};
+  var chips='<div class="chips"><a class="chip'+(sub?'':' on')+'" href="#/c/'+d.k+'">'+t('all')+'</a>'+d.subs.map(function(s){return '<a class="chip'+(s===sub?' on':'')+'" href="#/c/'+d.k+'/'+s.k+'">'+L(s)+'</a>';}).join('')+'</div>';
+  var side='<aside class="side"><h4>'+L(d)+'</h4><a class="'+(sub?'':'on')+'" href="#/c/'+d.k+'">'+t('all')+'<span>'+cnt(function(p){return p.d===d;})+'</span></a>'+
+    d.subs.map(function(s){return '<a class="'+(s===sub?'on':'')+'" href="#/c/'+d.k+'/'+s.k+'">'+L(s)+'<span>'+cnt(function(p){return p.s===s;})+'</span></a>';}).join('')+'<hr><h4>'+t('cats')+'</h4>'+
+    DEPTS.filter(function(x){return x!==d;}).map(function(x){return '<a href="#/c/'+x.k+'">'+x.e+' '+L(x)+'</a>';}).join('')+'</aside>';
+  var crumb='<div class="crumb"><a href="#/">'+t('home')+'</a> › '+(sub?'<a href="#/c/'+d.k+'">'+L(d)+'</a> › '+L(sub):L(d))+'</div>';
+  return crumb+listView(all,'<h1>'+d.e+' '+(sub?L(sub):L(d))+'</h1>',chips,side);
+}
+function viewSearch(q){
+  var k=q.toLowerCase().trim();
+  var all=PRODUCTS.filter(function(p){return (p.b.zh+p.br[0]+p.s.zh+p.d.zh+' '+p.b.en+' '+p.br[1]+' '+p.s.en+' '+p.d.en).toLowerCase().indexOf(k)>=0;});
+  return '<div class="crumb"><a href="#/">'+t('home')+'</a> › '+t('search')+'</div>'+listView(all,'<h1>'+esc(t('results')(q))+'</h1>','',null);
+}
+function route(){
+  var h=decodeURIComponent(location.hash.replace(/^#\/?/,'')),a=h.split('/');
+  if(h!==lastRoute){limit=40;if(a[0]!=='c'||lastRoute.split('/')[1]!==a[1]){sort='pop';onlyDeal=false;}lastRoute=h;window.scrollTo(0,0);}
+  var html=a[0]==='c'?viewCat(a[1],a[2]):a[0]==='s'&&a[1]?viewSearch(a.slice(1).join('/')):viewHome();
+  $('#app').innerHTML=html;
+  document.querySelectorAll('#deptbar a').forEach(function(x){x.classList.toggle('on',a[0]==='c'&&x.dataset.k===a[1]||(!a[0]||a[0]==='')&&x.dataset.k==='');});
+  if(a[0]==='s')$('#q').value=a.slice(1).join('/');
+}
+
+/* ---------- chrome (header, footer, tab bar) ---------- */
+function chrome(){
+  document.documentElement.lang=lang;document.title=t('title');
+  $('#logoName').textContent=t('logo');$('#stripL').textContent=t('stripL');$('#stripR').textContent=t('stripR');
+  $('#loc').innerHTML='<svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('loc');
+  $('#q').placeholder=t('ph');$('#searchBtnT').textContent=t('search');$('#langBtn').textContent=t('lang');$('#loginBtn').textContent=t('login');$('#cartBtnT').textContent=t('cart');
+  document.querySelectorAll('.vegan .vl').forEach(function(x){x.textContent=t('vegan');});
+  document.querySelectorAll('.vegan').forEach(function(x){x.setAttribute('aria-pressed',vegan);});
+  $('#deptbar').innerHTML='<a href="#/" data-k="">'+t('home')+'</a>'+DEPTS.map(function(d){return '<a href="#/c/'+d.k+'" data-k="'+d.k+'">'+L(d)+'</a>';}).join('');
+  $('#vnoteT').textContent=t('vnote')(PRODUCTS.length-NVEG);$('#vnoteOff').textContent=t('vnoteOff');
+  $('#fcols').innerHTML=[1,2,3,4].map(function(i){return '<div><h5>'+t('f'+i)+'</h5><span>'+t('f'+i+'a')+'</span><span>'+t('f'+i+'b')+'</span><span>'+t('f'+i+'c')+'</span></div>';}).join('');
+  $('#disc').textContent=t('disc');
+  var I={home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',cats:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',cart:'<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/>',me:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
+  $('#tabbar').innerHTML=[['home','gohome'],['cats','sheet'],['cart','cart'],['me','demo']].map(function(x){return '<button data-act="'+x[1]+'"'+(x[0]==='home'?' class="on"':'')+'><svg class="ic" viewBox="0 0 24 24">'+I[x[0]]+'</svg>'+t(x[0])+(x[0]==='cart'?'<span class="cnt" data-cnt>0</span>':'')+'</button>';}).join('');
+  badge();
+}
+function badge(){var n=0;for(var k in cart)n+=cart[k];document.querySelectorAll('[data-cnt]').forEach(function(x){x.textContent=n;x.style.display=n?'':'none';});}
+var toastT;function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove('show');},1700);}
+function save(){try{localStorage.setItem('hx_cart',JSON.stringify(cart));}catch(e){}}
+
+/* ---------- cart ---------- */
+function setQty(id,q){if(q<=0)delete cart[id];else cart[id]=q;save();badge();
+  document.querySelectorAll('[data-ctl="'+id+'"]').forEach(function(x){x.innerHTML=ctl(id);});
+  if($('#cart').classList.contains('show'))renderCart();}
+function totals(){var sub=0,n=0;for(var k in cart){sub+=PRODUCTS[k].price*cart[k];n+=cart[k];}var ship=sub>=99||!n?0:6;return {sub:sub,n:n,ship:ship,total:sub+ship};}
+function renderCart(){
+  var tt=totals(),ids=Object.keys(cart),h='<div class="dhead">🛒 '+t('cartT')+(tt.n?' ('+tt.n+')':'')+'<button data-act="closeall" aria-label="close">✕</button></div>';
+  if(!ids.length){h+='<div class="dbody"><div class="empty" style="box-shadow:none"><i>🧺</i><b>'+t('cartEmpty')+'</b><div>'+t('cartEmptyS')+'</div></div></div><div class="dfoot"><button class="cta" data-act="closeall">'+t('goShop')+'</button></div>';}
+  else{
+    h+='<div class="ship">'+(tt.sub>=99?t('shipOk'):t('shipMore')((99-tt.sub).toFixed(1)))+'<div class="bar"><i style="width:'+Math.min(100,tt.sub/99*100)+'%"></i></div></div><div class="dbody">'+
+      ids.map(function(id){var p=PRODUCTS[id];return '<div class="line"><div class="li" style="--h:'+p.s.hue+'" data-act="open" data-id="'+id+'">'+em(p.b.e)+'</div><div class="ln"><b>'+esc(pname(p))+'</b><span>'+esc(sizeT(p.size))+'</span>'+(vegan&&!p.v?'<span class="nv">'+t('nv')+'</span>':'')+'<span class="lp">¥'+(p.price*cart[id]).toFixed(2)+'</span></div><span data-ctl="'+id+'">'+ctl(id)+'</span></div>';}).join('')+
+      '</div><div class="dfoot"><div class="sum"><span>'+t('subtotal')+'</span><span>¥'+tt.sub.toFixed(2)+'</span></div><div class="sum"><span>'+t('ship')+'</span><span>'+(tt.ship?'¥'+tt.ship.toFixed(2):t('free'))+'</span></div><div class="sum t"><span>'+t('total')+'</span><b>¥'+tt.total.toFixed(2)+'</b></div><button class="cta" data-act="checkout">'+t('checkout')+'</button></div>';
+  }
+  $('#cart').innerHTML=h;
+}
+function openCart(){closeAll();renderCart();$('#cart').classList.add('show');$('#ov').classList.add('show');}
+function closeAll(){['#cart','#modal','#sheet','#ov'].forEach(function(s){$(s).classList.remove('show');});}
+
+/* ---------- product detail ---------- */
+function ingOf(p){
+  var b=p.b,core=lang==='zh'?(b.ingZh||b.zh):(b.ingEn||b.en),tl=TAILS[p.d.tail];
+  if(!tl||!b.ingZh)return core;
+  var arr=(lang==='zh'?tl.zh:tl.en).slice(),s=p.h;for(var i=arr.length-1;i>0;i--){s=(s*9301+49297)%233280;var j=Math.floor(s/233280*(i+1));var x=arr[i];arr[i]=arr[j];arr[j]=x;}
+  return core+(lang==='zh'?'、':', ')+arr.slice(0,3+p.h%4).join(lang==='zh'?'、':', ');
+}
+function openProduct(id){
+  var p=PRODUCTS[id];
+  $('#modal').innerHTML='<button class="x" data-act="closeall" aria-label="close">✕</button><div class="pd"><div class="pimg" style="--h:'+p.s.hue+'">'+visual(p)+'</div><div class="pinfo">'+
+    '<div class="br">'+esc(lang==='zh'?p.br[0]:p.br[1])+' · '+L(p.d)+' › '+L(p.s)+'</div><h2>'+esc(pname(p))+'</h2>'+
+    '<div class="meta">★ '+p.rate+' · '+t('sold')(p.sold)+'</div>'+priceH(p)+
+    (p.v?'<div class="vok">'+t('vok')+'</div>':'')+
+    '<dl><dt>'+t('ing')+'</dt><dd>'+esc(ingOf(p))+'</dd><dt>'+t('spec')+'</dt><dd>'+esc(sizeT(p.size))+'</dd><dt>'+t('origin')+'</dt><dd>'+t('originV')[p.h%8]+'</dd><dt>'+t('store')+'</dt><dd>'+t('storeV')[p.d.k]+'</dd><dt>'+t('life')+'</dt><dd>'+t('lifeV')[p.d.k]+'</dd></dl>'+
+    '<div class="buy"><span data-ctl="'+id+'">'+ctl(id)+'</span><button class="cta" data-act="inc" data-id="'+id+'" data-toast="1">'+t('add')+'</button></div></div></div>';
+  $('#cart').classList.remove('show');$('#modal').classList.add('show');$('#ov').classList.add('show');
+}
+function checkout(){
+  var tt=totals();
+  $('#modal').innerHTML='<button class="x" data-act="closeall" aria-label="close">✕</button><div class="co"><h2>'+t('coT')+'</h2>'+
+   '<div class="box"><b>'+t('addr')+'</b>'+t('addrV')+'</div><div class="box"><b>'+t('time')+'</b>'+t('timeV')+'</div>'+
+   '<div class="box"><b>'+t('pay')+'</b><div class="pay"><span class="on">'+t('wx')+'</span><span>'+t('ali')+'</span><span>'+t('card')+'</span></div></div>'+
+   '<div class="sum"><span>'+t('subtotal')+' ('+tt.n+')</span><span>¥'+tt.sub.toFixed(2)+'</span></div><div class="sum"><span>'+t('ship')+'</span><span>'+(tt.ship?'¥'+tt.ship.toFixed(2):t('free'))+'</span></div><div class="sum t"><span>'+t('total')+'</span><b>¥'+tt.total.toFixed(2)+'</b></div>'+
+   '<div class="demo">'+t('demo')+'</div><button class="cta" data-act="submit">'+t('submit')+'</button></div>';
+  $('#cart').classList.remove('show');$('#modal').classList.add('show');$('#ov').classList.add('show');
+}
+function submitOrder(){
+  cart={};save();badge();
+  $('#modal').innerHTML='<div class="co" style="text-align:center"><div class="okmark">✓</div><h2>'+t('okT')+'</h2><p style="color:var(--mut);margin:0 0 6px">'+t('okP')+'</p><button class="cta" data-act="closeall">'+t('back')+'</button></div>';
+  route();
+}
+function openSheet(){
+  $('#sheet').innerHTML='<h3>'+t('cats')+'</h3>'+DEPTS.map(function(d){return '<a href="#/c/'+d.k+'" data-act="closeall"><i>'+d.e+'</i>'+L(d)+'<span>'+count(PRODUCTS.filter(function(p){return p.d===d;}))+'</span></a>';}).join('');
+  $('#sheet').classList.add('show');$('#ov').classList.add('show');
+}
+function setVegan(on){vegan=on;document.documentElement.classList.toggle('vg',on);chrome();route();if($('#cart').classList.contains('show'))renderCart();}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]');if(!el)return;
+  var a=el.dataset.act,id=el.dataset.id;
+  if(a==='inc'){setQty(id,(cart[id]||0)+1);if(el.dataset.toast||!cart[id]||cart[id]===1)toast(t('added')(pname(PRODUCTS[id])));}
+  else if(a==='dec')setQty(id,(cart[id]||0)-1);
+  else if(a==='open')openProduct(id);
+  else if(a==='cart')openCart();
+  else if(a==='closeall')closeAll();
+  else if(a==='vegan')setVegan(!vegan);
+  else if(a==='lang'){lang=lang==='zh'?'en':'zh';chrome();route();closeAll();}
+  else if(a==='more'){limit+=40;route();}
+  else if(a==='checkout')checkout();
+  else if(a==='submit')submitOrder();
+  else if(a==='sheet')openSheet();
+  else if(a==='gohome'){location.hash='#/';closeAll();}
+  else if(a==='demo')toast(t('demoToast'));
+});
+document.addEventListener('change',function(e){
+  if(e.target.id==='sortSel'){sort=e.target.value;route();}
+  if(e.target.id==='dealChk'){onlyDeal=e.target.checked;limit=40;route();}
+});
+$('#searchForm').addEventListener('submit',function(e){e.preventDefault();var v=$('#q').value.trim();location.hash=v?'#/s/'+encodeURIComponent(v):'#/';$('#q').blur();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+window.addEventListener('hashchange',function(){closeAll();route();});
+
+/* ---------- init ---------- */
+(function(){
+  var qs=new URLSearchParams(location.search);
+  if(/^(en|english)$/i.test(qs.get('lang')||''))lang='en';
+  try{var c=JSON.parse(localStorage.getItem('hx_cart')||'{}');for(var k in c)if(PRODUCTS[k]&&c[k]>0)cart[k]=c[k];}catch(e){}
+  chrome();
+  if(qs.get('vegan')==='1')setVegan(true);else route();
+})();
+</script>
+</body>
+</html>
