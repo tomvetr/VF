@@ -112,7 +112,7 @@ function studyInit(qs){
   try{SS=JSON.parse(localStorage.getItem('vf_study')||'null');}catch(e){SS=null;}
   if(!SS){var g=(qs.get('group')||'').toUpperCase();if(g!=='A'&&g!=='B')g=Math.random()<0.5?'A':'B';var alt=g==='A'?'label':'category';
     SS={pid:qs.get('pid')||qs.get('id')||('p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),group:g,alt:alt,
-        order:shuffle(['control','filter',alt]),lists:shuffle([0,1,2]),step:0,phase:'intro',res:{}};ssave();}
+        order:shuffle(['control','filter',alt]),lists:shuffle([0,1,2]),step:0,phase:'intro',res:{},t0:Date.now()};ssave();}
   if(SS.phase==='task'||SS.phase==='q')SS.phase='brief';
   applyVersion(SS.phase==='intro'?null:curVer());
   studyRender();
@@ -158,7 +158,7 @@ function endTask(){
   SS.res[k]=o;TASK=null;SS.phase='q';closeAll();ssave();studyRender();
 }
 function surveyUrl(){
-  var q={pid:SS.pid,group:SS.group,alt:SS.alt,order:SS.order.map(function(v){return VK[v];}).join(''),lang:lang};
+  var q={pid:SS.pid,group:SS.group,alt:SS.alt,order:SS.order.map(function(v){return VK[v];}).join(''),lang:lang,total:SS.t0?Math.round(((SS.doneAt||Date.now())-SS.t0)/1000):''};
   ['c','f','a'].forEach(function(k){var o=SS.res[k]||{};['list','pos','time','clicks','pages','search','feature','items','found','nonvegan','offlist','ease','cart'].forEach(function(f){q[k+'_'+f]=o[f]===undefined?'':o[f];});});
   return SURVEY_URL+'?'+Object.keys(q).map(function(k){return k+'='+encodeURIComponent(q[k]);}).join('&');
 }

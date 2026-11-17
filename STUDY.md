@@ -22,7 +22,9 @@ During a task, adding a product that is not on the list is refused with a messag
 
 Every field arrives as a URL parameter. Create a Zoho variable with exactly this name for each one.
 
-General: `pid`, `group` (A/B), `alt` (label/category), `order` (e.g. `fca` = filter first, then plain, then alternative), `lang`.
+General: `pid`, `group` (A/B), `alt` (label/category), `order` (e.g. `fca` = filter first, then plain, then alternative), `lang`, `total` (seconds on the website).
+
+Full parameter list and recommended survey questions: see `ZOHO_SETUP.md`.
 
 Per store, with prefix `c_` (plain store), `f_` (vegan filter) and `a_` (label or category):
 
