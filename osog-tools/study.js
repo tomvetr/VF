@@ -12,11 +12,11 @@ function setLang(v){if(!T[v])v='en';lang=v;try{localStorage.setItem('vf_lang',v)
 function initLang(qs){var v=(qs.get('lang')||'').toLowerCase();if(!T[v]){try{v=localStorage.getItem('vf_lang')||'';}catch(e){v='';}}
   if(!T[v])v='en';lang=v;document.documentElement.dir=v==='he'?'rtl':'ltr';}
 
-/* ---------- extra "Plant-based" department (category version only) ---------- */
+/* ---------- extra green "Vegan" department (category version only) ---------- */
 var LABELS=false;
 function inDept(p,d){return p.d===d||(p.alt&&p.alt.dept===d);}
 function inSub(p,s){return p.s===s||p.alt===s;}
-var PLANT={k:'plant',en:'Plant-based',zh:'植物基',he:'מבוסס צמחים',e:'🌱',hue:110,subs:[]};
+var PLANT={k:'plant',en:'Vegan',zh:'纯素',he:'טבעוני',e:'🌱',hue:110,subs:[]};
 PLANT.subs=[{k:'s0',en:'Milk & dairy alternatives',zh:'植物奶和乳制品替代品',he:'חלב צמחי ותחליפי חלב'},{k:'s1',en:'Meat alternatives',zh:'植物肉',he:'תחליפי בשר'}];
 PLANT.subs.forEach(function(s,i){s.dept=PLANT;s.hue=110+i*13;});
 PRODUCTS.forEach(function(p){if(!p.v)return;
@@ -36,7 +36,7 @@ en:{introT:'Online shopping study',
  control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(n){return '↑ “'+n+'” is not on your shopping list. Look for the items on the list at the top of the page.';},close:'Close',notV:function(n){return '✕ Not vegan: “'+n+'” contains animal ingredients. It was not added to your cart.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
  filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
- category:'The “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
+ category:'The green “Vegan” department at the end of the menu has vegan milk and meat alternatives.',
  listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
@@ -52,7 +52,7 @@ zh:{introT:'网上购物研究',
  control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(n){return '↑ “'+n+'”不在你的购物清单上。请寻找页面顶部清单上的商品。';},close:'关闭',notV:function(n){return '✕ 不是纯素：“'+n+'”含有动物成分，未加入购物车。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
  filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
- category:'菜单最后的“植物基”分类里有纯素的植物奶和植物肉。',
+ category:'菜单最后的绿色“纯素”分类里有纯素的植物奶和植物肉。',
  listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
@@ -68,7 +68,7 @@ he:{introT:'מחקר קנייה אונליין',
  control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(n){return '↑ "'+n+'" לא נמצא ברשימת הקניות. חפשו את הפריטים שברשימה בראש העמוד.';},close:'סגירה',notV:function(n){return '✕ לא טבעוני: "'+n+'" מכיל רכיבים מן החי. המוצר לא נוסף לעגלה.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
  filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
- category:'במחלקת "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
+ category:'במחלקה הירוקה "טבעוני" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
  listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',

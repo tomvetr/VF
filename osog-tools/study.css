@@ -62,3 +62,11 @@
   .tb2.flash{animation:listflash 1.5s ease-out;border-radius:10px;}
   @keyframes listflash{0%,60%{box-shadow:0 0 0 4px #f59e0b,0 0 18px 6px rgba(245,158,11,.6);background:#fff3c4;}100%{box-shadow:0 0 0 0 rgba(245,158,11,0);background:transparent;}}
   @media (max-width:760px){.toast.warn{top:auto;bottom:130px;} .toast.err,.toast.warn{width:92%;}}
+  #deptbar a[data-k=plant]{background:var(--green);color:#fff;opacity:1;font-weight:800;border-radius:8px 8px 0 0;}
+  #deptbar a[data-k=plant].on{background:var(--green-d);border-bottom-color:#fff;}
+  .depts a[href="#/c/plant"] i{background:var(--green);}
+  .depts a[href="#/c/plant"]{color:var(--green-d);font-weight:800;}
+  .side>a[href="#/c/plant"],.side>a[href="#/c/plant"].on,.side>a[href="#/c/plant"].cur{background:var(--green);color:#fff;font-weight:800;}
+  .side>a[href="#/c/plant"] span{color:#e6f6ec;}
+  .sheet a[href="#/c/plant"]{background:var(--green);color:#fff;}
+  .sheet a[href="#/c/plant"] span{color:#e6f6ec;}
