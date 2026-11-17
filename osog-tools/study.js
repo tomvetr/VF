@@ -118,12 +118,12 @@ function studyInit(qs){
   studyRender();
 }
 function studyRender(){
-  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.toggle('intask',SS.phase==='task');
-  if(SS.phase==='task'){box.classList.remove('show');
+  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.toggle('intask',SS.phase==='task'||SS.phase==='q');
+  if(SS.phase==='task'||SS.phase==='q'){
     var got=covered(false);
     bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<span class="ti'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</span>';}).join('')+'</div></div>';
-    bar.classList.add('show');return;}
-  bar.classList.remove('show');
+    bar.classList.add('show');if(SS.phase==='task'){box.classList.remove('show');return;}}
+  else bar.classList.remove('show');
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
   else if(SS.phase==='brief')h=langSel+'<h2>'+st('taskT')(SS.step+1)+'</h2><div class="ver"><b>'+st(TYPE[curVer()])+'</b><br>'+st(curVer())+'</div><p>'+st('task')+'</p><ul>'+curList().map(function(k){return '<li>'+L(ITEMS[k])+'</li>';}).join('')+'</ul><button class="cta" data-act="sgo" data-to="task">'+st('go')+'</button>';
