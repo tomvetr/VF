@@ -31,8 +31,8 @@ en:{introT:'Online shopping study',
   'Imagine a vegan friend is coming to stay with you. Each time you will get a short shopping list: add one vegan product for each item to your cart. Vegan means no meat, fish, dairy, eggs or honey. Click a product to see its ingredients.',
   'When you have everything, press “Finish shopping”. After each store you will answer two quick questions, and at the end a short survey. It takes about 10–15 minutes.',
   'Your answers are anonymous. By continuing, you agree to take part.'],
- start:'Start',taskT:function(n){return 'Task '+n+' of 3';},listL:'Shopping list:',vw:'Vegan',sc:'Check the ingredient list of each product to find vegan products.',sf:'Click the vegan filter button to show only vegan products.',sl:'Vegan products have a “Vegan” label under the ingredient list.',sk:'Vegan milk and meat alternatives are in the “Plant-based” department.',
- control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',
+ start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
+ control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list: find vegan options for the following items:',
  filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
@@ -47,8 +47,8 @@ zh:{introT:'网上购物研究',
   '想象一位纯素食的朋友要来你家住几天。每次你会拿到一份简短的购物清单：请为清单上的每一项各选一件纯素商品加入购物车。纯素是指不含肉、鱼、奶制品、蛋或蜂蜜。点击商品即可查看配料表。',
   '买齐后，请点击“完成购物”。每家店购物结束后有两个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
- start:'开始',taskT:function(n){return '任务 '+n+'/3';},listL:'购物清单：',vw:'纯素',sc:'查看每件商品的配料表，找出纯素商品。',sf:'点击纯素筛选按钮，只显示纯素商品。',sl:'纯素商品的配料表下方有“纯素”标签。',sk:'纯素的植物奶和植物肉在“植物基”分类里。',
- control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',
+ start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
+ control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：请为以下各项找到纯素选项：',
  filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的“植物基”分类里有纯素的植物奶和植物肉。',
@@ -63,8 +63,8 @@ he:{introT:'מחקר קנייה אונליין',
   'דמיינו שחבר טבעוני מגיע להתארח אצלכם. בכל פעם תקבלו רשימת קניות קצרה: הוסיפו לעגלה מוצר טבעוני אחד לכל פריט ברשימה. טבעוני פירושו ללא בשר, דגים, מוצרי חלב, ביצים או דבש. לחצו על מוצר כדי לראות את רשימת הרכיבים.',
   'כשתמצאו את כל הפריטים, לחצו על "סיום קנייה". אחרי כל חנות יופיעו שתי שאלות קצרות, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
- start:'התחלה',taskT:function(n){return 'משימה '+n+' מתוך 3';},listL:'רשימת קניות:',vw:'טבעוני',sc:'בדקו את רשימת הרכיבים של כל מוצר כדי למצוא מוצרים טבעוניים.',sf:'לחצו על כפתור הפילטר הטבעוני כדי להציג רק מוצרים טבעוניים.',sl:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים.',sk:'תחליפי חלב ובשר טבעוניים נמצאים במחלקת "מבוסס צמחים".',
- control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',
+ start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
+ control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית: מצאו אפשרויות טבעוניות לפריטים הבאים:',
  filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקת "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
@@ -74,24 +74,21 @@ he:{introT:'מחקר קנייה אונליין',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
  next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',restart:'התחלה מחדש',restartQ:'להתחיל את המחקר מחדש מההתחלה?',
  bar:function(n){return 'חנות '+n+'/3 · רשימת קניות:';}}};
-function vitem(k,ok){var it=ITEMS[k],w=lang==='he'?(it.hv||st('vw')):st('vw'),pill='<span class="ti'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+L(it)+'</span>';
-  return '<span class="vi">'+(lang==='he'?pill+' <b class="vw">'+w+'</b>':'<b class="vw">'+w+'</b> '+pill)+'</span>';}
-var SHORT={control:'sc',filter:'sf',label:'sl',category:'sk'};
 function st(k){var v=ST[lang][k];return v===undefined?ST.en[k]:v;}
 function secIs(p,n){return p.s.en===n;}
 var ITEMS={
- milk:{en:'Milk',zh:'牛奶',he:'חלב',hv:'טבעוני',m:function(p){return secIs(p,'Milk');}},
- sausages:{en:'Sausage',zh:'香肠',he:'נקניק',hv:'טבעוני',m:function(p){return secIs(p,'Sausages, Burgers & Deli')&&/sausage|dog|frank|link|brat|chorizo|kielbasa|andouille|wiener/i.test(p.b.en);}},
- bread:{en:'Bread',zh:'面包',he:'לחם',hv:'טבעוני',m:function(p){return secIs(p,'Bread');}},
- chocolate:{en:'Chocolate',zh:'巧克力',he:'שוקולד',hv:'טבעוני',m:function(p){return (secIs(p,'Candy, Gum & Mints')||secIs(p,'Baking'))&&/chocolate|cacao/i.test(p.b.en);}},
- yogurt:{en:'Yogurt',zh:'酸奶',he:'יוגורט',hv:'טבעוני',m:function(p){return secIs(p,'Yogurt');}},
- burgers:{en:'Burger',zh:'汉堡肉饼',he:'המבורגר',hv:'טבעוני',m:function(p){return /burger|patt(y|ies)/i.test(p.b.en)&&!/\bbuns?\b|helper/i.test(p.b.en);}},
- cookies:{en:'Cookies',zh:'曲奇饼干',he:'עוגיות',hv:'טבעוניות',m:function(p){return secIs(p,'Cookies');}},
- cereal:{en:'Cereal',zh:'麦片',he:'דגני בוקר',hv:'טבעוניים',m:function(p){return secIs(p,'Breakfast & Cereal');}},
- creamer:{en:'Creamer',zh:'奶精',he:'מלבין',hv:'טבעוני',m:function(p){return /creamer/i.test(p.b.en);}},
- bacon:{en:'Bacon',zh:'培根',he:'בייקון',hv:'טבעוני',m:function(p){return /bacon/i.test(p.b.en);}},
- crackers:{en:'Crackers',zh:'咸饼干',he:'קרקרים',hv:'טבעוניים',m:function(p){return secIs(p,'Crackers');}},
- bars:{en:'Granola bar',zh:'燕麦棒',he:'חטיף גרנולה',hv:'טבעוני',m:function(p){return secIs(p,'Bars');}}};
+ milk:{en:'<b>Vegan</b> milk',zh:'<b>纯素</b>牛奶',he:'חלב <b>טבעוני</b>',m:function(p){return secIs(p,'Milk');}},
+ sausages:{en:'<b>Vegan</b> sausage',zh:'<b>纯素</b>香肠',he:'נקניק <b>טבעוני</b>',m:function(p){return secIs(p,'Sausages, Burgers & Deli')&&/sausage|dog|frank|link|brat|chorizo|kielbasa|andouille|wiener/i.test(p.b.en);}},
+ bread:{en:'<b>Vegan</b> bread',zh:'<b>纯素</b>面包',he:'לחם <b>טבעוני</b>',m:function(p){return secIs(p,'Bread');}},
+ chocolate:{en:'<b>Vegan</b> chocolate',zh:'<b>纯素</b>巧克力',he:'שוקולד <b>טבעוני</b>',m:function(p){return (secIs(p,'Candy, Gum & Mints')||secIs(p,'Baking'))&&/chocolate|cacao/i.test(p.b.en);}},
+ yogurt:{en:'<b>Vegan</b> yogurt',zh:'<b>纯素</b>酸奶',he:'יוגורט <b>טבעוני</b>',m:function(p){return secIs(p,'Yogurt');}},
+ burgers:{en:'<b>Vegan</b> burger',zh:'<b>纯素</b>汉堡肉饼',he:'המבורגר <b>טבעוני</b>',m:function(p){return /burger|patt(y|ies)/i.test(p.b.en)&&!/\bbuns?\b|helper/i.test(p.b.en);}},
+ cookies:{en:'<b>Vegan</b> cookies',zh:'<b>纯素</b>曲奇饼干',he:'עוגיות <b>טבעוניות</b>',m:function(p){return secIs(p,'Cookies');}},
+ cereal:{en:'<b>Vegan</b> cereal',zh:'<b>纯素</b>麦片',he:'דגני בוקר <b>טבעוניים</b>',m:function(p){return secIs(p,'Breakfast & Cereal');}},
+ creamer:{en:'<b>Vegan</b> creamer',zh:'<b>纯素</b>奶精',he:'מלבין <b>טבעוני</b>',m:function(p){return /creamer/i.test(p.b.en);}},
+ bacon:{en:'<b>Vegan</b> bacon',zh:'<b>纯素</b>培根',he:'בייקון <b>טבעוני</b>',m:function(p){return /bacon/i.test(p.b.en);}},
+ crackers:{en:'<b>Vegan</b> crackers',zh:'<b>纯素</b>咸饼干',he:'קרקרים <b>טבעוניים</b>',m:function(p){return secIs(p,'Crackers');}},
+ bars:{en:'<b>Vegan</b> granola bar',zh:'<b>纯素</b>燕麦棒',he:'חטיף גרנולה <b>טבעוני</b>',m:function(p){return secIs(p,'Bars');}}};
 var LISTS=[['milk','sausages','bread','chocolate'],['yogurt','burgers','cookies','cereal'],['creamer','bacon','crackers','bars']];
 var TYPE={control:'ctype',filter:'ftype',label:'ltype',category:'ktype'};
 var VK={control:'c',filter:'f',label:'a',category:'a'};
@@ -123,12 +120,12 @@ function studyRender(){
   var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.toggle('intask',SS.phase==='task');
   if(SS.phase==='task'){box.classList.remove('show');
     var got=covered(false);
-    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span>'+st(SHORT[curVer()])+'</div><div class="tb2"><span class="tbl">'+st('listL')+'</span>'+curList().map(function(k){return vitem(k,got.indexOf(k)>=0);}).join('')+'</div></div>';
+    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<span class="ti'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</span>';}).join('')+'</div></div>';
     bar.classList.add('show');return;}
   bar.classList.remove('show');
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
-  else if(SS.phase==='brief')h=langSel+'<h2>'+st('taskT')(SS.step+1)+'</h2><div class="ver"><b>'+st(TYPE[curVer()])+'</b><br>'+st(curVer())+'</div><p>'+st('task')+'</p><div class="blist">'+curList().map(function(k){return vitem(k,false);}).join('')+'</div><button class="cta" data-act="sgo" data-to="task">'+st('go')+'</button>';
+  else if(SS.phase==='brief')h=langSel+'<h2>'+st('taskT')(SS.step+1)+'</h2><div class="ver"><b>'+st(TYPE[curVer()])+'</b><br>'+st(curVer())+'</div><p>'+st('task')+'</p><ul>'+curList().map(function(k){return '<li>'+L(ITEMS[k])+'</li>';}).join('')+'</ul><button class="cta" data-act="sgo" data-to="task">'+st('go')+'</button>';
   else if(SS.phase==='confirm')h='<p style="font-size:16px;font-weight:600">'+st('confirm')(covered(false).length,curList().length)+'</p><div class="row2"><button class="cta ghost" data-act="sgo" data-to="task">'+st('keep')+'</button><button class="cta" data-act="sgo" data-to="q">'+st('fin')+'</button></div>';
   else if(SS.phase==='q'){var r=SS.res[VK[curVer()]]||{};
     var sc=function(key,qa,qb,q){return '<div class="q">'+st(q)+'</div><div class="scale">'+[1,2,3,4,5].map(function(n){return '<button data-act="sans" data-k="'+key+'" data-v="'+n+'" class="'+(r[key]===n?'on':'')+'">'+n+'</button>';}).join('')+'</div><div class="scl"><span>'+st(qa)+'</span><span>'+st(qb)+'</span></div>';};

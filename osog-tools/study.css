@@ -38,17 +38,17 @@
   .tb .tb1 .tbs{background:#7a5600;}
   .tb{gap:7px;}
   .tb .tb2{gap:6px 14px;}
-  .vi{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
-  .vw{color:var(--green-d);font-weight:800;}
-  .blist{display:flex;flex-wrap:wrap;gap:8px 14px;margin:6px 0 16px;font-size:15px;}
-  .blist .ti{background:#fff8e1;border:1px solid #ecd9a3;border-radius:999px;padding:3px 11px;font-weight:700;}
   .finbtn{display:none;background:var(--brand);color:#fff;font-weight:800;border-radius:10px;padding:9px 14px;white-space:nowrap;transition:background .3s;}
   html.intask .finbtn{display:inline-flex;align-items:center;gap:6px;}
-  .botbar{border-top:1px solid var(--line);background:#fff;}
-  .botbar .wrap{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-top:12px;padding-bottom:12px;}
+  .botbar{position:fixed;bottom:12px;inset-inline-end:12px;z-index:45;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 16px rgba(20,28,45,.15);}
+  .botbar .wrap{display:flex;align-items:center;gap:6px;padding:6px 8px;max-width:none;}
+  .botbar .langsel{padding:5px 6px;}
   .restart{display:none;font-weight:600;white-space:nowrap;}
   html.instudy .restart{display:flex;}
+  body{padding-bottom:64px;}
   @media (max-width:760px){
     html.intask .finbtn{padding:7px 11px;font-size:13px;}
-    .botbar .wrap{justify-content:center;}
+    .botbar{bottom:64px;inset-inline-end:8px;}
+    body{padding-bottom:116px;}
+    .toast{bottom:120px;}
   }
