@@ -13,7 +13,7 @@ Optional link settings:
 
 Flow: intro → three stores (plain, vegan filter, and either label or category) in random order, each with its own shopping list → one question after each store → redirect to the Zoho survey.
 
-During a task, adding a product that is not on the list is refused with a message that points to the list (which flashes); adding a non-vegan list item is refused with a "Not vegan" message, and "Finish shopping" only works once all four list items are in the cart.
+During a task, adding a product that is not on the list is refused with a message that points to the list (which flashes); adding a non-vegan list item is refused with a "Not vegan" message, "Finish shopping" works at any time for now (set `REQUIRE_ALL=true` in the page to require all four list items first). `found` shows how many list items were covered.
 
 - Group A: plain store, vegan filter, vegan label (small tag on the product page).
 - Group B: plain store, vegan filter, extra "Plant-based" department.

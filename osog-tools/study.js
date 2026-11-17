@@ -24,6 +24,7 @@ PRODUCTS.forEach(function(p){if(!p.v)return;
 
 /* ---------- study flow ---------- */
 var STUDY=false;
+var REQUIRE_ALL=false; // true = participants must add all list items before 'Finish shopping' works
 var SURVEY_URL='https://survey.zohopublic.eu/zs/ZbBff1';
 var ST={
 en:{introT:'Online shopping study',
@@ -144,7 +145,7 @@ function flashList(){var t=document.querySelector('.tb2');if(!t)return;t.classLi
 function onList(p){return curList().some(function(k){return ITEMS[k].m(p);});}
 function studyFinish(){
   if(SS.phase!=='task')return;
-  var h=covered(false).length,n=curList().length;if(h<n){toast(st('needAll')(h,n));return;}
+  var h=covered(false).length,n=curList().length;if(REQUIRE_ALL&&h<n){toast(st('needAll')(h,n));return;}
   endTask();
 }
 function endTask(){
