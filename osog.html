@@ -120,6 +120,9 @@
   .vegan .sw{background:rgba(255,255,255,.4);}
   html.vg .vegan{background:var(--green-d);border-color:var(--green-d);}
   html.vg .vegan .sw{background:#7ee2a8;}
+  .restart{display:none;}
+  html.instudy .restart{display:flex;font-weight:600;white-space:nowrap;}
+  @media (max-width:760px){html.instudy .restart{display:flex;padding:6px 8px;} html.instudy .restart span{display:none;}}
 
   img.ph{width:100%;height:100%;object-fit:contain;display:block;background:#fff;}
   .thumb:has(img.ph){height:170px;background:#fff;}
@@ -333,6 +336,7 @@
       <select id="langSel" class="langsel" aria-label="Language"><option value="en">English</option><option value="zh">中文</option><option value="he">עברית</option></select>
       <button class="hbtn login" data-act="demo" id="loginBtn"></button>
       <button class="cartbtn" data-act="cart"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L23 7H6"/></svg><span id="cartBtnT"></span><span class="cnt" data-cnt>0</span></button>
+      <button class="hbtn restart" data-act="srestart" id="restartBtn" title="Restart">↺ <span id="restartT">Restart</span></button>
     </div>
   </div>
   <div class="mveg"><button class="vegan" data-act="vegan" aria-pressed="false"><span>🌱 <span class="vl"></span></span><i class="sw"></i></button></div>
@@ -649,7 +653,7 @@ en:{introT:'Online shopping study',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
  q2:'How sure are you that everything in your cart is vegan?',q2a:'Not sure at all',q2b:'Completely sure',
- next:'Continue',doneT:'Thank you!',doneP:'You have finished shopping. Now please answer a short survey.',doneB:'Continue to the survey',
+ next:'Continue',doneT:'Thank you!',doneP:'You have finished shopping. Now please answer a short survey.',doneB:'Continue to the survey',restart:'Restart',restartQ:'Start the study again from the beginning?',
  bar:function(n){return 'Store '+n+' of 3 · Shopping list:';}},
 zh:{introT:'网上购物研究',
  intro:['在本研究中，你将在一家网上超市购物三次。每一次，超市的功能都会略有不同。',
@@ -665,7 +669,7 @@ zh:{introT:'网上购物研究',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
  q2:'你有多确定购物车里的所有商品都是纯素的？',q2a:'完全不确定',q2b:'完全确定',
- next:'继续',doneT:'谢谢！',doneP:'购物已完成。接下来请填写一份简短问卷。',doneB:'前往问卷',
+ next:'继续',doneT:'谢谢！',doneP:'购物已完成。接下来请填写一份简短问卷。',doneB:'前往问卷',restart:'重新开始',restartQ:'要从头重新开始吗？',
  bar:function(n){return '第 '+n+'/3 家店 · 购物清单：';}},
 he:{introT:'מחקר קנייה אונליין',
  intro:['במחקר הזה תעשו קניות בסופרמרקט אונליין שלוש פעמים. בכל פעם החנות עובדת קצת אחרת.',
@@ -681,7 +685,7 @@ he:{introT:'מחקר קנייה אונליין',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
- next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',
+ next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',restart:'התחלה מחדש',restartQ:'להתחיל את המחקר מחדש מההתחלה?',
  bar:function(n){return 'חנות '+n+'/3 · רשימת קניות:';}}};
 function st(k){var v=ST[lang][k];return v===undefined?ST.en[k]:v;}
 function secIs(p,n){return p.s.en===n;}
@@ -715,6 +719,7 @@ function applyVersion(v){
   chrome();if(location.hash&&location.hash!=='#/')location.hash='#/';else route();
 }
 function studyInit(qs){
+  document.documentElement.classList.add('instudy');
   if(qs.get('reset')==='1'){try{localStorage.removeItem('vf_study');}catch(e){}}
   try{SS=JSON.parse(localStorage.getItem('vf_study')||'null');}catch(e){SS=null;}
   if(!SS){var g=(qs.get('group')||'').toUpperCase();if(g!=='A'&&g!=='B')g=Math.random()<0.5?'A':'B';var alt=g==='A'?'label':'category';
@@ -725,7 +730,7 @@ function studyInit(qs){
   studyRender();
 }
 function studyRender(){
-  var box=$('#study'),bar=$('#taskbar'),h='';
+  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');
   if(SS.phase==='task'){box.classList.remove('show');
     var got=covered(false);
     bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('task')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<span class="ti'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</span>';}).join('')+
@@ -739,7 +744,7 @@ function studyRender(){
   else if(SS.phase==='q'){var r=SS.res[VK[curVer()]]||{};
     var sc=function(key,qa,qb,q){return '<div class="q">'+st(q)+'</div><div class="scale">'+[1,2,3,4,5].map(function(n){return '<button data-act="sans" data-k="'+key+'" data-v="'+n+'" class="'+(r[key]===n?'on':'')+'">'+n+'</button>';}).join('')+'</div><div class="scl"><span>'+st(qa)+'</span><span>'+st(qb)+'</span></div>';};
     h='<h2>'+st('taskT')(SS.step+1)+'</h2>'+sc('ease','q1a','q1b','q1')+sc('sure','q2a','q2b','q2')+'<button class="cta" data-act="snext"'+(r.ease&&r.sure?'':' disabled')+'>'+st('next')+'</button>';}
-  else if(SS.phase==='done')h='<h2>'+st('doneT')+'</h2><p>'+st('doneP')+'</p><button class="cta" data-act="ssurvey">'+st('doneB')+'</button>';
+  else if(SS.phase==='done')h='<h2>'+st('doneT')+'</h2><p>'+st('doneP')+'</p><button class="cta" data-act="ssurvey">'+st('doneB')+'</button><button class="cta ghost" style="margin-top:10px" data-act="srestart" data-noask="1">↺ '+st('restart')+'</button>';
   box.innerHTML='<div class="sbox">'+h+'</div>';box.classList.add('show');
 }
 function startTask(){
@@ -775,6 +780,7 @@ document.addEventListener('click',function(e){
   else if(a==='sfinish')studyFinish();
   else if(a==='sans'){var r=SS.res[VK[curVer()]];r[el.dataset.k]=+el.dataset.v;ssave();studyRender();}
   else if(a==='snext'){if(SS.step<2){SS.step++;SS.phase='brief';applyVersion(curVer());}else{SS.phase='done';SS.doneAt=Date.now();applyVersion(null);}ssave();studyRender();}
+  else if(a==='srestart'){if(el.dataset.noask||confirm(st('restartQ'))){try{localStorage.removeItem('vf_study');}catch(e){}var u=new URLSearchParams(location.search);u.delete('reset');u.delete('group');var q=u.toString();location.href=location.pathname+(q?'?'+q:'')+'#/';setTimeout(function(){location.reload();},50);}}
   else if(a==='ssurvey'){(window.top||window).location.href=surveyUrl();}
 },true);
 if(true){

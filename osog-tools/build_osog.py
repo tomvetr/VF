@@ -81,6 +81,7 @@ r("  else if(a==='checkout')checkout();","  else if(a==='checkout'){if(STUDY)stu
 r('<header class="hdr">','<header class="hdr">\n  <div class="taskbar" id="taskbar"></div>')
 r('\n    <button class="vegan" data-act="vegan" aria-pressed="false"><span>🌱</span><span class="vl"></span><i class="sw"></i></button>','')
 r('    <form class="search" id="searchForm" role="search">','    <button class="vegan" data-act="vegan" aria-pressed="false"><span>🌱</span><span class="vl"></span><i class="sw"></i></button>\n    <form class="search" id="searchForm" role="search">')
+r('<span class="cnt" data-cnt>0</span></button>\n    </div>','<span class="cnt" data-cnt>0</span></button>\n      <button class="hbtn restart" data-act="srestart" id="restartBtn" title="Restart">↺ <span id="restartT">Restart</span></button>\n    </div>')
 r('<div class="toast" id="toast"></div>','<div class="toast" id="toast"></div>\n<div class="study" id="study" role="dialog" aria-modal="true"></div>')
 r("  #langBtn,#loginBtn{display:none;}","  #loginBtn{display:none;}\n"+open(S+'/study.css').read())
 r("/* ---------- init ---------- */",open(S+'/study.js').read()+"\n/* ---------- init ---------- */")

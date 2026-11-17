@@ -35,3 +35,6 @@
   .vegan .sw{background:rgba(255,255,255,.4);}
   html.vg .vegan{background:var(--green-d);border-color:var(--green-d);}
   html.vg .vegan .sw{background:#7ee2a8;}
+  .restart{display:none;}
+  html.instudy .restart{display:flex;font-weight:600;white-space:nowrap;}
+  @media (max-width:760px){html.instudy .restart{display:flex;padding:6px 8px;} html.instudy .restart span{display:none;}}
