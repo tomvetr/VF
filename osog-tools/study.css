@@ -52,3 +52,5 @@
     body{padding-bottom:116px;}
     .toast{bottom:120px;}
   }
+  .toast.err{background:#c62828;font-size:14.5px;padding:12px 18px;max-width:min(520px,92%);top:50%;bottom:auto;transform:translate(-50%,-50%);z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  .toast.err.show{transform:translate(-50%,-50%);}
