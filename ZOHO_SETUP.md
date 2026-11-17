@@ -7,7 +7,7 @@
    - If the panel provides a participant ID, add it to the link: `?pid=XXXX`.
 2. The website randomly assigns each participant to group A or B and a random order of three stores:
    - **Group A:** regular store, store with a vegan filter, store with vegan labels.
-   - **Group B:** regular store, store with a vegan filter, store with a vegan category (a green "Meat & Dairy Swaps" department).
+   - **Group B:** regular store, store with a vegan filter, store with a vegan category (a green "Plant-based" department).
 3. In each store the participant shops for a list of 4 vegan items, then answers one question (how easy it was).
 4. At the end, the website sends the participant to the Zoho survey, with all the shopping data in the link:
    `https://survey.zohopublic.eu/zs/ZbBff1?pid=…&group=…&c_time=…`
@@ -42,7 +42,7 @@ Example: `c_time`, `f_time`, `a_time`.
 | `_clicks` | Number of clicks while shopping |
 | `_pages` | Number of product pages opened (to read ingredients) |
 | `_search` | Number of searches |
-| `_feature` | Use of the store's vegan tool. Filter store: times the filter was turned on. Category store: visits to the Meat & Dairy Swaps department. Label store: number of vegan product pages viewed (label seen). Regular store: always 0 |
+| `_feature` | Use of the store's vegan tool. Filter store: times the filter was turned on. Category store: visits to the Plant-based department. Label store: number of vegan product pages viewed (label seen). Regular store: always 0 |
 | `_items` | Number of different products in the cart at the end |
 | `_found` | How many of the 4 list items were found (0–4) |
 | `_nonvegan` | Mistakes: times the participant tried to add a non-vegan product (it was refused with a "Not vegan" message) |

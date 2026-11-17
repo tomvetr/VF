@@ -16,7 +16,7 @@ Flow: intro → three stores (plain, vegan filter, and either label or category)
 During a task, adding a product that is not on the list is refused with a message that points to the list (which flashes); adding a non-vegan list item is refused with a "Not vegan" message, "Finish shopping" works at any time for now (set `REQUIRE_ALL=true` in the page to require all four list items first). `found` shows how many list items were covered.
 
 - Group A: plain store, vegan filter, vegan label (small tag on the product page).
-- Group B: plain store, vegan filter, extra green "Meat & Dairy Swaps" department.
+- Group B: plain store, vegan filter, extra green "Plant-based" department.
 
 ## Fields sent to the survey
 
@@ -36,7 +36,7 @@ Per store, with prefix `c_` (plain store), `f_` (vegan filter) and `a_` (label o
 | `clicks` | Clicks during the task |
 | `pages` | Product pages opened |
 | `search` | Searches made |
-| `feature` | Filter: times turned on. Category: visits to the Meat & Dairy Swaps department. Label: vegan product pages viewed (label seen) |
+| `feature` | Filter: times turned on. Category: visits to the Plant-based department. Label: vegan product pages viewed (label seen) |
 | `items` | Distinct products in the cart |
 | `found` | List items covered by a vegan product (0–4) |
 | `nonvegan` | Attempts to add a non-vegan product (mistakes). These are refused with a message, so the cart only ever holds vegan products |
