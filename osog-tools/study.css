@@ -52,5 +52,13 @@
     body{padding-bottom:116px;}
     .toast{bottom:120px;}
   }
-  .toast.err{background:#c62828;font-size:14.5px;padding:12px 18px;max-width:min(520px,92%);top:50%;bottom:auto;transform:translate(-50%,-50%);z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  .toast.err,.toast.warn{display:flex;align-items:flex-start;gap:12px;text-align:start;pointer-events:auto;background:#c62828;font-size:14.5px;padding:12px 18px;max-width:min(520px,92%);top:50%;bottom:auto;transform:translate(-50%,-50%);z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.3);}
   .toast.err.show{transform:translate(-50%,-50%);}
+  .toast.warn{background:#8a5a00;top:118px;transform:translate(-50%,0);}
+  .toast.warn.show{transform:translate(-50%,0);}
+  .toast .tx{flex:none;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-size:13px;line-height:24px;text-align:center;margin:-3px -6px 0 0;}
+  html[dir=rtl] .toast .tx{margin:-3px 0 0 -6px;}
+  .toast .tx:hover{background:rgba(255,255,255,.38);}
+  .tb2.flash{animation:listflash 1.5s ease-out;border-radius:10px;}
+  @keyframes listflash{0%,60%{box-shadow:0 0 0 4px #f59e0b,0 0 18px 6px rgba(245,158,11,.6);background:#fff3c4;}100%{box-shadow:0 0 0 0 rgba(245,158,11,0);background:transparent;}}
+  @media (max-width:760px){.toast.warn{top:auto;bottom:130px;} .toast.err,.toast.warn{width:92%;}}
