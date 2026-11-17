@@ -174,7 +174,8 @@ document.addEventListener('click',function(e){
     else if(to==='q')endTask();
     else{SS.phase=to;ssave();studyRender();}}
   else if(a==='sfinish')studyFinish();
-  else if(a==='sans'){var r=SS.res[VK[curVer()]];r[el.dataset.k]=+el.dataset.v;ssave();studyRender();}
+  else if(a==='sans'){var r=SS.res[VK[curVer()]];r[el.dataset.k]=+el.dataset.v;ssave();
+    el.parentNode.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===el);});var nb=document.querySelector('[data-act=snext]');if(nb)nb.disabled=!r.ease;}
   else if(a==='snext'){if(SS.step<2){SS.step++;SS.phase='brief';applyVersion(curVer());}else{SS.phase='done';SS.doneAt=Date.now();}ssave();studyRender();}
   else if(a==='srestart'){if(el.dataset.noask||confirm(st('restartQ'))){try{localStorage.removeItem('vf_study');}catch(e){}var u=new URLSearchParams(location.search);u.delete('reset');u.delete('group');var q=u.toString();location.href=location.pathname+(q?'?'+q:'')+'#/';setTimeout(function(){location.reload();},50);}}
   else if(a==='ssurvey'){(window.top||window).location.href=surveyUrl();}
