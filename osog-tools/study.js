@@ -32,7 +32,7 @@ en:{introT:'Online shopping study',
   'When you have everything, press “Finish shopping”. After each store you will answer two quick questions, and at the end a short survey. It takes about 10–15 minutes.',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
- control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list: find vegan options for the following items:',
+ control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
  filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
@@ -48,7 +48,7 @@ zh:{introT:'网上购物研究',
   '买齐后，请点击“完成购物”。每家店购物结束后有两个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
- control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：请为以下各项找到纯素选项：',
+ control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
  filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的“植物基”分类里有纯素的植物奶和植物肉。',
@@ -64,7 +64,7 @@ he:{introT:'מחקר קנייה אונליין',
   'כשתמצאו את כל הפריטים, לחצו על "סיום קנייה". אחרי כל חנות יופיעו שתי שאלות קצרות, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
- control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית: מצאו אפשרויות טבעוניות לפריטים הבאים:',
+ control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
  filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקת "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
@@ -139,7 +139,7 @@ function startTask(){
 }
 function studyFinish(){
   if(SS.phase!=='task')return;
-  if(covered(false).length<curList().length){SS.phase='confirm';studyRender();return;}
+  var h=covered(false).length,n=curList().length;if(h<n){toast(st('needAll')(h,n));return;}
   endTask();
 }
 function endTask(){
