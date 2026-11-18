@@ -16,9 +16,11 @@ cnt=collections.defaultdict(collections.Counter)
 for x in rows: cnt[x['nd']][x['cls']]+=1
 print({k:(v['v'],v['n']) for k,v in cnt.items()})
 def cl(t): return re.sub(r'\s+',' ',t.replace('NULL','')).strip()
+# split joined plant-milk names so natural searches work: 'Almondmilk' -> 'Almond milk'
+def nm(t): return re.sub(r'\b(Almond|Soy|Oat|Coconut|Hemp|Cashew|Rice|Hazelnut|Pea|Flax)(milk)\b', lambda m: m.group(1)+' '+m.group(2), cl(t), flags=re.I)
 data=[]
 for x in sorted(rows,key=lambda x:(di[x['nd']],si[(x['nd'],x['ns'])],x['h'])):
-    data.append([int(x['id']),cl(x['name']),cl(x['size']),float(x['price']),1 if x['cls']=='v' else 0,di[x['nd']],si[(x['nd'],x['ns'])],cl(x['ingredients'])])
+    data.append([int(x['id']),nm(x['name']),cl(x['size']),float(x['price']),1 if x['cls']=='v' else 0,di[x['nd']],si[(x['nd'],x['ns'])],cl(x['ingredients'])])
 s=open('/home/user/VF/supermarket.html',encoding='utf8').read()
 a=s.index('var TARGET=1000;'); b=s.index('var NVEG=PRODUCTS')
 new='''var DEPTS=%s;
@@ -61,7 +63,7 @@ r("  else list.sort(byPop);","  else{list.sort(byPop);if(!vegan&&LEAD)list=leadN
 r("var d=deptOf(dk);if(!d)return viewHome();","var d=deptOf(dk);if(!d)return viewHome();LEAD=(d.k in LEADS)?LEADS[d.k]:5;")
 r("function viewSearch(q){","function viewSearch(q){LEAD=5;")
 r("row=vis.filter(function(p){return p.d===d;}).sort(byPop).filter(","row=leadNV(vis.filter(function(p){return p.d===d;}).sort(byPop),vegan||(d.k in LEADS&&!LEADS[d.k])?0:99).filter(")
-r("function byPop(a,b)","// with the filter off, the first vegan product appears no earlier than 6th (11th in Meat); not applied to Fruit & Veg\nvar LEADS={meat:10,produce:0,plant:0},LEAD=0;\nvar ALTRX=/veggie|vegetarian|meatless|vegan|plant[- ]based|dairy[- ]free|non[- ]dairy|tofu|tempeh|morningstar|gardein|beyond meat|lightlife|field roast|boca|quorn|tofurky|almondmilk|soymilk|silk /i;\nfunction leadNV(list,n){var a=[],b=[];list.forEach(function(p){(!p.v&&!ALTRX.test(p.b.en)&&a.length<n?a:b).push(p);});return a.concat(b);}\nfunction byPop(a,b)")
+r("function byPop(a,b)","// with the filter off, the first vegan product appears no earlier than 6th (11th in Meat); not applied to Fruit & Veg\nvar LEADS={meat:10,produce:0,plant:0},LEAD=0;\nvar ALTRX=/veggie|vegetarian|meatless|vegan|plant[- ]based|dairy[- ]free|non[- ]dairy|tofu|tempeh|morningstar|gardein|beyond meat|lightlife|field roast|boca|quorn|tofurky|almond ?milk|soy ?milk|silk /i;\nfunction leadNV(list,n){var a=[],b=[];list.forEach(function(p){(!p.v&&!ALTRX.test(p.b.en)&&a.length<n?a:b).push(p);});return a.concat(b);}\nfunction byPop(a,b)")
 r("  #langBtn{display:none;}","  #langBtn,#loginBtn{display:none;}")
 # ---- languages, label, extra category, study flow ----
 r("function t(k){return T[lang][k];}","function t(k){var v=T[lang][k];return v===undefined?T.en[k]:v;}")

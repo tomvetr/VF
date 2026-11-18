@@ -35,6 +35,21 @@ FREQ = {"never": "I have never bought groceries online.", "less than once a mont
         "1-3 times a month": "I buy groceries online a few times a month.", "once a week or more": "I buy groceries online every week."}
 LANGN = {"en": "English", "zh": "Chinese (Mandarin)", "he": "Hebrew"}
 DEV = {"phone": "I'm doing this on my phone.", "desktop": "I'm doing this on my laptop."}
+# What this person knows about ingredients, and how carefully they read (makes agents less "perfect")
+def knowledge(p):
+    if p["diet"] == "vegan":
+        return "I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard."
+    if p["filter_motivation"] == "I cook for a vegan friend or family member":
+        return "My friend told me the basics (no meat, fish, dairy, eggs or honey), but I don't recognise ingredient names like whey, casein or albumin."
+    if p["diet"] == "vegetarian":
+        return "I know meat, fish, milk and eggs aren't vegan, but I'm not sure about ingredients like whey, casein, gelatin or albumin, or whether honey counts."
+    return "I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts."
+def reading(p):
+    if p["digital_literacy"] == "low" or p["patience"] == "low":
+        return "I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing."
+    if p["patience"] == "high" and p["digital_literacy"] == "high":
+        return "I read ingredient lists carefully, but I can still misread or overlook something."
+    return "I read the start of an ingredient list, not every word, and sometimes I miss things."
 
 def make(n, seed):
     rng = random.Random(seed)
@@ -71,7 +86,7 @@ def make(n, seed):
         p["profile"] = " ".join([
             f"I'm a {p['age']}-year-old {p['gender']}. My first language is {LANGN[p['language']]}.",
             DIET[p["diet"]], MOT[p["filter_motivation"]], FREQ[p["online_grocery_frequency"]],
-            LIT[p["digital_literacy"]], PAT[p["patience"]], DEV[p["device"]]])
+            LIT[p["digital_literacy"]], PAT[p["patience"]], knowledge(p), reading(p), DEV[p["device"]]])
         out.append(p)
     return out
 

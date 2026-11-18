@@ -78,5 +78,7 @@
     "P09",
     "P21"
   ],
-  "api_cost_cap_usd": 5.0
+  "api_cost_cap_usd": 5.0,
+  "run_survey": false,
+  "run_survey_note": "Survey not ready yet: participants stop at the survey hand-off. Set to true to run the survey agents."
 }

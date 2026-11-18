@@ -14,7 +14,7 @@
   "id": "P01",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 60-year-old woman. My first language is English. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 60-year-old woman. My first language is English. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "vegan",
@@ -31,7 +31,7 @@
   "id": "P02",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 31-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 31-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -48,7 +48,7 @@
   "id": "P03",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 37-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online a few times a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my phone."
+  "profile": "I'm a 37-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online a few times a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm patient and careful. I'd rather read the details than make a mistake. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "vegan",
@@ -65,7 +65,7 @@
   "id": "P04",
   "group": "B",
   "model": "secondary",
-  "profile": "I'm a 60-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my phone."
+  "profile": "I'm a 60-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm patient and careful. I'd rather read the details than make a mistake. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I read ingredient lists carefully, but I can still misread or overlook something. I'm doing this on my phone."
  },
  {
   "diet": "vegetarian",
@@ -82,7 +82,7 @@
   "id": "P05",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 31-year-old man. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my phone."
+  "profile": "I'm a 31-year-old man. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I know meat, fish, milk and eggs aren't vegan, but I'm not sure about ingredients like whey, casein, gelatin or albumin, or whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "flexitarian",
@@ -99,7 +99,7 @@
   "id": "P06",
   "group": "B",
   "model": "secondary",
-  "profile": "I'm a 78-year-old woman. My first language is English. I eat meat, but less than I used to. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 78-year-old woman. My first language is English. I eat meat, but less than I used to. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "other",
@@ -116,7 +116,7 @@
   "id": "P07",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 23-year-old woman. My first language is English. I follow my own mix of diet rules (I avoid some foods for personal reasons). I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 23-year-old woman. My first language is English. I follow my own mix of diet rules (I avoid some foods for personal reasons). I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -133,7 +133,7 @@
   "id": "P08",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 58-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. I'm curious about eating more plant-based food, but I don't know much about it. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my phone."
+  "profile": "I'm a 58-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. I'm curious about eating more plant-based food, but I don't know much about it. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -150,7 +150,7 @@
   "id": "P09",
   "group": "A",
   "model": "secondary",
-  "profile": "I'm a 65-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 65-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "vegan",
@@ -167,7 +167,7 @@
   "id": "P10",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 76-year-old woman. My first language is English. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 76-year-old woman. My first language is English. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "flexitarian",
@@ -184,7 +184,7 @@
   "id": "P11",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 49-year-old woman. My first language is Hebrew. I eat meat, but less than I used to. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online a few times a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my laptop."
+  "profile": "I'm a 49-year-old woman. My first language is Hebrew. I eat meat, but less than I used to. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online a few times a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my laptop."
  },
  {
   "diet": "omnivore",
@@ -201,7 +201,7 @@
   "id": "P12",
   "group": "B",
   "model": "secondary",
-  "profile": "I'm a 64-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 64-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. My friend told me the basics (no meat, fish, dairy, eggs or honey), but I don't recognise ingredient names like whey, casein or albumin. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "vegetarian",
@@ -218,7 +218,7 @@
   "id": "P13",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 44-year-old woman. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 44-year-old woman. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I know meat, fish, milk and eggs aren't vegan, but I'm not sure about ingredients like whey, casein, gelatin or albumin, or whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "vegetarian",
@@ -235,7 +235,7 @@
   "id": "P14",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 49-year-old man. My first language is Chinese (Mandarin). I don't eat meat or fish, but I eat eggs and dairy. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online occasionally, less than once a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 49-year-old man. My first language is Chinese (Mandarin). I don't eat meat or fish, but I eat eggs and dairy. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online occasionally, less than once a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I know meat, fish, milk and eggs aren't vegan, but I'm not sure about ingredients like whey, casein, gelatin or albumin, or whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "vegan",
@@ -252,7 +252,7 @@
   "id": "P15",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 30-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 30-year-old man. My first language is Hebrew. I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -269,7 +269,7 @@
   "id": "P16",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 52-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online a few times a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 52-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online a few times a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. My friend told me the basics (no meat, fish, dairy, eggs or honey), but I don't recognise ingredient names like whey, casein or albumin. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -286,7 +286,7 @@
   "id": "P17",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 48-year-old woman. My first language is Hebrew. I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 48-year-old woman. My first language is Hebrew. I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -303,7 +303,7 @@
   "id": "P18",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 23-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my laptop."
+  "profile": "I'm a 23-year-old man. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm patient and careful. I'd rather read the details than make a mistake. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my laptop."
  },
  {
   "diet": "omnivore",
@@ -320,7 +320,7 @@
   "id": "P19",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 36-year-old woman. My first language is Hebrew. I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 36-year-old woman. My first language is Hebrew. I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "flexitarian",
@@ -337,7 +337,7 @@
   "id": "P20",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 54-year-old man. My first language is Chinese (Mandarin). I eat meat, but less than I used to. I'm curious about eating more plant-based food, but I don't know much about it. I have never bought groceries online. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 54-year-old man. My first language is Chinese (Mandarin). I eat meat, but less than I used to. I'm curious about eating more plant-based food, but I don't know much about it. I have never bought groceries online. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "vegetarian",
@@ -354,7 +354,7 @@
   "id": "P21",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 21-year-old woman. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my laptop."
+  "profile": "I'm a 21-year-old woman. My first language is English. I don't eat meat or fish, but I eat eggs and dairy. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I know meat, fish, milk and eggs aren't vegan, but I'm not sure about ingredients like whey, casein, gelatin or albumin, or whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my laptop."
  },
  {
   "diet": "omnivore",
@@ -371,7 +371,7 @@
   "id": "P22",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 34-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online every week. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my laptop."
+  "profile": "I'm a 34-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. Someone close to me is vegan, so I sometimes have to shop vegan for them and find it hard. I buy groceries online every week. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm patient and careful. I'd rather read the details than make a mistake. My friend told me the basics (no meat, fish, dairy, eggs or honey), but I don't recognise ingredient names like whey, casein or albumin. I read ingredient lists carefully, but I can still misread or overlook something. I'm doing this on my laptop."
  },
  {
   "diet": "omnivore",
@@ -388,7 +388,7 @@
   "id": "P23",
   "group": "A",
   "model": "secondary",
-  "profile": "I'm a 78-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online every week. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 78-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online every week. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -405,7 +405,7 @@
   "id": "P24",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 42-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 42-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online a few times a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -422,7 +422,7 @@
   "id": "P25",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 33-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online every week. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm patient and careful. I'd rather read the details than make a mistake. I'm doing this on my phone."
+  "profile": "I'm a 33-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. I'm interested in plant-based products mainly for health reasons. I buy groceries online every week. I'm not very comfortable with websites and apps. I read slowly, I don't always know what icons mean, and I usually don't notice small buttons or menus. I'm patient and careful. I'd rather read the details than make a mistake. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -439,7 +439,7 @@
   "id": "P26",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 21-year-old man. My first language is English. I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 21-year-old man. My first language is English. I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "flexitarian",
@@ -456,7 +456,7 @@
   "id": "P27",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 75-year-old man. My first language is English. I eat meat, but less than I used to. I'm interested in plant-based products mainly for health reasons. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 75-year-old man. My first language is English. I eat meat, but less than I used to. I'm interested in plant-based products mainly for health reasons. I buy groceries online occasionally, less than once a month. I use websites and apps every day, but I don't explore features unless I need them. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -473,7 +473,7 @@
   "id": "P28",
   "group": "B",
   "model": "secondary",
-  "profile": "I'm a 71-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 71-year-old woman. My first language is Chinese (Mandarin). I eat meat and dairy and don't think much about it. Honestly, I'm skeptical about vegan products and don't see why a supermarket needs special features for them. I buy groceries online every week. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  },
  {
   "diet": "omnivore",
@@ -490,7 +490,7 @@
   "id": "P29",
   "group": "A",
   "model": "primary",
-  "profile": "I'm a 26-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I'm doing this on my phone."
+  "profile": "I'm a 26-year-old woman. My first language is English. I eat meat and dairy and don't think much about it. I'm curious about eating more plant-based food, but I don't know much about it. I buy groceries online occasionally, less than once a month. I'm very comfortable online. I scan pages quickly, use search and filters, and try buttons to see what they do. I'm reasonably patient, but I don't like wasting time. I only know the obvious things: meat, fish, milk and eggs. Words like whey, casein, gelatin or albumin don't mean anything to me, and I'm not sure whether honey counts. I read the start of an ingredient list, not every word, and sometimes I miss things. I'm doing this on my phone."
  },
  {
   "diet": "vegan",
@@ -507,6 +507,6 @@
   "id": "P30",
   "group": "B",
   "model": "primary",
-  "profile": "I'm a 22-year-old man. My first language is Chinese (Mandarin). I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I'm doing this on my phone."
+  "profile": "I'm a 22-year-old man. My first language is Chinese (Mandarin). I'm vegan: no meat, fish, dairy, eggs or honey. A vegan filter would matter to me because I check labels every time I shop. I have never bought groceries online. I use websites and apps every day, but I don't explore features unless I need them. I'm impatient. If something takes too long or is confusing I get annoyed and give up quickly. I know the hidden animal ingredients, like whey, casein, gelatin, albumin, carmine and lard. I usually go by a product's name and picture, and at most glance at the first few ingredients. I often miss small print and sometimes tap the wrong thing. I'm doing this on my phone."
  }
 ]

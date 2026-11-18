@@ -62,6 +62,9 @@ def run_participant(run, pid):
         obs = harness("act", pid, cmd, arg)
         if "SESSION OVER" in obs:
             break
+    if not cfg.get('run_survey', True):
+        print(f'{pid} done (survey skipped); spent so far ~${spent:.2f}')
+        return
     # survey: fresh call with persona + own log + items
     pipeline.survey_input(run, [pid])
     inp = open(os.path.join(run, "prompts", f"{pid}_survey_input.md")).read()

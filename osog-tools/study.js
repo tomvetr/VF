@@ -80,7 +80,7 @@ function secIs(p,n){return p.s.en===n;}
 var ITEMS={
  milk:{en:'<b>Vegan</b> milk',zh:'<b>纯素</b>牛奶',he:'חלב <b>טבעוני</b>',m:function(p){return secIs(p,'Milk');}},
  sausages:{en:'<b>Vegan</b> sausage',zh:'<b>纯素</b>香肠',he:'נקניק <b>טבעוני</b>',m:function(p){return secIs(p,'Sausages, Burgers & Deli')&&/sausage|dog|frank|link|brat|chorizo|kielbasa|andouille|wiener/i.test(p.b.en);}},
- bread:{en:'<b>Vegan</b> bread',zh:'<b>纯素</b>面包',he:'לחם <b>טבעוני</b>',m:function(p){return secIs(p,'Bread');}},
+ bread:{en:'<b>Vegan</b> bread',zh:'<b>纯素</b>面包',he:'לחם <b>טבעוני</b>',m:function(p){return secIs(p,'Bread')||(p.d.k==='bakery'&&/\bpita\b|\bbread\b/i.test(p.b.en));}},
  chocolate:{en:'<b>Vegan</b> chocolate',zh:'<b>纯素</b>巧克力',he:'שוקולד <b>טבעוני</b>',m:function(p){return (secIs(p,'Candy, Gum & Mints')||secIs(p,'Baking'))&&/chocolate|cacao/i.test(p.b.en);}},
  yogurt:{en:'<b>Vegan</b> yogurt',zh:'<b>纯素</b>酸奶',he:'יוגורט <b>טבעוני</b>',m:function(p){return secIs(p,'Yogurt');}},
  burgers:{en:'<b>Vegan</b> burger',zh:'<b>纯素</b>汉堡肉饼',he:'המבורגר <b>טבעוני</b>',m:function(p){return /burger|patt(y|ies)/i.test(p.b.en)&&!/\bbuns?\b|helper/i.test(p.b.en);}},
@@ -220,9 +220,19 @@ function sizeT(s){if(lang==='en'||!s)return s;
   if((m=s.match(/^(\d+)\s*(?:each|ct|count|pk|pack|bags?)\b/i)))return m[1]+' '+U.pc;
   return s;}
 function viewSearch(q){LEAD=5;
-  var k=q.toLowerCase().trim(),alt=[k];
-  for(var tk in TERMS){var T_=TERMS[tk];if([T_.en,T_.zh,T_.he].some(function(x){return x.toLowerCase()===k;}))alt.push(T_.en);}
-  var all=PRODUCTS.filter(function(p){var n=(p.b.en+' '+pname(p)).toLowerCase();return alt.some(function(a){return n.indexOf(a)>=0;});});
+  // words must all match (AND); if nothing matches, any word may match (OR)
+  var k=q.toLowerCase().trim();
+  var words=k.replace(/(纯素|素食)/g,' $1 ').split(/\s+/).filter(Boolean);
+  var syn=function(w){var out=[w];for(var tk in TERMS){var T_=TERMS[tk];if([T_.en,T_.zh,T_.he].some(function(x){return x.toLowerCase()===w;}))out.push(T_.en);}return out;};
+  var hay=function(p){return (p.b.en+' '+pname(p)).toLowerCase();};
+  var has=function(p,w){var h=hay(p);return syn(w).some(function(a){return h.indexOf(a)>=0;});};
+  var all=PRODUCTS.filter(function(p){return has(p,k);});
+  if(!all.length&&words.length>1)all=PRODUCTS.filter(function(p){return words.every(function(w){return has(p,w);});});
+  if(!all.length&&words.length>1)all=PRODUCTS.filter(function(p){return words.some(function(w){return has(p,w);});});
+  // Chinese has no spaces: fall back to 2-character pieces, then single characters
+  if(!all.length&&/[\u4e00-\u9fff]/.test(k)){var cj=k.replace(/[^\u4e00-\u9fff]/g,''),bi=[];for(var i=0;i<cj.length-1;i++)bi.push(cj.substr(i,2));
+    all=PRODUCTS.filter(function(p){var h=hay(p);return bi.some(function(w){return h.indexOf(w)>=0;});});
+    if(!all.length)all=PRODUCTS.filter(function(p){var h=hay(p);return cj.split('').some(function(c){return h.indexOf(c)>=0;});});}
   return '<div class="crumb"><a href="#/">'+t('home')+'</a> › '+t('search')+'</div>'+listView(all,'<h1>'+esc(t('results')(q))+'</h1>','',null);
 }
 
