@@ -82,3 +82,8 @@
   html.intask .finbtn{display:none !important;}
   .tooli{animation:toolglow 1.2s ease-in-out 2;position:relative;z-index:2;}
   @keyframes toolglow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0);transform:none;}50%{box-shadow:0 0 0 5px #f59e0b,0 0 22px 8px rgba(245,158,11,.55);transform:scale(1.06);}}
+  .tbst{margin-inline-start:auto;display:inline-flex;gap:8px;white-space:nowrap;}
+  .tbt,.tbm{background:#fff;border:1px solid #ecd9a3;border-radius:999px;padding:3px 11px;font-weight:600;color:#5b4300;font-variant-numeric:tabular-nums;}
+  .tbm b{color:#c62828;}
+  .tbm.bump{animation:mbump .6s ease;}
+  @keyframes mbump{0%,100%{transform:none;}30%{transform:scale(1.18);background:#fde8e6;border-color:#f3b4ae;}}

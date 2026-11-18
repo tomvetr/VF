@@ -167,6 +167,11 @@
   html.intask .finbtn{display:none !important;}
   .tooli{animation:toolglow 1.2s ease-in-out 2;position:relative;z-index:2;}
   @keyframes toolglow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0);transform:none;}50%{box-shadow:0 0 0 5px #f59e0b,0 0 22px 8px rgba(245,158,11,.55);transform:scale(1.06);}}
+  .tbst{margin-inline-start:auto;display:inline-flex;gap:8px;white-space:nowrap;}
+  .tbt,.tbm{background:#fff;border:1px solid #ecd9a3;border-radius:999px;padding:3px 11px;font-weight:600;color:#5b4300;font-variant-numeric:tabular-nums;}
+  .tbm b{color:#c62828;}
+  .tbm.bump{animation:mbump .6s ease;}
+  @keyframes mbump{0%,100%{transform:none;}30%{transform:scale(1.18);background:#fde8e6;border-color:#f3b4ae;}}
 
   img.ph{width:100%;height:100%;object-fit:contain;display:block;background:#fff;}
   .thumb:has(img.ph){height:170px;background:#fff;}
@@ -696,7 +701,7 @@ en:{introT:'Online shopping study',
  filter:'Turn on the 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The green “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
- listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',
+ listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',mist:'Mistakes',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
  q2:'How sure are you that everything in your cart is vegan?',q2a:'Not sure at all',q2b:'Completely sure',
@@ -712,7 +717,7 @@ zh:{introT:'网上购物研究',
  filter:'打开搜索栏旁边的 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的绿色“植物基”分类里有纯素的植物奶和植物肉。',
- listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',
+ listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',mist:'错误',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
  q2:'你有多确定购物车里的所有商品都是纯素的？',q2a:'完全不确定',q2b:'完全确定',
@@ -728,7 +733,7 @@ he:{introT:'מחקר קנייה אונליין',
  filter:'הפעילו את הכפתור 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקה הירוקה "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
- listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',
+ listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',mist:'טעויות',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
@@ -781,7 +786,7 @@ function studyRender(){
   var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
-    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+'</div></div>';
+    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+'<span class="tbst"><span class="tbt">⏱ <b id="tbTime">'+fmtT(statT())+'</b></span><span class="tbm">✕ '+st('mist')+': <b id="tbMist">'+statM()+'</b></span></span></div></div>';
     bar.classList.add('show');if(SS.phase==='task'){box.classList.remove('show');return;}}
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
@@ -834,7 +839,7 @@ document.addEventListener('click',function(e){
   if(a==='tclose'){e.stopImmediatePropagation();hideErr();return;}
   if(a==='inc'&&SS.phase==='task'&&!cart[el.dataset.id]){var pr=PRODUCTS[el.dataset.id];
     if(!onList(pr)){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.offlist++;errToast(st('offL')(pname(pr)),'warn');flashList();return;}
-    if(!pr.v){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.mistakes++;errToast(st('notV')(pname(pr)));return;}}
+    if(!pr.v){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.mistakes++;updStats();errToast(st('notV')(pname(pr)));return;}}
   if(a==='sgo'){var to=el.dataset.to;
     if(to==='task'){if(SS.phase==='confirm'){SS.phase='task';studyRender();}else startTask();}
     else if(to==='q')endTask();
@@ -881,6 +886,14 @@ function viewSearch(q){LEAD=5;
   var all=PRODUCTS.filter(function(p){var n=(p.b.en+' '+pname(p)).toLowerCase();return alt.some(function(a){return n.indexOf(a)>=0;});});
   return '<div class="crumb"><a href="#/">'+t('home')+'</a> › '+t('search')+'</div>'+listView(all,'<h1>'+esc(t('results')(q))+'</h1>','',null);
 }
+
+/* ---------- timer and mistake counter in the task bar ---------- */
+function curRes(){return (SS&&SS.res[VK[curVer()]])||{};}
+function statT(){if(TASK)return (Date.now()-TASK.t0)/1000;var o=curRes();return SS&&SS.phase==='brief'?0:(o.time||0);}
+function statM(){if(TASK)return TASK.mistakes;var o=curRes();return SS&&SS.phase==='brief'?0:(o.nonvegan||0);}
+function fmtT(s){s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+function updStats(){var a=document.getElementById('tbTime'),b=document.getElementById('tbMist');if(a)a.textContent=fmtT(statT());if(b){var m=statM();if(b.textContent!==String(m)){b.textContent=m;var w=b.parentNode;w.classList.remove('bump');void w.offsetWidth;w.classList.add('bump');}}}
+setInterval(function(){if(STUDY&&TASK)updStats();},500);
 
 /* ---------- init ---------- */
 (function(){
