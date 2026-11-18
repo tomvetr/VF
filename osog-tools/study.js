@@ -30,14 +30,14 @@ var ST={
 en:{introT:'Online shopping study',
  intro:['In this study you will shop in an online supermarket three times. Each time, the store works a little differently.',
   'Imagine a vegan friend is coming to stay with you. Each time you will get a short shopping list: add one vegan product for each item to your cart. Vegan means no meat, fish, dairy, eggs or honey. Click a product to see its ingredients.',
-  'When you have everything, press “Finish shopping”. After each store you will answer one quick question, and at the end a short survey. It takes about 10–15 minutes.',
+  'When all four items are in your cart, the store closes automatically. After each store you will answer one quick question, and at the end a short survey. It takes about 10–15 minutes.',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
  control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
  filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The green “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
- listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',
+ listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
  q2:'How sure are you that everything in your cart is vegan?',q2a:'Not sure at all',q2b:'Completely sure',
@@ -46,14 +46,14 @@ en:{introT:'Online shopping study',
 zh:{introT:'网上购物研究',
  intro:['在本研究中，你将在一家网上超市购物三次。每一次，超市的功能都会略有不同。',
   '想象一位纯素食的朋友要来你家住几天。每次你会拿到一份简短的购物清单：请为清单上的每一项各选一件纯素商品加入购物车。纯素是指不含肉、鱼、奶制品、蛋或蜂蜜。点击商品即可查看配料表。',
-  '买齐后，请点击“完成购物”。每家店购物结束后有一个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
+  '四件商品都加入购物车后，购物会自动结束。每家店购物结束后有一个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
  control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
  filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的绿色“植物基”分类里有纯素的植物奶和植物肉。',
- listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',
+ listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
  q2:'你有多确定购物车里的所有商品都是纯素的？',q2a:'完全不确定',q2b:'完全确定',
@@ -62,14 +62,14 @@ zh:{introT:'网上购物研究',
 he:{introT:'מחקר קנייה אונליין',
  intro:['במחקר הזה תעשו קניות בסופרמרקט אונליין שלוש פעמים. בכל פעם החנות עובדת קצת אחרת.',
   'דמיינו שחבר טבעוני מגיע להתארח אצלכם. בכל פעם תקבלו רשימת קניות קצרה: הוסיפו לעגלה מוצר טבעוני אחד לכל פריט ברשימה. טבעוני פירושו ללא בשר, דגים, מוצרי חלב, ביצים או דבש. לחצו על מוצר כדי לראות את רשימת הרכיבים.',
-  'כשתמצאו את כל הפריטים, לחצו על "סיום קנייה". אחרי כל חנות תופיע שאלה קצרה אחת, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
+  'כשכל ארבעת הפריטים יהיו בעגלה, הקנייה תסתיים אוטומטית. אחרי כל חנות תופיע שאלה קצרה אחת, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
  control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
  filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקה הירוקה "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
- listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',
+ listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
@@ -94,7 +94,7 @@ var TERMS={"milk": {"en": "milk", "zh": "牛奶", "he": "חלב"}, "sausages": {
 var LISTS=[['milk','sausages','bread','chocolate'],['yogurt','burgers','cookies','cereal'],['creamer','bacon','crackers','bars']];
 var TYPE={control:'ctype',filter:'ftype',label:'ltype',category:'ktype'};
 var VK={control:'c',filter:'f',label:'a',category:'a'};
-var SS=null,TASK=null;
+var SS=null,TASK=null,AUTO=null;
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x;}return a;}
 function ssave(){try{localStorage.setItem('vf_study',JSON.stringify(SS));}catch(e){}}
 function curVer(){return SS.order[SS.step];}
@@ -130,7 +130,7 @@ function studyRender(){
   else if(SS.phase==='confirm')h='<p style="font-size:16px;font-weight:600">'+st('confirm')(covered(false).length,curList().length)+'</p><div class="row2"><button class="cta ghost" data-act="sgo" data-to="task">'+st('keep')+'</button><button class="cta" data-act="sgo" data-to="q">'+st('fin')+'</button></div>';
   else if(SS.phase==='q'){var r=SS.res[VK[curVer()]]||{};
     var sc=function(key,qa,qb,q){return '<div class="q">'+st(q)+'</div><div class="scale">'+[1,2,3,4,5].map(function(n){return '<button data-act="sans" data-k="'+key+'" data-v="'+n+'" class="'+(r[key]===n?'on':'')+'">'+n+'</button>';}).join('')+'</div><div class="scl"><span>'+st(qa)+'</span><span>'+st(qb)+'</span></div>';};
-    h='<h2>'+st('taskT')(SS.step+1)+'</h2>'+sc('ease','q1a','q1b','q1')+'<button class="cta" data-act="snext"'+(r.ease?'':' disabled')+'>'+st('next')+'</button>';}
+    h='<h2>'+st('finishedT')+'</h2>'+sc('ease','q1a','q1b','q1')+'<button class="cta" data-act="snext"'+(r.ease?'':' disabled')+'>'+st('next')+'</button>';}
   else if(SS.phase==='done')h='<h2>'+st('doneT')+'</h2><p>'+st('doneP')+'</p><button class="cta" data-act="ssurvey">'+st('doneB')+'</button><button class="cta ghost" style="margin-top:10px" data-act="srestart" data-noask="1">↺ '+st('restart')+'</button>';
   var was=box.classList.contains('show');box.innerHTML='<div class="sbox'+(was?' swap':'')+'">'+h+'</div>';
   if(!was)requestAnimationFrame(function(){requestAnimationFrame(function(){box.classList.add('show');});});
@@ -187,7 +187,7 @@ document.addEventListener('click',function(e){
 if(true){
   var _op=openProduct;openProduct=function(id){if(STUDY&&TASK){TASK.pages++;if(LABELS&&PRODUCTS[id].v)TASK.feature++;}_op(id);};
   var _sv=setVegan;setVegan=function(on){if(STUDY&&TASK&&on&&curVer()==='filter')TASK.feature++;_sv(on);};
-  var _sq=setQty;setQty=function(id,q){_sq(id,q);if(STUDY&&SS&&SS.phase==='task')studyRender();};
+  var _sq=setQty;setQty=function(id,q){_sq(id,q);if(STUDY&&SS&&SS.phase==='task'){studyRender();if(covered(true).length>=curList().length&&!AUTO){AUTO=setTimeout(function(){AUTO=null;if(SS.phase==='task'&&covered(true).length>=curList().length){closeAll();endTask();}},900);}}};
   $('#searchForm').addEventListener('submit',function(){if(STUDY&&TASK)TASK.searches++;});
   window.addEventListener('hashchange',function(){if(STUDY&&TASK&&curVer()==='category'&&/^#\/c\/plant(\/|$)/.test(location.hash))TASK.feature++;});
 }

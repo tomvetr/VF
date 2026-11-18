@@ -38,7 +38,7 @@ Example: `c_time`, `f_time`, `a_time`.
 |---|---|
 | `_list` | Which shopping list was used (1, 2 or 3) |
 | `_pos` | Position in the order (1 = first store, 3 = last) |
-| `_time` | Time spent shopping in this store, in seconds |
+| `_time` | Time spent shopping in this store, in seconds (ends automatically when the 4th item is added) |
 | `_clicks` | Number of clicks while shopping |
 | `_pages` | Number of product pages opened (to read ingredients) |
 | `_search` | Number of searches |
