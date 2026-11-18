@@ -1,0 +1,19 @@
+{
+"Q1": {"answer": "Store with a vegan filter", "reason": "One tap and done, fewest steps."},
+"Q2": {"answer": "筛选最快,点一下就出来,不用搜来搜去。我不吃素,但要找的话这个最省事。", "reason": "Impatient, filter was fastest."},
+"Q3": {"answer": {"Store with a vegan filter": 1, "Store with vegan labels": 2, "Regular store": 3}, "reason": "Matches my ease ratings and action counts."},
+"Q4a": {"answer": {"filter": 5, "alt": 4}, "reason": "Filter shows them directly; labels help some."},
+"Q4b": {"answer": {"filter": 5, "alt": 3}, "reason": "Filter is more convenient."},
+"Q4c": {"answer": {"filter": 5, "alt": 3}, "reason": "Only 7 actions with the filter."},
+"Q4d": {"answer": {"filter": 4, "alt": 3}, "reason": "Probably helps vegans, not my area."},
+"Q5": {"answer": 50, "reason": "Helps with finding, but other inconveniences remain; just a guess."},
+"Q6a": {"answer": 4, "reason": "Beginners would find it easy to start."},
+"Q6b": {"answer": 3, "reason": "Somewhat helpful."},
+"Q6c": {"answer": 2, "reason": "Long-term vegans already know what to buy."},
+"Q7": {"answer": 1, "reason": "I eat meat, no need for it."},
+"Q9": {"answer": "Omnivore (your diet includes meat)", "reason": "I eat meat and dairy."},
+"Q10": {"answer": "No", "reason": "Never been vegan."},
+"Q11": {"answer": "Less than once a month", "reason": "Occasional online grocery buyer."},
+"Q12": {"answer": "Male", "reason": "I'm a man."},
+"Q13": {"answer": 1961, "reason": "I'm 65."}
+}

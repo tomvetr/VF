@@ -144,3 +144,4 @@
     html.instudy .deptbar{display:none;}
   }
   .tbls{display:none;}
+  body:has(#modal.show) .botbar,body:has(#cart.show) .botbar,body:has(#sheet.show) .botbar{display:none;}

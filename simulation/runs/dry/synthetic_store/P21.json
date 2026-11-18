@@ -1,0 +1,143 @@
+{
+ "synthetic": true,
+ "pid": "P21",
+ "saved_at": "2026-11-18T21:44:47.421872Z",
+ "model": "primary",
+ "hidden_fields": {
+  "pid": "P21",
+  "group": "A",
+  "alt": "label",
+  "order": "fac",
+  "lang": "en",
+  "total": "140",
+  "c_list": "3",
+  "c_pos": "3",
+  "c_time": "33",
+  "c_clicks": "9",
+  "c_pages": "1",
+  "c_search": "4",
+  "c_feature": "0",
+  "c_items": "4",
+  "c_found": "4",
+  "c_nonvegan": "0",
+  "c_offlist": "0",
+  "c_ease": "4",
+  "c_cart": "10262-12699-13968-3232",
+  "f_list": "1",
+  "f_pos": "1",
+  "f_time": "25",
+  "f_clicks": "6",
+  "f_pages": "0",
+  "f_search": "1",
+  "f_feature": "1",
+  "f_items": "4",
+  "f_found": "4",
+  "f_nonvegan": "0",
+  "f_offlist": "0",
+  "f_ease": "5",
+  "f_cart": "10261-13520-14119-2212",
+  "a_list": "2",
+  "a_pos": "2",
+  "a_time": "50",
+  "a_clicks": "12",
+  "a_pages": "3",
+  "a_search": "5",
+  "a_feature": "3",
+  "a_items": "4",
+  "a_found": "4",
+  "a_nonvegan": "0",
+  "a_offlist": "0",
+  "a_ease": "4",
+  "a_cart": "8399-12998-3761-5397"
+ },
+ "answers": {
+  "Q1": {
+   "answer": "Store with a vegan filter",
+   "reason": "It was the quickest one for me, though honestly any of them would do."
+  },
+  "Q2": {
+   "answer": "The filter got me done fastest, but I don't think it's a big deal either way.",
+   "reason": "Short honest take."
+  },
+  "Q3": {
+   "answer": {
+    "Store with a vegan filter": 1,
+    "Store with vegan labels": 2,
+    "Regular store": 3
+   },
+   "reason": "Filter took fewest clicks; labels and regular were about the same."
+  },
+  "Q4a": {
+   "answer": {
+    "filter": 4,
+    "alt": 3
+   },
+   "reason": "Filter narrowed things down; labels I barely noticed."
+  },
+  "Q4b": {
+   "answer": {
+    "filter": 4,
+    "alt": 3
+   },
+   "reason": "Somewhat more convenient, nothing dramatic."
+  },
+  "Q4c": {
+   "answer": {
+    "filter": 4,
+    "alt": 2
+   },
+   "reason": "Filter saved a few clicks; labels didn't really save me time."
+  },
+  "Q4d": {
+   "answer": {
+    "filter": 3,
+    "alt": 3
+   },
+   "reason": "Doubt people pick a supermarket over this."
+  },
+  "Q5": {
+   "answer": 15,
+   "reason": "It's a small part; most of the hassle is elsewhere, not finding products online."
+  },
+  "Q6a": {
+   "answer": 3,
+   "reason": "Might help a beginner figure out what's vegan."
+  },
+  "Q6b": {
+   "answer": 2,
+   "reason": "Sticking with it is about more than shopping."
+  },
+  "Q6c": {
+   "answer": 1,
+   "reason": "Long-term vegans already know what to buy."
+  },
+  "Q7": {
+   "answer": 2,
+   "reason": "I'm vegetarian, not vegan, and rarely shop online, so probably not."
+  },
+  "Q9": {
+   "answer": "Vegetarian (no meat, fish or seafood, but eggs or dairy products)",
+   "reason": "I eat eggs and dairy but no meat or fish."
+  },
+  "Q10": {
+   "answer": "No",
+   "reason": "Never been fully vegan."
+  },
+  "Q11": {
+   "answer": "Less than once a month",
+   "reason": "I only do it occasionally."
+  },
+  "Q12": {
+   "answer": "Female",
+   "reason": "I'm a woman."
+  },
+  "Q13": {
+   "answer": 2005,
+   "reason": "I'm 21."
+  }
+ },
+ "validation_problems": [],
+ "not_asked": [
+  "Q8: NOT ASKED: answer options are not defined in ZOHO_SETUP.md ('keep the answer options from the current survey')"
+ ]
+}

@@ -1,0 +1,143 @@
+{
+ "synthetic": true,
+ "pid": "P09",
+ "saved_at": "2026-11-18T21:44:31.948828Z",
+ "model": "secondary",
+ "hidden_fields": {
+  "pid": "P09",
+  "group": "A",
+  "alt": "label",
+  "order": "acf",
+  "lang": "zh",
+  "total": "124",
+  "c_list": "2",
+  "c_pos": "2",
+  "c_time": "33",
+  "c_clicks": "13",
+  "c_pages": "4",
+  "c_search": "5",
+  "c_feature": "0",
+  "c_items": "4",
+  "c_found": "4",
+  "c_nonvegan": "0",
+  "c_offlist": "0",
+  "c_ease": "3",
+  "c_cart": "8399-12998-3743-5397",
+  "f_list": "3",
+  "f_pos": "3",
+  "f_time": "17",
+  "f_clicks": "6",
+  "f_pages": "0",
+  "f_search": "1",
+  "f_feature": "1",
+  "f_items": "4",
+  "f_found": "4",
+  "f_nonvegan": "0",
+  "f_offlist": "0",
+  "f_ease": "5",
+  "f_cart": "10262-12699-13968-3232",
+  "a_list": "1",
+  "a_pos": "1",
+  "a_time": "52",
+  "a_clicks": "15",
+  "a_pages": "4",
+  "a_search": "7",
+  "a_feature": "4",
+  "a_items": "4",
+  "a_found": "4",
+  "a_nonvegan": "0",
+  "a_offlist": "0",
+  "a_ease": "4",
+  "a_cart": "10261-13516-14119-2184"
+ },
+ "answers": {
+  "Q1": {
+   "answer": "Store with a vegan filter",
+   "reason": "One tap and done, fewest steps."
+  },
+  "Q2": {
+   "answer": "筛选最快,点一下就出来,不用搜来搜去。我不吃素,但要找的话这个最省事。",
+   "reason": "Impatient, filter was fastest."
+  },
+  "Q3": {
+   "answer": {
+    "Store with a vegan filter": 1,
+    "Store with vegan labels": 2,
+    "Regular store": 3
+   },
+   "reason": "Matches my ease ratings and action counts."
+  },
+  "Q4a": {
+   "answer": {
+    "filter": 5,
+    "alt": 4
+   },
+   "reason": "Filter shows them directly; labels help some."
+  },
+  "Q4b": {
+   "answer": {
+    "filter": 5,
+    "alt": 3
+   },
+   "reason": "Filter is more convenient."
+  },
+  "Q4c": {
+   "answer": {
+    "filter": 5,
+    "alt": 3
+   },
+   "reason": "Only 7 actions with the filter."
+  },
+  "Q4d": {
+   "answer": {
+    "filter": 4,
+    "alt": 3
+   },
+   "reason": "Probably helps vegans, not my area."
+  },
+  "Q5": {
+   "answer": 50,
+   "reason": "Helps with finding, but other inconveniences remain; just a guess."
+  },
+  "Q6a": {
+   "answer": 4,
+   "reason": "Beginners would find it easy to start."
+  },
+  "Q6b": {
+   "answer": 3,
+   "reason": "Somewhat helpful."
+  },
+  "Q6c": {
+   "answer": 2,
+   "reason": "Long-term vegans already know what to buy."
+  },
+  "Q7": {
+   "answer": 1,
+   "reason": "I eat meat, no need for it."
+  },
+  "Q9": {
+   "answer": "Omnivore (your diet includes meat)",
+   "reason": "I eat meat and dairy."
+  },
+  "Q10": {
+   "answer": "No",
+   "reason": "Never been vegan."
+  },
+  "Q11": {
+   "answer": "Less than once a month",
+   "reason": "Occasional online grocery buyer."
+  },
+  "Q12": {
+   "answer": "Male",
+   "reason": "I'm a man."
+  },
+  "Q13": {
+   "answer": 1961,
+   "reason": "I'm 65."
+  }
+ },
+ "validation_problems": [],
+ "not_asked": [
+  "Q8: NOT ASKED: answer options are not defined in ZOHO_SETUP.md ('keep the answer options from the current survey')"
+ ]
+}

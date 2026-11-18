@@ -1,0 +1,19 @@
+{
+  "Q1": {"answer": "Store with a vegan filter", "reason": "It was the quickest one for me, though honestly any of them would do."},
+  "Q2": {"answer": "The filter got me done fastest, but I don't think it's a big deal either way.", "reason": "Short honest take."},
+  "Q3": {"answer": {"Store with a vegan filter": 1, "Store with vegan labels": 2, "Regular store": 3}, "reason": "Filter took fewest clicks; labels and regular were about the same."},
+  "Q4a": {"answer": {"filter": 4, "alt": 3}, "reason": "Filter narrowed things down; labels I barely noticed."},
+  "Q4b": {"answer": {"filter": 4, "alt": 3}, "reason": "Somewhat more convenient, nothing dramatic."},
+  "Q4c": {"answer": {"filter": 4, "alt": 2}, "reason": "Filter saved a few clicks; labels didn't really save me time."},
+  "Q4d": {"answer": {"filter": 3, "alt": 3}, "reason": "Doubt people pick a supermarket over this."},
+  "Q5": {"answer": 15, "reason": "It's a small part; most of the hassle is elsewhere, not finding products online."},
+  "Q6a": {"answer": 3, "reason": "Might help a beginner figure out what's vegan."},
+  "Q6b": {"answer": 2, "reason": "Sticking with it is about more than shopping."},
+  "Q6c": {"answer": 1, "reason": "Long-term vegans already know what to buy."},
+  "Q7": {"answer": 2, "reason": "I'm vegetarian, not vegan, and rarely shop online, so probably not."},
+  "Q9": {"answer": "Vegetarian (no meat, fish or seafood, but eggs or dairy products)", "reason": "I eat eggs and dairy but no meat or fish."},
+  "Q10": {"answer": "No", "reason": "Never been fully vegan."},
+  "Q11": {"answer": "Less than once a month", "reason": "I only do it occasionally."},
+  "Q12": {"answer": "Female", "reason": "I'm a woman."},
+  "Q13": {"answer": 2005, "reason": "I'm 21."}
+}
