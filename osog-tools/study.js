@@ -137,7 +137,9 @@ function studyRender(){
 }
 function startTask(){
   TASK={t0:Date.now(),clicks:0,pages:0,searches:0,feature:0,mistakes:0,offlist:0};SS.phase='task';ssave();studyRender();
+  if(SS.step===0)setTimeout(introList,320);
 }
+function introList(){var t=document.querySelector('.tb2');if(!t)return;t.classList.remove('intro');void t.offsetWidth;t.classList.add('intro');setTimeout(function(){t.classList.remove('intro');},2600);}
 var errT;function hideErr(){clearTimeout(errT);$('#toast').classList.remove('show','err','warn');}
 function errToast(m,kind){var e=$('#toast');e.innerHTML='<span class="tmsg"></span><button class="tx" data-act="tclose" aria-label="'+st('close')+'">✕</button>';e.firstChild.textContent=m;
   e.classList.remove('err','warn');e.classList.add('show',kind||'err');clearTimeout(errT);clearTimeout(toastT);errT=setTimeout(hideErr,kind==='warn'?4500:3500);}
