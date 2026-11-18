@@ -34,9 +34,9 @@ en:{introT:'Online shopping study',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
  control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
- filter:'Turn on the 🌱 Vegan filter button next to the search bar to see only vegan products.',
+ filter:'Turn on the filter to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
- category:'The green “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
+ category:'The “Plant-based” category has vegan milk and meat alternatives.',
  listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',mist:'Mistakes',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
@@ -50,9 +50,9 @@ zh:{introT:'网上购物研究',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
  control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
- filter:'打开搜索栏旁边的 🌱“纯素筛选”按钮，即可只显示纯素商品。',
+ filter:'打开筛选，只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
- category:'菜单最后的绿色“植物基”分类里有纯素的植物奶和植物肉。',
+ category:'“植物基”分类里有纯素的植物奶和植物肉。',
  listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',mist:'错误',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
@@ -66,9 +66,9 @@ he:{introT:'מחקר קנייה אונליין',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
  control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
- filter:'הפעילו את הכפתור 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
+ filter:'הפעילו את הפילטר כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
- category:'במחלקה הירוקה "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
+ category:'בקטגוריית "מבוסס צמחים" יש תחליפי חלב ובשר טבעוניים.',
  listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',mist:'טעויות',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
@@ -123,7 +123,7 @@ function studyRender(){
   var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('skip');var rb=document.getElementById('restartBtn');if(rb)rb.style.display=(TEST&&SS.phase!=='intro'&&SS.phase!=='done')?'':'none';var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
-    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+'<span class="tbst"><span class="tbt">⏱ <b id="tbTime">'+fmtT(statT())+'</b></span><span class="tbm">✕ '+st('mist')+': <b id="tbMist">'+statM()+'</b></span></span></div></div>';
+    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><span class="tbx"><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</span>'+STATS()+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+STATS()+'</div></div>';
     bar.classList.add('show');if(SS.phase==='task'){box.classList.remove('show');return;}}
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
@@ -227,9 +227,10 @@ function viewSearch(q){LEAD=5;
 }
 
 /* ---------- timer and mistake counter in the task bar ---------- */
+function STATS(){return '<span class="tbst"><span class="tbt">⏱ <b class="tbTime">'+fmtT(statT())+'</b></span><span class="tbm">'+st('mist')+': <b class="tbMist">'+statM()+'</b></span></span>';}
 function curRes(){return (SS&&SS.res[VK[curVer()]])||{};}
 function statT(){if(TASK)return (Date.now()-TASK.t0)/1000;var o=curRes();return SS&&SS.phase==='brief'?0:(o.time||0);}
 function statM(){if(TASK)return TASK.mistakes;var o=curRes();return SS&&SS.phase==='brief'?0:(o.nonvegan||0);}
 function fmtT(s){s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
-function updStats(){var a=document.getElementById('tbTime'),b=document.getElementById('tbMist');if(a)a.textContent=fmtT(statT());if(b){var m=statM();if(b.textContent!==String(m)){b.textContent=m;var w=b.parentNode;w.classList.remove('bump');void w.offsetWidth;w.classList.add('bump');}}}
+function updStats(){var tt=fmtT(statT()),m=String(statM());document.querySelectorAll('.tbTime').forEach(function(a){a.textContent=tt;});document.querySelectorAll('.tbMist').forEach(function(b){if(b.textContent!==m){b.textContent=m;var w=b.parentNode;w.classList.remove('bump');void w.offsetWidth;w.classList.add('bump');}});}
 setInterval(function(){if(STUDY&&TASK)updStats();},500);
