@@ -33,7 +33,7 @@ en:{introT:'Online shopping study',
   'When you have everything, press “Finish shopping”. After each store you will answer one quick question, and at the end a short survey. It takes about 10–15 minutes.',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
- control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(n){return '↑ “'+n+'” is not on your shopping list. Look for the items on the list at the top of the page.';},close:'Close',notV:function(n){return '✕ Not vegan: “'+n+'” contains animal ingredients. It was not added to your cart.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
+ control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
  filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The green “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
@@ -49,7 +49,7 @@ zh:{introT:'网上购物研究',
   '买齐后，请点击“完成购物”。每家店购物结束后有一个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
- control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(n){return '↑ “'+n+'”不在你的购物清单上。请寻找页面顶部清单上的商品。';},close:'关闭',notV:function(n){return '✕ 不是纯素：“'+n+'”含有动物成分，未加入购物车。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
+ control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
  filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的绿色“植物基”分类里有纯素的植物奶和植物肉。',
@@ -65,7 +65,7 @@ he:{introT:'מחקר קנייה אונליין',
   'כשתמצאו את כל הפריטים, לחצו על "סיום קנייה". אחרי כל חנות תופיע שאלה קצרה אחת, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
- control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(n){return '↑ "'+n+'" לא נמצא ברשימת הקניות. חפשו את הפריטים שברשימה בראש העמוד.';},close:'סגירה',notV:function(n){return '✕ לא טבעוני: "'+n+'" מכיל רכיבים מן החי. המוצר לא נוסף לעגלה.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
+ control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
  filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקה הירוקה "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
@@ -90,6 +90,7 @@ var ITEMS={
  bacon:{en:'<b>Vegan</b> bacon',zh:'<b>纯素</b>培根',he:'בייקון <b>טבעוני</b>',m:function(p){return /bacon/i.test(p.b.en);}},
  crackers:{en:'<b>Vegan</b> crackers',zh:'<b>纯素</b>咸饼干',he:'קרקרים <b>טבעוניים</b>',m:function(p){return secIs(p,'Crackers');}},
  bars:{en:'<b>Vegan</b> granola bar',zh:'<b>纯素</b>燕麦棒',he:'חטיף גרנולה <b>טבעוני</b>',m:function(p){return secIs(p,'Bars');}}};
+var TERMS={"milk": {"en": "milk", "zh": "牛奶", "he": "חלב"}, "sausages": {"en": "sausage", "zh": "香肠", "he": "נקניק"}, "bread": {"en": "bread", "zh": "面包", "he": "לחם"}, "chocolate": {"en": "chocolate", "zh": "巧克力", "he": "שוקולד"}, "yogurt": {"en": "yogurt", "zh": "酸奶", "he": "יוגורט"}, "burgers": {"en": "burger", "zh": "汉堡", "he": "המבורגר"}, "cookies": {"en": "cookie", "zh": "曲奇", "he": "עוגיות"}, "cereal": {"en": "cereal", "zh": "麦片", "he": "דגני בוקר"}, "creamer": {"en": "creamer", "zh": "奶精", "he": "מלבין"}, "bacon": {"en": "bacon", "zh": "培根", "he": "בייקון"}, "crackers": {"en": "cracker", "zh": "饼干", "he": "קרקרים"}, "bars": {"en": "granola bar", "zh": "燕麦棒", "he": "חטיף גרנולה"}};
 var LISTS=[['milk','sausages','bread','chocolate'],['yogurt','burgers','cookies','cereal'],['creamer','bacon','crackers','bars']];
 var TYPE={control:'ctype',filter:'ftype',label:'ltype',category:'ktype'};
 var VK={control:'c',filter:'f',label:'a',category:'a'};
@@ -121,7 +122,7 @@ function studyRender(){
   var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
-    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<span class="ti'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</span>';}).join('')+'</div></div>';
+    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+'</div></div>';
     bar.classList.add('show');if(SS.phase==='task'){box.classList.remove('show');return;}}
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
@@ -165,6 +166,7 @@ document.addEventListener('click',function(e){
   if(!STUDY||!SS)return;
   if(TASK&&SS.phase==='task')TASK.clicks++;
   var el=e.target.closest('[data-act]');if(!el)return;var a=el.dataset.act;
+  if(a==='slist'){e.stopImmediatePropagation();closeAll();location.hash='#/s/'+encodeURIComponent(L(TERMS[el.dataset.k]));return;}
   if(a==='tclose'){e.stopImmediatePropagation();hideErr();return;}
   if(a==='inc'&&SS.phase==='task'&&!cart[el.dataset.id]){var pr=PRODUCTS[el.dataset.id];
     if(!onList(pr)){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.offlist++;errToast(st('offL')(pname(pr)),'warn');flashList();return;}
@@ -186,4 +188,32 @@ if(true){
   var _sq=setQty;setQty=function(id,q){_sq(id,q);if(STUDY&&SS&&SS.phase==='task')studyRender();};
   $('#searchForm').addEventListener('submit',function(){if(STUDY&&TASK)TASK.searches++;});
   window.addEventListener('hashchange',function(){if(STUDY&&TASK&&curVer()==='category'&&/^#\/c\/plant(\/|$)/.test(location.hash))TASK.feature++;});
+}
+
+/* ---------- translated names, ingredients and metric sizes (Chinese / Hebrew) ---------- */
+function pname(p){var n=lang!=='en'&&TRD.n[lang]&&TRD.n[lang][p.oid];return n||p.b.en;}
+function ingOf(p){var s=p.b.ingEn||'';var d=lang!=='en'&&TRD.i[lang];if(!d)return s;
+  var out=s.split(/([,;.()\[\]{}:])/).map(function(t){if(/^[,;.()\[\]{}:]$/.test(t)){if(lang==='zh')return {',':'、',';':'；','.':'。','(':'（',')':'）','[':'【',']':'】','{':'（','}':'）',':':'：'}[t];return t;}
+    var k=t.trim().toLowerCase().replace(/\s+/g,' ');if(!k)return t;var v=d[k];if(!v)return t;return (lang==='zh'?'':(/^\s/.test(t)?' ':''))+v;}).join('');
+  return lang==='zh'?out.replace(/\s*([、；。（）【】：])\s*/g,'$1'):out;}
+function sizeT(s){if(lang==='en'||!s)return s;
+  var U=lang==='he'?{g:'גרם',kg:'ק"ג',ml:'מ"ל',l:'ליטר',pc:'יח\''}:{g:'g',kg:'kg',ml:'ml',l:'L',pc:'个'};
+  var r=function(v){return (Math.round(v*10)/10).toString();};
+  var fmt=function(v,u){if(u==='g'&&v>=1000)return r(v/1000)+' '+U.kg;if(u==='ml'&&v>=1000)return r(v/1000)+' '+U.l;return Math.round(v)+' '+U[u];};
+  var pre='',m0=s.match(/^(\d+)\s*(?:-|x|×|ct\b)\s*(?=\d)/i);if(m0)pre=m0[1]+' × ';
+  var m;
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*(kg|g|ml|lt|l)\b/i))){var u=m[2].toLowerCase(),v=parseFloat(m[1]);if(u==='kg')return pre+fmt(v*1000,'g');if(u==='lt'||u==='l')return pre+fmt(v*1000,'ml');return pre+fmt(v,u);}
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*fl\.?\s*oz/i)))return pre+fmt(parseFloat(m[1])*29.57,'ml');
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*(?:gl|gal)/i)))return pre+fmt(parseFloat(m[1])*3785,'ml');
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*qt/i)))return pre+fmt(parseFloat(m[1])*946,'ml');
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*pt\b/i)))return pre+fmt(parseFloat(m[1])*473,'ml');
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*oz/i)))return pre+fmt(parseFloat(m[1])*28.35,'g');
+  if((m=s.match(/(\d+(?:\.\d+)?)\s*lbs?\b/i)))return pre+fmt(parseFloat(m[1])*453.6,'g');
+  if((m=s.match(/^(\d+)\s*(?:each|ct|count|pk|pack|bags?)\b/i)))return m[1]+' '+U.pc;
+  return s;}
+function viewSearch(q){LEAD=5;
+  var k=q.toLowerCase().trim(),alt=[k];
+  for(var tk in TERMS){var T_=TERMS[tk];if([T_.en,T_.zh,T_.he].some(function(x){return x.toLowerCase()===k;}))alt.push(T_.en);}
+  var all=PRODUCTS.filter(function(p){var n=(p.b.en+' '+pname(p)).toLowerCase();return alt.some(function(a){return n.indexOf(a)>=0;});});
+  return '<div class="crumb"><a href="#/">'+t('home')+'</a> › '+t('search')+'</div>'+listView(all,'<h1>'+esc(t('results')(q))+'</h1>','',null);
 }

@@ -75,3 +75,6 @@
   .study .sbox.swap{animation:sswap .26s ease;}
   @keyframes sswap{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
   #app{transition:opacity .2s ease;}
+  .tb .ti{cursor:pointer;font:inherit;font-weight:600;color:inherit;}
+  .tb .ti:hover{border-color:#d9b75c;background:#fffdf3;}
+  .tb .ti.ok:hover{background:var(--green-l);}

@@ -27,7 +27,7 @@ var PRODUCTS=[],TAILS={};
 function hsh(n){n=(n+1)*2654435761>>>0;n^=n>>>15;n=Math.imul(n,2246822519)>>>0;n^=n>>>13;return n>>>0;}
 DEPTS.forEach(function(d){d.subs.forEach(function(s,i){s.dept=d;s.hue=(d.hue+i*13)%%360;});});
 DATA.forEach(function(r,i){var d=DEPTS[r[5]],h=hsh(r[0]);
-  PRODUCTS.push({id:i,d:d,s:d.subs[r[6]],br:['',''],size:r[2],price:r[3],v:r[4],h:h,pop:h%%1000,sold:0,rate:'',
+  PRODUCTS.push({id:i,oid:r[0],d:d,s:d.subs[r[6]],br:['',''],size:r[2],price:r[3],v:r[4],h:h,pop:h%%1000,sold:0,rate:'',
     b:{e:d.e,zh:r[1],en:r[1],ingZh:r[7],ingEn:r[7],ph:'osog-images/'+r[0]+'.jpg'}});});
 ''' % (json.dumps(depts,ensure_ascii=False,separators=(',',':')),json.dumps(data,ensure_ascii=False,separators=(',',':')))
 s=s[:a]+new+s[b:]
@@ -85,7 +85,18 @@ r('    <form class="search" id="searchForm" role="search">','    <button class="
 r('<span class="cnt" data-cnt>0</span></button>\n    </div>','<span class="cnt" data-cnt>0</span></button>\n      <button class="finbtn" data-act="sfinish" id="finishBtn">✓ <span id="finishT">Finish shopping</span></button>\n    </div>')
 r('<div class="toast" id="toast"></div>','<div class="toast" id="toast"></div>\n<div class="study" id="study" role="dialog" aria-modal="true"></div>')
 r("  #langBtn,#loginBtn{display:none;}","  #loginBtn{display:none;}\n"+open(S+'/study.css').read())
-r("/* ---------- init ---------- */",open(S+'/study.js').read()+"\n/* ---------- init ---------- */")
+TRD={'n':{},'i':{}}
+import os as _os
+for L in ('zh','he'):
+    f=S+'/tr/names_%s.json'%L
+    if _os.path.exists(f): TRD['n'][L]=json.load(open(f))
+    m={}
+    for part in ('a','b'):
+        f=S+'/tr/ing_%s_%s.json'%(part,L)
+        if _os.path.exists(f): m.update(json.load(open(f)))
+    if m: TRD['i'][L]=m
+r("/* ---------- init ---------- */","var TRD="+json.dumps(TRD,ensure_ascii=False,separators=(',',':'))+";\n"+open(S+'/study.js').read()+"\n/* ---------- init ---------- */")
+r("'<div class=\"meta\">'+esc(p.size)+'</div>'","'<div class=\"meta\">'+esc(sizeT(p.size))+'</div>'")
 r("  \n  try{var c=JSON.parse(localStorage.getItem('os_cart')","  initLang(qs);\n  if(!STUDY)try{var c=JSON.parse(localStorage.getItem('os_cart')")
 r("  if(qs.get('vegan')==='1')setVegan(true);else route();","  if(STUDY)studyInit(qs);else if(qs.get('vegan')==='1')setVegan(true);else route();")
 open('/home/user/VF/osog.html','w',encoding='utf8').write(s)
