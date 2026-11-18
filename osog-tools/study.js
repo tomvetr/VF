@@ -141,7 +141,7 @@ function startTask(){
   setTimeout(introTool,SS.step===0?900:320);
 }
 function introTool(){var v=curVer(),sel=v==='filter'?'.hrow .vegan, .mveg .vegan':v==='category'?'#deptbar a[data-k=plant], .depts a[href="#/c/plant"] i, .side>a[href="#/c/plant"]':'';if(!sel)return;
-  document.querySelectorAll(sel).forEach(function(x){if(!x.offsetParent)return;x.classList.remove('tooli');void x.offsetWidth;x.classList.add('tooli');setTimeout(function(){x.classList.remove('tooli');},3700);});}
+  document.querySelectorAll(sel).forEach(function(x){if(!x.offsetParent)return;x.classList.remove('tooli');void x.offsetWidth;x.classList.add('tooli');setTimeout(function(){x.classList.remove('tooli');},2500);});}
 function introList(){var t=document.querySelector('.tb2');if(!t)return;t.classList.remove('intro');void t.offsetWidth;t.classList.add('intro');setTimeout(function(){t.classList.remove('intro');},2600);}
 var errT;function hideErr(){clearTimeout(errT);$('#toast').classList.remove('show','err','warn');}
 function errToast(m,kind){var e=$('#toast');e.innerHTML='<span class="tmsg"></span><button class="tx" data-act="tclose" aria-label="'+st('close')+'">✕</button>';e.firstChild.textContent=m;
