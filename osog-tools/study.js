@@ -33,7 +33,7 @@ en:{introT:'Online shopping study',
   'When all four items are in your cart, the store closes automatically. After each store you will answer one quick question, and at the end a short survey. It takes about 10–15 minutes.',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
- control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
+ control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',slist:'Shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
  filter:'Turn on the filter to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The “Plant-based” category has vegan milk and meat alternatives.',
@@ -49,7 +49,7 @@ zh:{introT:'网上购物研究',
   '四件商品都加入购物车后，购物会自动结束。每家店购物结束后有一个简单问题，最后还有一份简短问卷。全程约需 10–15 分钟。',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
- control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
+ control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',slist:'购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
  filter:'打开筛选，只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'“植物基”分类里有纯素的植物奶和植物肉。',
@@ -65,7 +65,7 @@ he:{introT:'מחקר קנייה אונליין',
   'כשכל ארבעת הפריטים יהיו בעגלה, הקנייה תסתיים אוטומטית. אחרי כל חנות תופיע שאלה קצרה אחת, ובסוף שאלון קצר. משך ההשתתפות כ-10–15 דקות.',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
- control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
+ control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',slist:'רשימת קניות:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
  filter:'הפעילו את הפילטר כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'בקטגוריית "מבוסס צמחים" יש תחליפי חלב ובשר טבעוניים.',
@@ -123,7 +123,7 @@ function studyRender(){
   var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('skip');var rb=document.getElementById('restartBtn');if(rb)rb.style.display=(TEST&&SS.phase!=='intro'&&SS.phase!=='done')?'':'none';var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
-    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><span class="tbx"><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</span>'+STATS()+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+STATS()+'</div></div>';
+    bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><span class="tbx"><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</span>'+STATS()+'</div><div class="tb2"><span class="tbl"><span class="tbll">'+st('vlist')+'</span><span class="tbls">'+st('slist')+'</span></span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+STATS()+'</div></div>';
     bar.classList.add('show');if(SS.phase==='task'){box.classList.remove('show');return;}}
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
