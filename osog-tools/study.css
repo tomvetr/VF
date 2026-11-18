@@ -90,9 +90,11 @@
   .tb1 .tbst{display:none;}
   @media (max-width:760px){
     html.instudy .tb{gap:5px;padding-top:6px;padding-bottom:6px;font-size:12.5px;}
-    html.instudy .tb1{display:flex;align-items:center;gap:4px 6px;flex-wrap:wrap;line-height:1.35;}
-    html.instudy .tb1 .tbx{order:3;flex:1 1 100%;}
-    html.instudy .tb1 .tbst{display:inline-flex;margin-inline-start:auto;gap:5px;}
+    html.instudy .tb1{display:block;line-height:1.55;}
+    html.instudy .tb1 .tbs{display:inline;}
+    html.instudy .tb1 .tbx{display:inline;}
+    html.instudy .tb1 .tbst{display:inline-flex;gap:4px;margin-inline-start:6px;vertical-align:baseline;white-space:nowrap;}
+    html.instudy .tb1 .tbt,html.instudy .tb1 .tbm{padding:0 6px;line-height:1.5;}
     html.instudy .tb2 .tbst,html.instudy .tb2 .tbl{display:none;}
     html.instudy .tb2{gap:3px;flex-wrap:wrap;}
     html.instudy .tb .ti,html.instudy .tbt,html.instudy .tbm{padding:2px 6px;font-size:11px;}
