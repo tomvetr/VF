@@ -31,10 +31,6 @@
   .sbox .row2{display:flex;gap:10px;margin-top:14px;}
   .sbox .row2 .cta{margin:0;}
   .sbox .cta:disabled{background:#c5cad3;}
-  .vegan{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 2px 8px rgba(18,146,74,.35);}
-  .vegan .sw{background:rgba(255,255,255,.4);}
-  html.vg .vegan{background:var(--green-d);border-color:var(--green-d);}
-  html.vg .vegan .sw{background:#7ee2a8;}
   .tb .tb1 .tbs{background:#7a5600;}
   .tb{gap:7px;}
   .tb .tb2{gap:6px 14px;}
@@ -84,3 +80,5 @@
   @keyframes listintro{0%{box-shadow:0 0 0 0 rgba(245,158,11,0);}12%,55%{box-shadow:0 0 0 4px #f59e0b,0 0 22px 8px rgba(245,158,11,.5);background:#fff3c4;}100%{box-shadow:0 0 0 0 rgba(245,158,11,0);background:transparent;}}
   @keyframes pillpop{0%,100%{transform:none;}15%{transform:scale(1.12);}30%{transform:none;}}
   html.intask .finbtn{display:none !important;}
+  .tooli{animation:toolglow 1.2s ease-in-out 3;position:relative;z-index:2;}
+  @keyframes toolglow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0);transform:none;}50%{box-shadow:0 0 0 5px #f59e0b,0 0 22px 8px rgba(245,158,11,.55);transform:scale(1.06);}}

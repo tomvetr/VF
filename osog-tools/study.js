@@ -34,7 +34,7 @@ en:{introT:'Online shopping study',
   'Your answers are anonymous. By continuing, you agree to take part.'],
  start:'Start',taskT:function(n){return 'Store '+n+' of 3';},
  control:'No vegan tools: check the ingredient list on each product page.',ctype:'Regular store',ftype:'Store with a vegan filter',ltype:'Store with vegan labels',ktype:'Store with a vegan category',task:'Your task: find one vegan product for each item:',vlist:'Vegan shopping list:',offL:function(){return 'This product is not on your shopping list.';},close:'Close',notV:function(){return 'This product is not vegan.';},needAll:function(h,n){return 'Add all '+n+' items on your list to the cart first ('+h+' of '+n+' so far).';},
- filter:'Turn on the green 🌱 Vegan filter button next to the search bar to see only vegan products.',
+ filter:'Turn on the 🌱 Vegan filter button next to the search bar to see only vegan products.',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The green “Plant-based” department at the end of the menu has vegan milk and meat alternatives.',
  listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',
@@ -50,7 +50,7 @@ zh:{introT:'网上购物研究',
   '你的回答是匿名的。继续即表示你同意参加本研究。'],
  start:'开始',taskT:function(n){return '第 '+n+' 家店（共 3 家）';},
  control:'没有纯素工具：请在每件商品的详情页查看配料表。',ctype:'普通超市',ftype:'带纯素筛选的超市',ltype:'带纯素标签的超市',ktype:'带纯素分类的超市',task:'任务：为每一项找到一件纯素商品：',vlist:'纯素购物清单：',offL:function(){return '这件商品不在你的购物清单上。';},close:'关闭',notV:function(){return '这件商品不是纯素的。';},needAll:function(h,n){return '请先把清单上的全部 '+n+' 项加入购物车（目前 '+h+'/'+n+'）。';},
- filter:'打开搜索栏旁边的绿色 🌱“纯素筛选”按钮，即可只显示纯素商品。',
+ filter:'打开搜索栏旁边的 🌱“纯素筛选”按钮，即可只显示纯素商品。',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'菜单最后的绿色“植物基”分类里有纯素的植物奶和植物肉。',
  listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',
@@ -66,7 +66,7 @@ he:{introT:'מחקר קנייה אונליין',
   'התשובות שלכם אנונימיות. המשך ההשתתפות מהווה הסכמה להשתתף במחקר.'],
  start:'התחלה',taskT:function(n){return 'חנות '+n+' מתוך 3';},
  control:'אין כלים טבעוניים: בדקו את רשימת הרכיבים בעמוד של כל מוצר.',ctype:'חנות רגילה',ftype:'חנות עם פילטר טבעוני',ltype:'חנות עם תוויות טבעוני',ktype:'חנות עם קטגוריה טבעונית',task:'המשימה: מצאו מוצר טבעוני אחד לכל פריט:',vlist:'רשימת קניות טבעונית:',offL:function(){return 'המוצר הזה לא נמצא ברשימת הקניות.';},close:'סגירה',notV:function(){return 'המוצר הזה אינו טבעוני.';},needAll:function(h,n){return 'הוסיפו קודם לעגלה את כל '+n+' הפריטים ברשימה (עד כה '+h+' מתוך '+n+').';},
- filter:'הפעילו את הכפתור הירוק 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
+ filter:'הפעילו את הכפתור 🌱 "פילטר טבעוני" שליד שורת החיפוש כדי לראות רק מוצרים טבעוניים.',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'במחלקה הירוקה "מבוסס צמחים" בסוף התפריט יש תחליפי חלב ובשר טבעוניים.',
  listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',
@@ -138,7 +138,10 @@ function studyRender(){
 function startTask(){
   TASK={t0:Date.now(),clicks:0,pages:0,searches:0,feature:0,mistakes:0,offlist:0};SS.phase='task';ssave();studyRender();
   if(SS.step===0)setTimeout(introList,320);
+  setTimeout(introTool,SS.step===0?900:320);
 }
+function introTool(){var v=curVer(),sel=v==='filter'?'.hrow .vegan, .mveg .vegan':v==='category'?'#deptbar a[data-k=plant], .depts a[href="#/c/plant"] i, .side>a[href="#/c/plant"]':'';if(!sel)return;
+  document.querySelectorAll(sel).forEach(function(x){if(!x.offsetParent)return;x.classList.remove('tooli');void x.offsetWidth;x.classList.add('tooli');setTimeout(function(){x.classList.remove('tooli');},3700);});}
 function introList(){var t=document.querySelector('.tb2');if(!t)return;t.classList.remove('intro');void t.offsetWidth;t.classList.add('intro');setTimeout(function(){t.classList.remove('intro');},2600);}
 var errT;function hideErr(){clearTimeout(errT);$('#toast').classList.remove('show','err','warn');}
 function errToast(m,kind){var e=$('#toast');e.innerHTML='<span class="tmsg"></span><button class="tx" data-act="tclose" aria-label="'+st('close')+'">✕</button>';e.firstChild.textContent=m;
