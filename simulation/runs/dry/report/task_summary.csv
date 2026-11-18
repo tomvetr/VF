@@ -1,0 +1,4 @@
+version,n,success_rate,median_steps,median_steps_success,mean_mistakes,mean_offlist,median_app_time_s,mean_ease,outcomes
+control,3,1.0,14,14,0,0.33,33,3.33,{'completed': 3}
+filter,3,1.0,7,7,0,0,24,5.0,{'completed': 3}
+label,3,1.0,15,15,0,0,52,4.0,{'completed': 3}

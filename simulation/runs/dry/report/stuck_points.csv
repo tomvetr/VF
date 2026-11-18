@@ -1,0 +1,5 @@
+pid,step,store,version,phase,why,last_cmd,arg,screenshot
+P07,7,1,control,task,action failed: That did not work: locator.click: Timeout 4000ms exceeded.,click,7,P07_s7_action_failed.png
+P07,8,1,control,task,action failed: That did not work: locator.click: Timeout 4000ms exceeded.,click,7,P07_s8_action_failed.png
+P09,6,1,label,task,action failed: That did not work: locator.click: Timeout 4000ms exceeded.,click,7,P09_s6_action_failed.png
+P09,12,1,label,task,action failed: That did not work: locator.click: Timeout 4000ms exceeded.,click,7,P09_s12_action_failed.png

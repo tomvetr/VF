@@ -1,0 +1,24 @@
+item,sub,n,mean,sd,distribution,top_share,near_zero_variance
+Q1,,3,,,Store with a vegan filter: 3,1.0,1
+Q10,,3,,,No: 3,1.0,1
+Q11,,3,,,Less than once a month: 2; Never: 1,0.67,0
+Q12,,3,,,Female: 2; Male: 1,0.67,0
+Q13,,3,1989.67,20.29,1961: 1; 2003: 1; 2005: 1,0.33,0
+Q2,,3,,,"The filter got me done fastest, but I don't think it's a big deal either way.: 1; the plant button showed me the right stuff so i didnt have to search a bunch: 1; 筛选最快,点一下就出来,不用搜来搜去。我不吃素,但要找的话这个最省事。: 1",0.33,0
+Q3,Regular store,3,3,0.0,3: 3,1.0,1
+Q3,Store with a vegan filter,3,1,0.0,1: 3,1.0,1
+Q3,Store with vegan labels,3,2,0.0,2: 3,1.0,1
+Q4a,alt,3,3.67,0.47,3: 1; 4: 2,0.67,1
+Q4a,filter,3,4.67,0.47,4: 1; 5: 2,0.67,1
+Q4b,alt,3,3,0.0,3: 3,1.0,1
+Q4b,filter,3,4.67,0.47,4: 1; 5: 2,0.67,1
+Q4c,alt,3,2.67,0.47,2: 1; 3: 2,0.67,1
+Q4c,filter,3,4.67,0.47,4: 1; 5: 2,0.67,1
+Q4d,alt,3,3.33,0.47,3: 2; 4: 1,0.67,1
+Q4d,filter,3,3.67,0.47,3: 1; 4: 2,0.67,1
+Q5,,3,35,14.72,15: 1; 40: 1; 50: 1,0.33,0
+Q6a,,3,3.67,0.47,3: 1; 4: 2,0.67,1
+Q6b,,3,2.67,0.47,2: 1; 3: 2,0.67,1
+Q6c,,3,1.67,0.47,1: 1; 2: 2,0.67,1
+Q7,,3,2.33,1.25,1: 1; 2: 1; 4: 1,0.33,0
+Q9,,3,,,"Omnivore (your diet includes meat): 1; Other (please specify): 1; Vegetarian (no meat, fish or seafood, but eggs or dairy products): 1",0.33,0

@@ -1,0 +1,52 @@
+pid,item,answer,reason
+P07,Q1,"""Store with a vegan filter""","Tapped the little plant and everything was just there, done super fast."
+P07,Q2,"""the plant button showed me the right stuff so i didnt have to search a bunch""","Short answer, I don't like typing much on my phone."
+P07,Q3,"{""Store with a vegan filter"": 1, ""Store with vegan labels"": 2, ""Regular store"": 3}","Filter was quickest, labels okay, regular store had me searching over and over."
+P07,Q4a,"{""filter"": 5, ""alt"": 4}","Filter made it really easy, labels helped a bit but I still had to search."
+P07,Q4b,"{""filter"": 5, ""alt"": 3}",Labels are small and I don't always notice them.
+P07,Q4c,"{""filter"": 5, ""alt"": 3}",Filter store took way fewer taps.
+P07,Q4d,"{""filter"": 4, ""alt"": 4}","Probably, but I'm not vegan so just guessing."
+P07,Q5,40,"Helps with shopping but there's more to it than finding products, like price and cooking."
+P07,Q6a,4,Would make it way easier to figure out what to buy at first.
+P07,Q6b,3,"Maybe helps a little, not sure."
+P07,Q6c,2,Long-term vegans probably already know what to buy.
+P07,Q7,4,If I see the plant button I'd probably tap it since I'm into plant-based stuff for health.
+P07,Q9,"""Other (please specify)""","I have my own mix of rules, I avoid some foods but I'm not strictly anything."
+P07,Q10,"""No""",Never fully vegan.
+P07,Q11,"""Never""",I've never bought groceries online.
+P07,Q12,"""Female""",I'm a woman.
+P07,Q13,2003,I'm 23.
+P09,Q1,"""Store with a vegan filter""","One tap and done, fewest steps."
+P09,Q2,"""筛选最快,点一下就出来,不用搜来搜去。我不吃素,但要找的话这个最省事。""","Impatient, filter was fastest."
+P09,Q3,"{""Store with a vegan filter"": 1, ""Store with vegan labels"": 2, ""Regular store"": 3}",Matches my ease ratings and action counts.
+P09,Q4a,"{""filter"": 5, ""alt"": 4}",Filter shows them directly; labels help some.
+P09,Q4b,"{""filter"": 5, ""alt"": 3}",Filter is more convenient.
+P09,Q4c,"{""filter"": 5, ""alt"": 3}",Only 7 actions with the filter.
+P09,Q4d,"{""filter"": 4, ""alt"": 3}","Probably helps vegans, not my area."
+P09,Q5,50,"Helps with finding, but other inconveniences remain; just a guess."
+P09,Q6a,4,Beginners would find it easy to start.
+P09,Q6b,3,Somewhat helpful.
+P09,Q6c,2,Long-term vegans already know what to buy.
+P09,Q7,1,"I eat meat, no need for it."
+P09,Q9,"""Omnivore (your diet includes meat)""",I eat meat and dairy.
+P09,Q10,"""No""",Never been vegan.
+P09,Q11,"""Less than once a month""",Occasional online grocery buyer.
+P09,Q12,"""Male""",I'm a man.
+P09,Q13,1961,I'm 65.
+P21,Q1,"""Store with a vegan filter""","It was the quickest one for me, though honestly any of them would do."
+P21,Q2,"""The filter got me done fastest, but I don't think it's a big deal either way.""",Short honest take.
+P21,Q3,"{""Store with a vegan filter"": 1, ""Store with vegan labels"": 2, ""Regular store"": 3}",Filter took fewest clicks; labels and regular were about the same.
+P21,Q4a,"{""filter"": 4, ""alt"": 3}",Filter narrowed things down; labels I barely noticed.
+P21,Q4b,"{""filter"": 4, ""alt"": 3}","Somewhat more convenient, nothing dramatic."
+P21,Q4c,"{""filter"": 4, ""alt"": 2}",Filter saved a few clicks; labels didn't really save me time.
+P21,Q4d,"{""filter"": 3, ""alt"": 3}",Doubt people pick a supermarket over this.
+P21,Q5,15,"It's a small part; most of the hassle is elsewhere, not finding products online."
+P21,Q6a,3,Might help a beginner figure out what's vegan.
+P21,Q6b,2,Sticking with it is about more than shopping.
+P21,Q6c,1,Long-term vegans already know what to buy.
+P21,Q7,2,"I'm vegetarian, not vegan, and rarely shop online, so probably not."
+P21,Q9,"""Vegetarian (no meat, fish or seafood, but eggs or dairy products)""",I eat eggs and dairy but no meat or fish.
+P21,Q10,"""No""",Never been fully vegan.
+P21,Q11,"""Less than once a month""",I only do it occasionally.
+P21,Q12,"""Female""",I'm a woman.
+P21,Q13,2005,I'm 21.

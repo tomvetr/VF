@@ -1,0 +1,4 @@
+pid,model,group,device,language,diet,literacy,patience,motivation,ended_by,steps_total,wall_s,order,page_errors,failed_actions,stuck_events,survey_saved
+P07,primary,A,phone,en,other,low,low,health reasons,completed,53,229.7,cfa,0,2,0,True
+P09,secondary,A,phone,zh,omnivore,high,low,"skeptical, no real interest",completed,48,127.4,acf,0,2,0,True
+P21,primary,A,desktop,en,vegetarian,medium,medium,"skeptical, no real interest",completed,38,144.8,fac,0,0,0,True

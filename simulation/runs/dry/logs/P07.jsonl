@@ -51,3 +51,5 @@
 {"step":50,"cmd":"click","arg":"31","target":"+","ok":true,"note":null,"toast":null,"errors":[],"stuck":false,"screenshot":null,"state":{"phase":"q","store":3,"version":"label","cart":4,"found":4,"mistakes":null,"offlist":null},"pid":"P07","ts":"2026-11-18T21:45:25.481Z","t":220}
 {"step":51,"cmd":"click","arg":"4","target":"4","ok":true,"note":null,"toast":null,"errors":[],"stuck":false,"screenshot":null,"state":{"phase":"q","store":3,"version":"label","cart":4,"found":4,"mistakes":null,"offlist":null},"pid":"P07","ts":"2026-11-18T21:45:29.924Z","t":224.4}
 {"step":52,"cmd":"click","arg":"6","target":"Continue","ok":true,"note":null,"toast":null,"errors":[],"stuck":false,"screenshot":null,"state":{"phase":"done","store":3,"version":"label","cart":4,"found":4,"mistakes":null,"offlist":null},"pid":"P07","ts":"2026-11-18T21:45:31.259Z","t":225.7}
+{"step":53,"cmd":"click","arg":"1","target":"Continue to the survey","ok":true,"event":"reached_survey","pid":"P07","ts":"2026-11-18T21:45:35.231Z","t":229.7}
+{"step":53,"cmd":"(harness)","event":"session_end","why":"completed","pid":"P07","ts":"2026-11-18T21:45:35.238Z","t":229.7}

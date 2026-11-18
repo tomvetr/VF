@@ -1,0 +1,19 @@
+{
+  "Q1": {"answer": "Store with a vegan filter", "reason": "Tapped the little plant and everything was just there, done super fast."},
+  "Q2": {"answer": "the plant button showed me the right stuff so i didnt have to search a bunch", "reason": "Short answer, I don't like typing much on my phone."},
+  "Q3": {"answer": {"Store with a vegan filter": 1, "Store with vegan labels": 2, "Regular store": 3}, "reason": "Filter was quickest, labels okay, regular store had me searching over and over."},
+  "Q4a": {"answer": {"filter": 5, "alt": 4}, "reason": "Filter made it really easy, labels helped a bit but I still had to search."},
+  "Q4b": {"answer": {"filter": 5, "alt": 3}, "reason": "Labels are small and I don't always notice them."},
+  "Q4c": {"answer": {"filter": 5, "alt": 3}, "reason": "Filter store took way fewer taps."},
+  "Q4d": {"answer": {"filter": 4, "alt": 4}, "reason": "Probably, but I'm not vegan so just guessing."},
+  "Q5": {"answer": 40, "reason": "Helps with shopping but there's more to it than finding products, like price and cooking."},
+  "Q6a": {"answer": 4, "reason": "Would make it way easier to figure out what to buy at first."},
+  "Q6b": {"answer": 3, "reason": "Maybe helps a little, not sure."},
+  "Q6c": {"answer": 2, "reason": "Long-term vegans probably already know what to buy."},
+  "Q7": {"answer": 4, "reason": "If I see the plant button I'd probably tap it since I'm into plant-based stuff for health."},
+  "Q9": {"answer": "Other (please specify)", "reason": "I have my own mix of rules, I avoid some foods but I'm not strictly anything."},
+  "Q10": {"answer": "No", "reason": "Never fully vegan."},
+  "Q11": {"answer": "Never", "reason": "I've never bought groceries online."},
+  "Q12": {"answer": "Female", "reason": "I'm a woman."},
+  "Q13": {"answer": 2003, "reason": "I'm 23."}
+}

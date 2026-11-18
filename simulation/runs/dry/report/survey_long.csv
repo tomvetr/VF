@@ -1,0 +1,70 @@
+pid,alt,item,sub,value,model
+P07,label,Q1,,Store with a vegan filter,primary
+P07,label,Q2,,the plant button showed me the right stuff so i didnt have to search a bunch,primary
+P07,label,Q3,Store with a vegan filter,1,primary
+P07,label,Q3,Store with vegan labels,2,primary
+P07,label,Q3,Regular store,3,primary
+P07,label,Q4a,filter,5,primary
+P07,label,Q4a,alt,4,primary
+P07,label,Q4b,filter,5,primary
+P07,label,Q4b,alt,3,primary
+P07,label,Q4c,filter,5,primary
+P07,label,Q4c,alt,3,primary
+P07,label,Q4d,filter,4,primary
+P07,label,Q4d,alt,4,primary
+P07,label,Q5,,40,primary
+P07,label,Q6a,,4,primary
+P07,label,Q6b,,3,primary
+P07,label,Q6c,,2,primary
+P07,label,Q7,,4,primary
+P07,label,Q9,,Other (please specify),primary
+P07,label,Q10,,No,primary
+P07,label,Q11,,Never,primary
+P07,label,Q12,,Female,primary
+P07,label,Q13,,2003,primary
+P09,label,Q1,,Store with a vegan filter,secondary
+P09,label,Q2,,"筛选最快,点一下就出来,不用搜来搜去。我不吃素,但要找的话这个最省事。",secondary
+P09,label,Q3,Store with a vegan filter,1,secondary
+P09,label,Q3,Store with vegan labels,2,secondary
+P09,label,Q3,Regular store,3,secondary
+P09,label,Q4a,filter,5,secondary
+P09,label,Q4a,alt,4,secondary
+P09,label,Q4b,filter,5,secondary
+P09,label,Q4b,alt,3,secondary
+P09,label,Q4c,filter,5,secondary
+P09,label,Q4c,alt,3,secondary
+P09,label,Q4d,filter,4,secondary
+P09,label,Q4d,alt,3,secondary
+P09,label,Q5,,50,secondary
+P09,label,Q6a,,4,secondary
+P09,label,Q6b,,3,secondary
+P09,label,Q6c,,2,secondary
+P09,label,Q7,,1,secondary
+P09,label,Q9,,Omnivore (your diet includes meat),secondary
+P09,label,Q10,,No,secondary
+P09,label,Q11,,Less than once a month,secondary
+P09,label,Q12,,Male,secondary
+P09,label,Q13,,1961,secondary
+P21,label,Q1,,Store with a vegan filter,primary
+P21,label,Q2,,"The filter got me done fastest, but I don't think it's a big deal either way.",primary
+P21,label,Q3,Store with a vegan filter,1,primary
+P21,label,Q3,Store with vegan labels,2,primary
+P21,label,Q3,Regular store,3,primary
+P21,label,Q4a,filter,4,primary
+P21,label,Q4a,alt,3,primary
+P21,label,Q4b,filter,4,primary
+P21,label,Q4b,alt,3,primary
+P21,label,Q4c,filter,4,primary
+P21,label,Q4c,alt,2,primary
+P21,label,Q4d,filter,3,primary
+P21,label,Q4d,alt,3,primary
+P21,label,Q5,,15,primary
+P21,label,Q6a,,3,primary
+P21,label,Q6b,,2,primary
+P21,label,Q6c,,1,primary
+P21,label,Q7,,2,primary
+P21,label,Q9,,"Vegetarian (no meat, fish or seafood, but eggs or dairy products)",primary
+P21,label,Q10,,No,primary
+P21,label,Q11,,Less than once a month,primary
+P21,label,Q12,,Female,primary
+P21,label,Q13,,2005,primary

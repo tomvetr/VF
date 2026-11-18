@@ -1,0 +1,10 @@
+pid,model,device,language,literacy,patience,store_index,version,outcome,success,steps,found,mistakes,offlist,pages,searches,app_time_s,feature_use,ease
+P07,primary,phone,en,low,low,1,control,completed,1,23,4,0,1,4,7,102,0,3
+P07,primary,phone,en,low,low,2,filter,completed,1,7,4,0,0,0,1,24,1,5
+P07,primary,phone,en,low,low,3,label,completed,1,15,4,0,0,3,4,66,3,4
+P09,secondary,phone,zh,high,low,1,label,completed,1,19,4,0,0,4,7,52,4,4
+P09,secondary,phone,zh,high,low,2,control,completed,1,14,4,0,0,4,5,33,0,3
+P09,secondary,phone,zh,high,low,3,filter,completed,1,7,4,0,0,0,1,17,1,5
+P21,primary,desktop,en,medium,medium,1,filter,completed,1,7,4,0,0,0,1,25,1,5
+P21,primary,desktop,en,medium,medium,2,label,completed,1,13,4,0,0,3,5,50,3,4
+P21,primary,desktop,en,medium,medium,3,control,completed,1,10,4,0,0,1,4,33,0,4
