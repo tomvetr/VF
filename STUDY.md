@@ -9,7 +9,7 @@ Optional link settings:
 | `lang` | `?lang=zh` / `?lang=he` | Interface language (default English) |
 | `pid` | `?pid=12345` | Participant ID from your panel, passed on to the survey |
 | `group` | `?group=A` | Force a group (for testing only; normally random) |
-| `reset` | `?reset=1` | Start over on this device (for testing) |
+| `reset` | `?reset=1` | Test mode: starts over on this device and shows a "Skip store" button in the bottom corner that jumps to the next store |
 
 Flow: intro → three stores (plain, vegan filter, and either label or category) in random order, each with its own shopping list → one question after each store → redirect to the Zoho survey.
 

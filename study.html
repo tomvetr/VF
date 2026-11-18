@@ -121,7 +121,7 @@
   .tb .tb2{gap:6px 14px;}
   .finbtn{display:none;background:var(--brand);color:#fff;font-weight:800;border-radius:10px;padding:9px 14px;white-space:nowrap;transition:background .3s;}
   html.intask .finbtn{display:inline-flex;align-items:center;gap:6px;}
-  .botbar{position:fixed;bottom:12px;inset-inline-end:12px;z-index:45;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 16px rgba(20,28,45,.15);}
+  .botbar{position:fixed;bottom:12px;inset-inline-end:12px;z-index:85;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 16px rgba(20,28,45,.15);}
   .botbar .wrap{display:flex;align-items:center;gap:6px;padding:6px 8px;max-width:none;}
   .botbar .langsel{padding:5px 6px;}
   .restart{display:none;font-weight:600;white-space:nowrap;}
@@ -396,7 +396,7 @@
 <main><div class="wrap" id="app"></div></main>
 
 
-<div class="botbar"><div class="wrap"><select id="langSel" class="langsel" aria-label="Language"><option value="en">English</option><option value="zh">中文</option><option value="he">עברית</option></select><button class="hbtn restart" data-act="srestart" id="restartBtn">↺ <span id="restartT">Restart</span></button></div></div>
+<div class="botbar"><div class="wrap"><select id="langSel" class="langsel" aria-label="Language"><option value="en">English</option><option value="zh">中文</option><option value="he">עברית</option></select><button class="hbtn restart" data-act="sskip" id="restartBtn">⏭ <span id="restartT">Skip store</span></button></div></div>
 <div class="tabbar" id="tabbar"></div>
 <div class="ov" id="ov" data-act="closeall"></div>
 <aside class="drawer" id="cart" aria-label="Cart"></aside>
@@ -705,7 +705,7 @@ en:{introT:'Online shopping study',
  confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
  q2:'How sure are you that everything in your cart is vegan?',q2a:'Not sure at all',q2b:'Completely sure',
- next:'Continue',doneT:'Thank you!',doneP:'You have finished shopping. Now please answer a short survey.',doneB:'Continue to the survey',restart:'Restart',restartQ:'Start the study again from the beginning?',
+ next:'Continue',doneT:'Thank you!',doneP:'You have finished shopping. Now please answer a short survey.',doneB:'Continue to the survey',restart:'Restart',skip:'Skip store',restartQ:'Start the study again from the beginning?',
  bar:function(n){return 'Store '+n+' of 3 · Shopping list:';}},
 zh:{introT:'网上购物研究',
  intro:['在本研究中，你将在一家网上超市购物三次。每一次，超市的功能都会略有不同。',
@@ -721,7 +721,7 @@ zh:{introT:'网上购物研究',
  confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
  q2:'你有多确定购物车里的所有商品都是纯素的？',q2a:'完全不确定',q2b:'完全确定',
- next:'继续',doneT:'谢谢！',doneP:'购物已完成。接下来请填写一份简短问卷。',doneB:'前往问卷',restart:'重新开始',restartQ:'要从头重新开始吗？',
+ next:'继续',doneT:'谢谢！',doneP:'购物已完成。接下来请填写一份简短问卷。',doneB:'前往问卷',restart:'重新开始',skip:'跳过本店',restartQ:'要从头重新开始吗？',
  bar:function(n){return '第 '+n+'/3 家店 · 购物清单：';}},
 he:{introT:'מחקר קנייה אונליין',
  intro:['במחקר הזה תעשו קניות בסופרמרקט אונליין שלוש פעמים. בכל פעם החנות עובדת קצת אחרת.',
@@ -737,7 +737,7 @@ he:{introT:'מחקר קנייה אונליין',
  confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
- next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',restart:'התחלה מחדש',restartQ:'להתחיל את המחקר מחדש מההתחלה?',
+ next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',restart:'התחלה מחדש',skip:'דילוג על החנות',restartQ:'להתחיל את המחקר מחדש מההתחלה?',
  bar:function(n){return 'חנות '+n+'/3 · רשימת קניות:';}}};
 function st(k){var v=ST[lang][k];return v===undefined?ST.en[k]:v;}
 function secIs(p,n){return p.s.en===n;}
@@ -758,7 +758,7 @@ var TERMS={"milk": {"en": "milk", "zh": "牛奶", "he": "חלב"}, "sausages": {
 var LISTS=[['milk','sausages','bread','chocolate'],['yogurt','burgers','cookies','cereal'],['creamer','bacon','crackers','bars']];
 var TYPE={control:'ctype',filter:'ftype',label:'ltype',category:'ktype'};
 var VK={control:'c',filter:'f',label:'a',category:'a'};
-var SS=null,TASK=null,AUTO=null;
+var SS=null,TASK=null,AUTO=null,TEST=false;
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x;}return a;}
 function ssave(){try{localStorage.setItem('vf_study',JSON.stringify(SS));}catch(e){}}
 function curVer(){return SS.order[SS.step];}
@@ -773,6 +773,7 @@ function applyVersion(v){
 }
 function studyInit(qs){
   document.documentElement.classList.add('instudy');
+  TEST=qs.get('reset')==='1'||qs.get('test')==='1';
   if(qs.get('reset')==='1'){try{localStorage.removeItem('vf_study');}catch(e){}}
   try{SS=JSON.parse(localStorage.getItem('vf_study')||'null');}catch(e){SS=null;}
   if(!SS){var g=(qs.get('group')||'').toUpperCase();if(g!=='A'&&g!=='B')g=Math.random()<0.5?'A':'B';var alt=g==='A'?'label':'category';
@@ -783,7 +784,7 @@ function studyInit(qs){
   studyRender();
 }
 function studyRender(){
-  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('restart');var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
+  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('skip');var rb=document.getElementById('restartBtn');if(rb)rb.style.display=(TEST&&SS.phase!=='intro'&&SS.phase!=='done')?'':'none';var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
     bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</div><div class="tb2"><span class="tbl">'+st('vlist')+'</span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+'<span class="tbst"><span class="tbt">⏱ <b id="tbTime">'+fmtT(statT())+'</b></span><span class="tbm">✕ '+st('mist')+': <b id="tbMist">'+statM()+'</b></span></span></div></div>';
@@ -795,7 +796,7 @@ function studyRender(){
   else if(SS.phase==='q'){var r=SS.res[VK[curVer()]]||{};
     var sc=function(key,qa,qb,q){return '<div class="q">'+st(q)+'</div><div class="scale">'+[1,2,3,4,5].map(function(n){return '<button data-act="sans" data-k="'+key+'" data-v="'+n+'" class="'+(r[key]===n?'on':'')+'">'+n+'</button>';}).join('')+'</div><div class="scl"><span>'+st(qa)+'</span><span>'+st(qb)+'</span></div>';};
     h='<h2>'+st('finishedT')+'</h2>'+sc('ease','q1a','q1b','q1')+'<button class="cta" data-act="snext"'+(r.ease?'':' disabled')+'>'+st('next')+'</button>';}
-  else if(SS.phase==='done')h='<h2>'+st('doneT')+'</h2><p>'+st('doneP')+'</p><button class="cta" data-act="ssurvey">'+st('doneB')+'</button><button class="cta ghost" style="margin-top:10px" data-act="srestart" data-noask="1">↺ '+st('restart')+'</button>';
+  else if(SS.phase==='done')h='<h2>'+st('doneT')+'</h2><p>'+st('doneP')+'</p><button class="cta" data-act="ssurvey">'+st('doneB')+'</button>';
   var was=box.classList.contains('show');box.innerHTML='<div class="sbox'+(was?' swap':'')+'">'+h+'</div>';
   if(!was)requestAnimationFrame(function(){requestAnimationFrame(function(){box.classList.add('show');});});
 }
@@ -848,6 +849,8 @@ document.addEventListener('click',function(e){
   else if(a==='sans'){var r=SS.res[VK[curVer()]];r[el.dataset.k]=+el.dataset.v;ssave();
     el.parentNode.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===el);});var nb=document.querySelector('[data-act=snext]');if(nb)nb.disabled=!r.ease;}
   else if(a==='snext'){if(SS.step<2){SS.step++;SS.phase='brief';applyVersion(curVer());}else{SS.phase='done';SS.doneAt=Date.now();}ssave();studyRender();}
+  else if(a==='sskip'){clearTimeout(AUTO);AUTO=null;TASK=null;hideErr();closeAll();var o=SS.res[VK[curVer()]]||{};o.skipped=1;SS.res[VK[curVer()]]=o;
+    if(SS.step<2){SS.step++;SS.phase='brief';applyVersion(curVer());}else{SS.phase='done';SS.doneAt=Date.now();}ssave();studyRender();}
   else if(a==='srestart'){if(el.dataset.noask||confirm(st('restartQ'))){try{localStorage.removeItem('vf_study');}catch(e){}var u=new URLSearchParams(location.search);u.delete('reset');u.delete('group');var q=u.toString();location.href=location.pathname+(q?'?'+q:'')+'#/';setTimeout(function(){location.reload();},50);}}
   else if(a==='ssurvey'){(window.top||window).location.href=surveyUrl();}
 },true);
