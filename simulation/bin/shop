@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Participant interface to the study website.
+# shop <ID> start | look | click <n> | search <words> | back | home | skip_store | quit
+ID="$1"; CMD="$2"; shift 2; ARG="$*"
+PORT=8787
+if [ "$CMD" = "start" ]; then EP=start; else EP=act; fi
+python3 - "$PORT" "$EP" "$ID" "$CMD" "$ARG" <<'PY'
+import json, sys, urllib.request
+port, ep, pid, cmd, arg = sys.argv[1:6]
+body = json.dumps({"pid": pid, "cmd": cmd, "arg": arg or None}).encode()
+try:
+    r = urllib.request.urlopen(urllib.request.Request(f"http://127.0.0.1:{port}/{ep}", data=body, method="POST"), timeout=120)
+    print(r.read().decode())
+except Exception as e:
+    print("The website is not responding:", e)
+PY
