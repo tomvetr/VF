@@ -114,10 +114,8 @@
     html.instudy.nofilter .hrow .vegan{display:none !important;}
     html.instudy .mveg,html.instudy .hact{display:none !important;}
     html.instudy #deptbar a[data-k=""]{order:-2;}
-    html.instudy #deptbar a[data-k=plant],html.instudy .depts a[href="#/c/plant"]{order:-1;}
     html.instudy .sheet{display:flex;flex-direction:column;}
     html.instudy .sheet h3{order:-3;}
-    html.instudy .sheet a[href="#/c/plant"]{order:-2;}
     html.instudy .crumb{display:none;}
     html.instudy .cathead{gap:2px 8px;margin-bottom:6px;align-items:center;}
     html.instudy .cathead h1{font-size:16px;}

@@ -103,7 +103,7 @@ function covered(onlyVegan){var l=curList();return l.filter(function(k){for(var 
 function applyVersion(v){
   document.documentElement.classList.toggle('nofilter',v!=='filter');
   LABELS=v==='label';
-  var i=DEPTS.indexOf(PLANT);if(v==='category'&&i<0)DEPTS.push(PLANT);if(v!=='category'&&i>=0)DEPTS.splice(i,1);
+  var i=DEPTS.indexOf(PLANT);if(v==='category'&&i<0){var di=DEPTS.findIndex(function(d){return d.k==='dairy';});DEPTS.splice(di<0?DEPTS.length:di+1,0,PLANT);}if(v!=='category'&&i>=0)DEPTS.splice(i,1);
   vegan=false;document.documentElement.classList.remove('vg');cart={};badge();closeAll();
   chrome();if(location.hash&&location.hash!=='#/')location.hash='#/';else route();
 }

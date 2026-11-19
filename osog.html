@@ -199,10 +199,8 @@
     html.instudy.nofilter .hrow .vegan{display:none !important;}
     html.instudy .mveg,html.instudy .hact{display:none !important;}
     html.instudy #deptbar a[data-k=""]{order:-2;}
-    html.instudy #deptbar a[data-k=plant],html.instudy .depts a[href="#/c/plant"]{order:-1;}
     html.instudy .sheet{display:flex;flex-direction:column;}
     html.instudy .sheet h3{order:-3;}
-    html.instudy .sheet a[href="#/c/plant"]{order:-2;}
     html.instudy .crumb{display:none;}
     html.instudy .cathead{gap:2px 8px;margin-bottom:6px;align-items:center;}
     html.instudy .cathead h1{font-size:16px;}
@@ -830,7 +828,7 @@ function covered(onlyVegan){var l=curList();return l.filter(function(k){for(var 
 function applyVersion(v){
   document.documentElement.classList.toggle('nofilter',v!=='filter');
   LABELS=v==='label';
-  var i=DEPTS.indexOf(PLANT);if(v==='category'&&i<0)DEPTS.push(PLANT);if(v!=='category'&&i>=0)DEPTS.splice(i,1);
+  var i=DEPTS.indexOf(PLANT);if(v==='category'&&i<0){var di=DEPTS.findIndex(function(d){return d.k==='dairy';});DEPTS.splice(di<0?DEPTS.length:di+1,0,PLANT);}if(v!=='category'&&i>=0)DEPTS.splice(i,1);
   vegan=false;document.documentElement.classList.remove('vg');cart={};badge();closeAll();
   chrome();if(location.hash&&location.hash!=='#/')location.hash='#/';else route();
 }
