@@ -803,7 +803,7 @@ he:{introT:'מחקר קנייה אונליין',
 function st(k){var v=ST[lang][k];return v===undefined?ST.en[k]:v;}
 function secIs(p,n){return p.s.en===n;}
 var ITEMS={
- milk:{en:'<b>Vegan</b> milk',zh:'<b>纯素</b>牛奶',he:'חלב <b>טבעוני</b>',m:function(p){return secIs(p,'Milk');}},
+ milk:{en:'<b>Vegan</b> milk',zh:'<b>纯素</b>牛奶',he:'חלב <b>טבעוני</b>',m:function(p){return secIs(p,'Milk')||(/\bcoconut milk\b/i.test(p.b.en)&&!/powder|\bin coconut milk\b/i.test(p.b.en));}},
  sausages:{en:'<b>Vegan</b> sausage',zh:'<b>纯素</b>香肠',he:'נקניק <b>טבעוני</b>',m:function(p){return secIs(p,'Sausages, Burgers & Deli')&&/sausage|dog|frank|link|brat|chorizo|kielbasa|andouille|wiener/i.test(p.b.en);}},
  bread:{en:'<b>Vegan</b> bread',zh:'<b>纯素</b>面包',he:'לחם <b>טבעוני</b>',m:function(p){return secIs(p,'Bread')||(p.d.k==='bakery'&&/\bpita\b|\bbread\b/i.test(p.b.en));}},
  chocolate:{en:'<b>Vegan</b> chocolate',zh:'<b>纯素</b>巧克力',he:'שוקולד <b>טבעוני</b>',m:function(p){return (secIs(p,'Candy, Gum & Mints')||secIs(p,'Baking'))&&/chocolate|cacao/i.test(p.b.en);}},
