@@ -25,7 +25,7 @@ PRODUCTS.forEach(function(p){if(!p.v)return;
 /* ---------- study flow ---------- */
 var STUDY=false;
 var REQUIRE_ALL=false; // true = participants must add all list items before 'Finish shopping' works
-var SURVEY_URL='https://survey.zohopublic.eu/zs/ZbBff1';
+var SURVEY_URL='https://survey.zohopublic.eu/zs/9fCd5d';
 var ST={
 en:{introT:'Online shopping study',
  intro:['In this study you will shop in an online supermarket three times. Each time, the store works a little differently.',

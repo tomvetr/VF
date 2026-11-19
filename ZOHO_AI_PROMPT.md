@@ -1,4 +1,4 @@
-You are editing an existing Zoho Survey: https://survey.zohopublic.eu/zs/ZbBff1
+You are editing an existing Zoho Survey: https://survey.zohopublic.eu/zs/9fCd5d
 
 Please make the changes below. Where Zoho cannot do something exactly as described, choose the closest option and list what you changed at the end. Do not delete collected responses.
 
@@ -21,7 +21,7 @@ The survey therefore starts after the shopping. It should not explain the shoppi
 
 Create one hidden variable (URL variable) for each parameter below, with exactly these names (lowercase, with underscores). Store every value with the response. They arrive in the link like this:
 
-https://survey.zohopublic.eu/zs/ZbBff1?pid=p123&group=A&alt=label&order=fca&lang=en&total=412&c_list=1&c_pos=2&c_time=95&...
+https://survey.zohopublic.eu/zs/9fCd5d?pid=p123&group=A&alt=label&order=fca&lang=en&total=412&c_list=1&c_pos=2&c_time=95&...
 
 General (6):
 - pid: participant ID

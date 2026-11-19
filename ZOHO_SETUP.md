@@ -10,7 +10,7 @@
    - **Group B:** regular store, store with a vegan filter, store with a vegan category (a green "Plant-based" department).
 3. In each store the participant shops for a list of 4 vegan items, then answers one question (how easy it was).
 4. At the end, the website sends the participant to the Zoho survey, with all the shopping data in the link:
-   `https://survey.zohopublic.eu/zs/ZbBff1?pid=…&group=…&c_time=…`
+   `https://survey.zohopublic.eu/zs/9fCd5d?pid=…&group=…&c_time=…`
    If the survey gets a new address, send it to us so we can update the website.
 
 **What Zoho needs to do:** create one hidden variable (URL variable) for every parameter below, with exactly the same name, so the values are stored with each response. Use `lang` to show the survey in the participant's language.
