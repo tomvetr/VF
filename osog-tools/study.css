@@ -35,9 +35,9 @@
   .tb{gap:7px;}
   .tb .tb2{gap:6px 14px;}
   .finbtn{display:none;background:var(--brand);color:#fff;font-weight:800;border-radius:10px;padding:9px 14px;white-space:nowrap;transition:background .3s;}
-  html.inshop .finbtn{display:inline-flex;align-items:center;gap:6px;}
+  html.intask .finbtn{display:inline-flex;align-items:center;gap:6px;}
   #finishS{display:none;}
-  html.inshop .botbar .finm{display:none;}
+  html.intask .botbar .finm{display:none;}
   .botbar{position:fixed;bottom:12px;inset-inline-end:12px;z-index:85;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 16px rgba(20,28,45,.15);}
   .botbar .wrap{display:flex;align-items:center;gap:6px;padding:6px 8px;max-width:none;}
   .botbar .langsel{padding:5px 6px;}
@@ -45,8 +45,8 @@
   html.instudy .restart{display:flex;}
   body{padding-bottom:64px;}
   @media (max-width:760px){
-    html.inshop .finbtn{padding:7px 10px;font-size:13px;}
-    html.inshop .botbar .finm{display:inline-flex;padding:6px 12px;font-size:13px;}
+    html.intask .finbtn{padding:7px 10px;font-size:13px;}
+    html.intask .botbar .finm{display:inline-flex;padding:6px 12px;font-size:13px;}
     .botbar{bottom:64px;inset-inline-end:8px;}
     body{padding-bottom:116px;}
     .toast{bottom:120px;}
@@ -147,3 +147,6 @@
   }
   .tbls{display:none;}
   body:has(#modal.show) .botbar,body:has(#cart.show) .botbar,body:has(#sheet.show) .botbar{display:none;}
+
+  html.instudy:not(.inshop):not(.stest) .botbar{z-index:79;}
+  @media (max-width:760px){html.stest:not(.inshop) .study{padding-bottom:130px;}}
