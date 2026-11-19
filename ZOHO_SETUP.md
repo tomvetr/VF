@@ -46,7 +46,7 @@ Example: `c_time`, `f_time`, `a_time`.
 | `_items` | Number of different products in the cart at the end |
 | `_found` | How many of the 4 list items were found (0–4) |
 | `_nonvegan` | Mistakes: times the participant tried to add a non-vegan product (it was refused with a "Not vegan" message) |
-| `_offlist` | Times the participant tried to add a product that is not on the list (refused) |
+| `_offlist` | Times the participant tried to add a vegan product that is not on the list (refused). Non-vegan products count under `_nonvegan` instead |
 | `_ease` | Answer to "How easy was it to find the items on your list?" (1 = very difficult, 5 = very easy) |
 | `_cart` | Product IDs in the cart, separated by `-` (for detailed analysis) |
 

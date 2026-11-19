@@ -901,8 +901,8 @@ document.addEventListener('click',function(e){
   if(a==='slist'){e.stopImmediatePropagation();closeAll();location.hash='#/s/'+encodeURIComponent(L(TERMS[el.dataset.k]));return;}
   if(a==='tclose'){e.stopImmediatePropagation();hideErr();return;}
   if(a==='inc'&&SS.phase==='task'&&!cart[el.dataset.id]){var pr=PRODUCTS[el.dataset.id];
-    if(!onList(pr)){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.offlist++;errToast(st('offL')(pname(pr)),'warn');flashList();return;}
-    if(!pr.v){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.mistakes++;updStats();errToast(st('notV')(pname(pr)));return;}}
+    if(!pr.v){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.mistakes++;updStats();errToast(st('notV')(pname(pr)));return;}
+    if(!onList(pr)){e.stopImmediatePropagation();e.preventDefault();if(TASK)TASK.offlist++;errToast(st('offL')(pname(pr)),'warn');flashList();return;}}
   if(a==='sgo'){var to=el.dataset.to;
     if(to==='task'){if(SS.phase==='confirm'){SS.phase='task';studyRender();}else startTask();}
     else if(to==='q')endTask();

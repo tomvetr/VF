@@ -13,7 +13,7 @@ Optional link settings:
 
 Flow: intro → three stores (plain, vegan filter, and either label or category) in random order, each with its own shopping list → one question after each store → redirect to the Zoho survey.
 
-During a task, adding a product that is not on the list is refused with a message that points to the list (which flashes); adding a non-vegan list item is refused with a "Not vegan" message, A store ends when the participant presses Checkout. When all four items are found, a message tells them to press Checkout; if they press it earlier, they are asked to confirm.
+During a task, adding any non-vegan product is refused with a "Not vegan" message and counts as a mistake; adding a vegan product that is not on the list is refused with a message that points to the list (which flashes). A store ends when the participant presses Checkout. When all four items are found, a message tells them to press Checkout; if they press it earlier, they are asked to confirm.
 
 - Group A: plain store, vegan filter, vegan label (small tag on the product page).
 - Group B: plain store, vegan filter, extra green "Plant-based" department.
@@ -40,7 +40,7 @@ Per store, with prefix `c_` (plain store), `f_` (vegan filter) and `a_` (label o
 | `items` | Distinct products in the cart |
 | `found` | List items covered by a vegan product (0–4) |
 | `nonvegan` | Attempts to add a non-vegan product (mistakes). These are refused with a message, so the cart only ever holds vegan products |
-| `offlist` | Attempts to add a product that is not on the shopping list (refused with a message pointing to the list) |
+| `offlist` | Attempts to add a vegan product that is not on the shopping list (non-vegan products count as mistakes instead) (refused with a message pointing to the list) |
 | `ease` | "How easy was it to find the items?" (1–5) |
 | `cart` | OSOG product IDs in the cart, separated by `-` |
 
