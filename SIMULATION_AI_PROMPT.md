@@ -2,8 +2,9 @@ Goal: simulate a realistic sample of people going through our online shopping st
 
 Study website: https://tomvetr.github.io/VF/study.html
 - Add pid=<participant id> to the link, and lang=en, lang=zh or lang=he for the participant's language (English, Chinese, Hebrew).
+- Every participant id must start with "sim-" (for example pid=sim-001), so simulated responses can always be told apart from real ones in the survey results.
 - Use a fresh browser context for every participant (progress is saved in the browser).
-- The site gives participants all their instructions. At the end, "Continue to the survey" opens the survey. Record that URL and its parameters (they hold the participant's shopping data), then stop: do not fill in or submit the live survey.
+- The site gives participants all their instructions. At the end, "Continue to the survey" opens the survey. Record that URL and its parameters (they hold the participant's shopping data), then fill in and submit the live survey in the same browser, as that participant.
 
 # Who to simulate
 
@@ -48,9 +49,9 @@ Real people are bad at this. Build it into every persona:
 2. Task agent: a Playwright browser driven by an LLM, one fresh agent per participant. The agent receives ONLY its persona and the participant instructions, never code, files, hypotheses or this prompt. Give it a simple text view of the screen (pop-ups, the shopping list, notifications, search box, switches, menus, product cards with numbered clickable elements, product window with ingredients) and a small command set (look, click <number>, search <words>, back, home, skip_store, quit). Phone personas use a phone-sized viewport. Tell it to stay in character, use only the persona's knowledge, and read, skim, guess and make mistakes as that person would.
    - Enforce budgets: steps per store, total steps, total minutes. Allow giving up on a store or quitting, as a real person might.
    - Log every step: action, page/state, timestamp, notifications shown, errors, and success or failure per store.
-   - Record the survey URL and its parameters; do not open or submit the live survey.
+   - Record the survey URL and its parameters before the survey opens.
 
-3. Survey agent: a separate, fresh call per participant. Input = persona + a plain-language record of that participant's own experience (built from their log) + the survey items verbatim (below). Output strict JSON keyed by item ID with {"answer", "reason"} (one-line reason). Respect required items and the wording rule below. Never submit to the live survey or any real database; write to a separate store, every record flagged synthetic=true, together with the recorded URL parameters. Validate answers (types, ranges, required items, valid rankings).
+3. Survey agent: a separate, fresh call per participant. Input = persona + a plain-language record of that participant's own experience (built from their log) + the survey items verbatim (below). Output strict JSON keyed by item ID with {"answer", "reason"} (one-line reason). Respect required items and the wording rule below. Validate answers (types, ranges, required items, valid rankings), then enter them in the live survey (opened from the recorded URL, so the hidden variables are saved) and submit it. Also keep a local copy of every record, flagged synthetic=true, with the URL parameters and the submission time.
 
 4. Realism: vary sampling where the model allows it (if the model rejects temperature, rely on persona variety and say so). Run about 20% of participants on a second model and compare the results, to check that the answers don't depend on one model.
 
@@ -99,13 +100,12 @@ Skip the survey's optional contact section ("Want to get more involved with the 
 
 # Run
 
-- First a pilot of 5 varied participants (include a new vegan, a long-term vegan, a skeptical meat eater, a low-literacy person and a Chinese-language phone user). Show me their logs and answers, and fix problems in your own tooling before the main run. Do not change the study website; tell me about anything that looks broken.
+- First a pilot of 5 varied participants (include a new vegan, a long-term vegan, a skeptical meat eater, a low-literacy person and a Chinese-language phone user). Show me their logs and answers, confirm their responses appear in the live survey with the hidden variables saved, and fix problems in your own tooling before the main run. Do not change the study website; tell me about anything that looks broken.
 - Then run all N, a few participants at a time.
 
 # Results (markdown report + CSVs)
 
 - The dataset: one row per participant (persona attributes, model, shopping data from the URL parameters, survey answers).
-- A short methods section: how personas were sampled, what the agents saw, budgets, and how many participants finished, gave up or quit.
-- A short limitations section: these are simulated people, not real respondents, so the results are estimates to compare with the real survey, not findings.
+- A short methods section: how personas were sampled, what the agents saw, budgets, and how many participants finished, gave up or quit, and how many survey submissions succeeded.
 
 Keep all code in one folder with one command to rerun everything. Ask me before anything that costs money beyond $5 of API calls, and give me a cost estimate after the 5-participant pilot.
