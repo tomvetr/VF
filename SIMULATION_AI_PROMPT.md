@@ -1,45 +1,61 @@
-Goal: build and run a synthetic-participant pilot of our "vegan filter" online supermarket study (shopping task + survey).
-
-The purpose is PILOTING: find UX bugs, confusing instructions or survey items, broken survey logic, and test the analysis pipeline end to end. It is NOT to estimate what real people think. Design everything with that in mind.
-
-# The study you are simulating
+Goal: simulate a realistic sample of people going through our online shopping study and its survey, and collect their behaviour and answers as a dataset. The aim is to estimate how people would respond, so every simulated participant must behave and answer like a real person of their type, not like a careful AI.
 
 Study website: https://tomvetr.github.io/VF/study.html
+- Add pid=<participant id> to the link, and lang=en, lang=zh or lang=he for the participant's language (English, Chinese, Hebrew).
+- Use a fresh browser context for every participant (progress is saved in the browser).
+- The site gives participants all their instructions. At the end, "Continue to the survey" opens the survey; record the URL and its parameters (they hold the participant's shopping data) instead of submitting the live survey.
 
-What a participant does:
-1. Reads an intro pop-up and clicks Start.
-2. Shops in three versions of an online supermarket (about 1,000 real US products, with photos, prices and ingredient lists), in random order:
-   - Group A: regular store, store with a vegan filter (a switch next to the search bar), store with vegan labels (a "Vegan" label under the ingredient list on the product page).
-   - Group B: regular store, store with a vegan filter, store with a vegan category (a green "Plant-based" department).
-3. In each store they get a different shopping list of 4 items (e.g. "Vegan milk, Vegan sausage, Vegan bread, Vegan chocolate") and must add one vegan product per item. The store refuses non-vegan products ("This product is not vegan") and products not on the list ("This product is not on your shopping list"). The store ends automatically when all 4 items are in the cart.
-4. After each store: one question, "How easy was it to find the items on your list?" (1-5).
-5. At the end, "Continue to the survey" opens the Zoho survey with all shopping data in the link (URL parameters such as pid, group, alt, order, lang, total, and per store c_/f_/a_ time, clicks, pages, search, feature, items, found, nonvegan, offlist, ease, cart).
+# Who to simulate
 
-Useful link settings (combine with &):
-- reset=1: test mode. Starts fresh and shows a "Skip store" button in the bottom corner.
-- group=A or group=B: force the group.
-- lang=en, zh or he: interface language (English, Chinese, Hebrew).
-- pid=XXXX: participant ID, passed on to the survey.
-Example: https://tomvetr.github.io/VF/study.html?reset=1&group=B&lang=zh&pid=P07
+N = 100 participants (I will tell you if we scale up after the first results). Sample from these distributions and write them in a config file:
 
-Progress is saved in the browser's localStorage, so use a fresh browser context for every participant.
+Diet (the main grouping in the analysis):
+- Long-term vegans (vegan for more than 1 year): 15%
+- New vegans (vegan for less than 6 months): 25%. This is a key group: they are motivated but still learning, know the basic rules, often don't recognise hidden animal ingredients, and find shopping stressful.
+- Vegetarians: 15%
+- Flexitarians (eat meat, trying to eat less): 20%
+- Meat eaters (no plans to change): 25%, including some who are openly skeptical of vegan products.
+
+Demographics:
+- Age: 18-24: 20%, 25-34: 30%, 35-49: 25%, 50-64: 15%, 65+: 10%
+- Gender: about half women, half men, a few non-binary
+- Language: English 50%, Chinese 35%, Hebrew 15%
+- Device: phone 70%, laptop or desktop 30%
+- Online grocery shopping: never 15%, less than monthly 25%, 1-3 times a month 35%, weekly or more 25%
+- Digital literacy: low 20%, medium 50%, high 30%
+- Patience: low 30%, medium 45%, high 25%
+- Reason for interest in a vegan filter: own diet, shopping for a vegan friend or family member, curiosity about eating less meat, health, or no interest. Make it coherent with the diet; meat eaters are mostly "no interest" or "curious".
+
+Keep each person coherent and specific: give them a name, a short life situation (job, household, why they are doing the study, how much time they have) and a few habits, written as a first-person profile.
+
+# Reading ingredient lists must not be easy
+
+Real people are bad at this. Build it into every persona:
+- Knowledge depends on the person:
+  - Long-term vegans know most hidden animal ingredients (whey, casein, caseinate, lactose, albumin, gelatin, carmine, shellac, lard, tallow, honey, isinglass), but still slip when tired or rushed.
+  - New vegans know the basics (no meat, fish, milk, eggs, honey) but often miss hidden ones like whey, casein, albumin, gelatin or carmine. They are unsure about "natural flavors", sugar, mono- and diglycerides or vitamin D3, and sometimes over-reject products out of caution.
+  - Vegetarians and flexitarians recognise milk and eggs but rarely the hidden names.
+  - Meat eaters know only the obvious ("chicken", "milk") and have to guess the rest.
+- Reading behaviour: most people do not read the whole list. They trust the product name and picture ("Veggie", "Dairy-free", "Plant-based" feel safe even when they aren't), glance at the first few ingredients, and miss small print. Impatient and low-literacy people skim even more. Long lists, chemical names and lists in a second language make it harder.
+- Fatigue: attention drops over the three stores; mistakes become more likely later in the session.
+- People make ordinary mistakes: tapping the wrong product, searching with the wrong word, giving up on an item, misreading the instructions.
 
 # Build
 
-1. Personas: generate N = 30 first-person persona profiles, sampled from explicit distributions written in a config file: diet, age, digital literacy, online grocery shopping frequency, motivation for using a vegan filter, patience, device (phone 70% / desktop 30%), language. Include low-literacy, impatient and skeptical personas (minimum counts in the config). Keep each profile coherent (e.g. only vegans say "I'm vegan myself"). Give each persona realistic limits: what they know about ingredients (most people don't know that whey, casein, gelatin or albumin are animal-derived; only vegans reliably do) and how carefully they read (impatient or low-literacy people go by the name and picture and skim). Save as personas.json.
+1. Personas: generate the N first-person profiles from the distributions above (explicit in the config file). Save as personas.json.
 
-2. Task agent: a Playwright browser driven by an LLM, one fresh agent per participant. The agent receives ONLY its persona and the participant instructions, never code, files, hypotheses or this prompt. Give it a simple text view of the screen (pop-ups, top bar with the shopping list, notifications, search box, filter switch, menus, product cards with numbered clickable elements, product window with ingredients) and a small command set (look, click <number>, search <words>, back, home, skip_store, quit). Phone personas use a phone-sized viewport. Tell it to stay in character, use only the persona's knowledge, and skim, guess and make mistakes as that person would.
-   - Enforce budgets: steps per store, total steps, total minutes. Allow skipping a store or quitting.
-   - Log every step: action, page/state (store number, store version, phase), timestamp, notifications shown, errors, and task success or failure per store. Save screenshots on failed actions, page errors, repeated identical screens (stuck), skips, quits and budget stops.
-   - Intercept the Zoho survey link (survey.zohopublic.eu) and record its URL parameters instead of opening the real survey.
+2. Task agent: a Playwright browser driven by an LLM, one fresh agent per participant. The agent receives ONLY its persona and the participant instructions, never code, files, hypotheses or this prompt. Give it a simple text view of the screen (pop-ups, the shopping list, notifications, search box, switches, menus, product cards with numbered clickable elements, product window with ingredients) and a small command set (look, click <number>, search <words>, back, home, skip_store, quit). Phone personas use a phone-sized viewport. Tell it to stay in character, use only the persona's knowledge, and read, skim, guess and make mistakes as that person would.
+   - Enforce budgets: steps per store, total steps, total minutes. Allow giving up on a store or quitting, as a real person might.
+   - Log every step: action, page/state, timestamp, notifications shown, errors, and success or failure per store.
+   - Do not submit the live survey; record the survey URL and its parameters.
 
-3. Survey agent: a separate, fresh call per participant. Input = persona + a plain-language record of that participant's own actions (built from their log) + the survey items verbatim (below). Output strict JSON keyed by item ID with {"answer", "reason"} (one-line reason). Respect the display logic and required items. Never submit to the live Zoho survey or any real database; write to a separate synthetic store, every record flagged synthetic=true, together with the recorded URL parameters. Validate answers (types, ranges, required items, valid rankings).
+3. Survey agent: a separate, fresh call per participant. Input = persona + a plain-language record of that participant's own experience (built from their log) + the survey items verbatim (below). Output strict JSON keyed by item ID with {"answer", "reason"} (one-line reason). Respect required items and the wording rule below. Never submit to the live survey or any real database; write to a separate store, every record flagged synthetic=true, together with the recorded URL parameters. Validate answers (types, ranges, required items, valid rankings).
 
-4. Realism: vary sampling where the model allows it (current Claude models reject temperature; if so, rely on persona variety and say so). Run a subset (about 20%) on a second model to check model dependence.
+4. Realism: vary sampling where the model allows it (if the model rejects temperature, rely on persona variety and say so). Run about 20% of participants on a second model and compare the results, to check that the answers don't depend on one model.
 
 # Survey items (verbatim)
 
-Text in [square brackets] depends on alt: alt=label -> "vegan labels" / "Store with vegan labels"; alt=category -> "a vegan category" / "Store with a vegan category".
+The participant used three stores. One of them is a regular store, one has a vegan filter, and the third has either vegan labels or a vegan category. Wherever [square brackets] appear, use the name of the third store this participant actually saw ("Store with vegan labels" / "Vegan labels", or "Store with a vegan category" / "Vegan category").
 
 Q1 (required, single). At the same prices, which of the three stores you just used would you choose? Regular store | Store with a vegan filter | Store with [vegan labels / a vegan category] | No preference
 Q2 (optional, text). Why?
@@ -55,7 +71,7 @@ Q6 (optional, 1-5, 1 = not at all, 5 = a great deal). How much would a vegan fil
   Q6b a new vegan stick with it through the first months?
   Q6c a long-term vegan stay vegan?
 Q7 (optional, 1-5, 1 = very unlikely, 5 = very likely). How likely are you to turn on a vegan filter in the future, if your online supermarket had one?
-Q8 (optional, single). If you turned on the vegan filter, which would you prefer? You can change this setting at any time. (Use the answer options from the live survey; if you don't have them, skip Q8 and report it.)
+Q8 (optional, single). If you turned on the vegan filter, which would you prefer? You can change this setting at any time. (Use the answer options from the live survey; if you don't have them, skip Q8 and tell me.)
 Q9 (optional, single). What best describes your diet? Omnivore (your diet includes meat) | Flexitarian (your diet includes meat, but in smaller quantities) | Vegetarian (no meat, fish or seafood, but eggs or dairy products) | Vegan (no meat, fish, seafood, eggs or dairy products) | Other (please specify)
 Q10 (optional, single). Have you ever followed a vegan diet at some point in your life? Yes | No
 Q11 (optional, single). How often do you buy groceries online? Never | Less than once a month | 1–3 times a month | Once a week or more
@@ -64,18 +80,18 @@ Q13 (optional, number). What is your birth year?
 
 # Run
 
-- First a dry run with 3 varied personas (e.g. one low-literacy and impatient, one skeptical on the second model, one desktop). Show me the logs, list the bugs, and fix bugs in your own tooling before the full run. Do not change the study website; report website bugs to me instead.
-- Then run all N, at most about 6 participants at a time.
+- First a pilot of 5 varied participants (include a new vegan, a long-term vegan, a skeptical meat eater, a low-literacy person and a Chinese-language phone user). Show me their logs and answers, and fix problems in your own tooling before the main run. Do not change the study website; tell me about anything that looks broken.
+- Then run all N, a few participants at a time.
 
-# Report (markdown + CSVs)
+# Results (markdown report + CSVs)
 
-- Task success rate, time (the site's own timer and steps) and step counts per store version; where agents got stuck, with screenshots.
-- Within-person comparisons: filter vs regular and filter vs label/category on steps, mistakes and ease.
-- Per survey item: response distribution, near-zero-variance items, contradictory answers (e.g. Q1 choice not ranked first in Q3; survey diet differing from persona; survey answers inconsistent with what the participant actually did), and free-text themes that suggest confusing wording.
-- Bugs found in the website or the survey logic, ranked by severity, each with how to reproduce it.
-- Confirmation that the analysis pipeline runs end to end on the synthetic data.
-- An explicit limitations section: synthetic responses are low-variance, positivity-biased and not valid estimates of human attitudes; LLM agents read more carefully and make fewer mistakes than people; list which findings need a human pilot (n ≈ 10–20) to confirm.
+- The dataset: one row per participant (persona attributes, model, shopping data from the URL parameters, survey answers) and one row per participant per store.
+- Behaviour per store type: completion rate, time (the site's timer), number of actions, mistakes (non-vegan products refused), off-list attempts, ease rating. Within-person comparisons: vegan filter vs regular store, and vegan filter vs the third store.
+- Survey results: distribution, mean and 95% confidence interval for every item, overall and broken down by diet group (long-term vegans, new vegans, vegetarians, flexitarians, meat eaters), language and age group.
+- Q5 in particular: the estimated share of the convenience barrier a vegan filter removes, overall and per diet group.
+- Common themes in the open answers (Q2), with example quotes per diet group.
+- Differences between the two models.
+- A short methods section: how personas were sampled, what the agents saw, budgets, and how many participants finished, gave up or quit.
+- A limitations section: these are simulated people, not survey respondents. Say which results should be checked against real participants before being reported as findings.
 
-Keep all code in one folder with one command to rerun everything. Ask me before anything that costs money beyond $5 of API calls, and give me a cost estimate after the dry run.
-
-A previous implementation exists in the repository github.com/tomvetr/VF, folder simulation/ (persona generator, Playwright harness, survey pipeline, analysis script). You may reuse it if you have access, but check it still matches the current website.
+Keep all code in one folder with one command to rerun everything. Ask me before anything that costs money beyond $5 of API calls, and give me a cost estimate after the 5-participant pilot.
