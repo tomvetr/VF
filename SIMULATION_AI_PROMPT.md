@@ -3,11 +3,11 @@ Goal: simulate a realistic sample of people going through our online shopping st
 Study website: https://tomvetr.github.io/VF/study.html
 - Add pid=<participant id> to the link, and lang=en, lang=zh or lang=he for the participant's language (English, Chinese, Hebrew).
 - Use a fresh browser context for every participant (progress is saved in the browser).
-- The site gives participants all their instructions. At the end, "Continue to the survey" opens the survey; record the URL and its parameters (they hold the participant's shopping data) instead of submitting the live survey.
+- The site gives participants all their instructions. At the end, "Continue to the survey" opens the survey. Record that URL and its parameters (they hold the participant's shopping data), then stop: do not fill in or submit the live survey.
 
 # Who to simulate
 
-N = 100 participants (I will tell you if we scale up after the first results). Sample from these distributions and write them in a config file:
+N = 100 participants (I will tell you if we scale up after the first results). Sample from these distributions and write them in a config file.
 
 Diet (the main grouping in the analysis):
 - Long-term vegans (vegan for more than 1 year): 15%
@@ -18,13 +18,14 @@ Diet (the main grouping in the analysis):
 
 Demographics:
 - Age: 18-24: 20%, 25-34: 30%, 35-49: 25%, 50-64: 15%, 65+: 10%
-- Gender: about half women, half men, a few non-binary
+- Gender: about half women, half men, a few who answer "Other"
 - Language: English 50%, Chinese 35%, Hebrew 15%
 - Device: phone 70%, laptop or desktop 30%
 - Online grocery shopping: never 15%, less than monthly 25%, 1-3 times a month 35%, weekly or more 25%
 - Digital literacy: low 20%, medium 50%, high 30%
 - Patience: low 30%, medium 45%, high 25%
 - Reason for interest in a vegan filter: own diet, shopping for a vegan friend or family member, curiosity about eating less meat, health, or no interest. Make it coherent with the diet; meat eaters are mostly "no interest" or "curious".
+- Some Chinese-speaking vegans follow a "pure vegan" diet (no five pungent spices); include a few.
 
 Keep each person coherent and specific: give them a name, a short life situation (job, household, why they are doing the study, how much time they have) and a few habits, written as a first-person profile.
 
@@ -47,7 +48,7 @@ Real people are bad at this. Build it into every persona:
 2. Task agent: a Playwright browser driven by an LLM, one fresh agent per participant. The agent receives ONLY its persona and the participant instructions, never code, files, hypotheses or this prompt. Give it a simple text view of the screen (pop-ups, the shopping list, notifications, search box, switches, menus, product cards with numbered clickable elements, product window with ingredients) and a small command set (look, click <number>, search <words>, back, home, skip_store, quit). Phone personas use a phone-sized viewport. Tell it to stay in character, use only the persona's knowledge, and read, skim, guess and make mistakes as that person would.
    - Enforce budgets: steps per store, total steps, total minutes. Allow giving up on a store or quitting, as a real person might.
    - Log every step: action, page/state, timestamp, notifications shown, errors, and success or failure per store.
-   - Do not submit the live survey; record the survey URL and its parameters.
+   - Record the survey URL and its parameters; do not open or submit the live survey.
 
 3. Survey agent: a separate, fresh call per participant. Input = persona + a plain-language record of that participant's own experience (built from their log) + the survey items verbatim (below). Output strict JSON keyed by item ID with {"answer", "reason"} (one-line reason). Respect required items and the wording rule below. Never submit to the live survey or any real database; write to a separate store, every record flagged synthetic=true, together with the recorded URL parameters. Validate answers (types, ranges, required items, valid rankings).
 
@@ -55,28 +56,46 @@ Real people are bad at this. Build it into every persona:
 
 # Survey items (verbatim)
 
-The participant used three stores. One of them is a regular store, one has a vegan filter, and the third has either vegan labels or a vegan category. Wherever [square brackets] appear, use the name of the third store this participant actually saw ("Store with vegan labels" / "Vegan labels", or "Store with a vegan category" / "Vegan category").
+The participant used three stores. One of them is a regular store, one has a vegan filter, and the third has either vegan labels or a vegan category. Wherever [square brackets] appear, use the third store this participant actually saw: "Store with vegan labels" or "Store with a vegan category". The URL parameter alt tells you which (alt=label or alt=category).
 
-Q1 (required, single). At the same prices, which of the three stores you just used would you choose? Regular store | Store with a vegan filter | Store with [vegan labels / a vegan category] | No preference
+Q1 (required, single). At the same prices, which of the three stores you just used would you choose?
+Regular store | Store with a vegan filter | Store with [vegan labels / a vegan category] | No preference
+
 Q2 (optional, text). Why?
-Q3 (required, ranking 1-3). Rank the three stores from most convenient (1) to least convenient (3) for finding vegan products. Regular store | Store with a vegan filter | Store with [vegan labels / a vegan category]
-Q4 (optional, matrix 1-5, 1 = strongly disagree, 5 = strongly agree; each row rated for "Vegan filter" and for "[Vegan labels / Vegan category]"):
-  Q4a It makes it easier to find vegan products.
-  Q4b It makes vegan shopping more convenient.
-  Q4c It saves time and effort when shopping.
-  Q4d It would make vegans more likely to shop at this supermarket.
-Q5 (required, slider 0-100). Of all the things that make veganism inconvenient, how much would a vegan filter in a large supermarket chain's online store remove? (0% = none, 100% = all of it)
-Q6 (optional, 1-5, 1 = not at all, 5 = a great deal). How much would a vegan filter help…
-  Q6a someone trying vegan for the first time to get started?
-  Q6b a new vegan stick with it through the first months?
-  Q6c a long-term vegan stay vegan?
-Q7 (optional, 1-5, 1 = very unlikely, 5 = very likely). How likely are you to turn on a vegan filter in the future, if your online supermarket had one?
-Q8 (optional, single). If you turned on the vegan filter, which would you prefer? You can change this setting at any time. (Use the answer options from the live survey; if you don't have them, skip Q8 and tell me.)
-Q9 (optional, single). What best describes your diet? Omnivore (your diet includes meat) | Flexitarian (your diet includes meat, but in smaller quantities) | Vegetarian (no meat, fish or seafood, but eggs or dairy products) | Vegan (no meat, fish, seafood, eggs or dairy products) | Other (please specify)
-Q10 (optional, single). Have you ever followed a vegan diet at some point in your life? Yes | No
-Q11 (optional, single). How often do you buy groceries online? Never | Less than once a month | 1–3 times a month | Once a week or more
-Q12 (optional, text). What is your gender?
-Q13 (optional, number). What is your birth year?
+
+Q3 (required, ranking 1-3). Rank the three stores from most convenient (1) to least convenient (3) for finding vegan products.
+Regular store | Store with a vegan filter | Store with [vegan labels / a vegan category]
+
+Q4 (required, matrix, 1 = strongly disagree … 5 = strongly agree, or "Not applicable"). If an online supermarket added a "vegan filter" so you only see vegan items across all categories, it would:
+- Q4a Make vegans more likely to shop at this supermarket.
+- Q4b Make vegans save time and effort when shopping.
+- Q4c Make it easier for beginners to adopt a vegan lifestyle.
+- Q4d Make it easier to find vegan products.
+- Q4e Make it easier for existing vegans to maintain it over time.
+- Q4f Make vegan shopping more convenient.
+
+Q5 (optional, 1-5, 1 = not at all, 5 = a great deal). How much would a vegan filter help a new vegan stick with it through the first months?
+
+Q6 (required, slider 0-100). Of all the things that make veganism inconvenient, how much would a vegan filter in a large supermarket chain's online store remove? (0% = none, 100% = all of it)
+
+Q7 (required, single). Is it likely that you will activate the filter in the future?
+Yes, absolutely | No, probably not
+
+Q8 (optional, single). What best describes your diet?
+Omnivore (your diet includes meat) | Flexitarian (your diet includes meat, but in smaller quantities) | Vegetarian (your diet does not include meat, fish, or seafood but does include eggs or dairy products) | Vegan (your diet does not include meat, fish, seafood, eggs, or dairy products) | Pure Vegan (your diet does not include meat, fish, seafood, eggs, dairy products or five pungent spices) | Other (please specify)
+
+Q9 (optional, single). Have you ever followed a vegan diet at some point in your life?
+Yes | No
+
+Q10 (optional, single). How often do you buy groceries online?
+Never | Less than once a month | 1–3 times a month | Once a week or more
+
+Q11 (optional, single). What is your gender?
+Man | Woman | Other
+
+Q12 (optional, number). What is your birth year?
+
+Skip the survey's optional contact section ("Want to get more involved with the vegan filter project?"). Simulated people must not leave names or contact details.
 
 # Run
 
@@ -85,13 +104,8 @@ Q13 (optional, number). What is your birth year?
 
 # Results (markdown report + CSVs)
 
-- The dataset: one row per participant (persona attributes, model, shopping data from the URL parameters, survey answers) and one row per participant per store.
-- Behaviour per store type: completion rate, time (the site's timer), number of actions, mistakes (non-vegan products refused), off-list attempts, ease rating. Within-person comparisons: vegan filter vs regular store, and vegan filter vs the third store.
-- Survey results: distribution, mean and 95% confidence interval for every item, overall and broken down by diet group (long-term vegans, new vegans, vegetarians, flexitarians, meat eaters), language and age group.
-- Q5 in particular: the estimated share of the convenience barrier a vegan filter removes, overall and per diet group.
-- Common themes in the open answers (Q2), with example quotes per diet group.
-- Differences between the two models.
+- The dataset: one row per participant (persona attributes, model, shopping data from the URL parameters, survey answers).
 - A short methods section: how personas were sampled, what the agents saw, budgets, and how many participants finished, gave up or quit.
-- A limitations section: these are simulated people, not survey respondents. Say which results should be checked against real participants before being reported as findings.
+- A short limitations section: these are simulated people, not real respondents, so the results are estimates to compare with the real survey, not findings.
 
 Keep all code in one folder with one command to rerun everything. Ask me before anything that costs money beyond $5 of API calls, and give me a cost estimate after the 5-participant pilot.
