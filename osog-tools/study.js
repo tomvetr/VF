@@ -38,7 +38,7 @@ en:{introT:'Online shopping study',
  label:'Vegan products have a “Vegan” label under the ingredient list on the product page.',
  category:'The “Plant-based” category has vegan milk and meat alternatives.',
  listP:'Buy one vegan product for each item:',go:'Go to the store',finish:'Finish shopping',finishedT:'Finished!',mist:'Mistakes',
- confirm:function(h,n){return 'Your cart covers '+h+' of the '+n+' items on your list. Finish anyway?';},keep:'Keep shopping',fin:'Finish',
+ confirm:function(h,n){return 'You haven\'t found all the items on your list yet ('+h+' of '+n+' found). Are you sure you want to finish?';},keep:'Keep shopping',fin:'Finish',
  q1:'How easy was it to find the items on your list?',q1a:'Very difficult',q1b:'Very easy',
  q2:'How sure are you that everything in your cart is vegan?',q2a:'Not sure at all',q2b:'Completely sure',
  next:'Continue',doneT:'Thank you!',doneP:'You have finished shopping. Now please answer a short survey.',doneB:'Continue to the survey',restart:'Restart',skip:'Skip store',restartQ:'Start the study again from the beginning?',
@@ -54,7 +54,7 @@ zh:{introT:'网上购物研究',
  label:'纯素商品的详情页上，配料表下方有“纯素”标签。',
  category:'“植物基”分类里有纯素的植物奶和植物肉。',
  listP:'请为每一项各买一件纯素商品：',go:'进入超市',finish:'完成购物',finishedT:'完成了！',mist:'错误',
- confirm:function(h,n){return '你的购物车目前覆盖了清单上 '+n+' 项中的 '+h+' 项。仍要结束吗？';},keep:'继续购物',fin:'结束',
+ confirm:function(h,n){return '你还没有找到清单上的所有商品（已找到 '+n+' 项中的 '+h+' 项）。确定要结束吗？';},keep:'继续购物',fin:'结束',
  q1:'找到清单上的商品有多容易？',q1a:'非常困难',q1b:'非常容易',
  q2:'你有多确定购物车里的所有商品都是纯素的？',q2a:'完全不确定',q2b:'完全确定',
  next:'继续',doneT:'谢谢！',doneP:'购物已完成。接下来请填写一份简短问卷。',doneB:'前往问卷',restart:'重新开始',skip:'跳过本店',restartQ:'要从头重新开始吗？',
@@ -70,7 +70,7 @@ he:{introT:'מחקר קנייה אונליין',
  label:'למוצרים טבעוניים יש תווית "טבעוני" מתחת לרשימת הרכיבים בעמוד המוצר.',
  category:'בקטגוריית "מבוסס צמחים" יש תחליפי חלב ובשר טבעוניים.',
  listP:'קנו מוצר טבעוני אחד לכל פריט:',go:'כניסה לחנות',finish:'סיום קנייה',finishedT:'סיימתם!',mist:'טעויות',
- confirm:function(h,n){return 'העגלה שלכם כוללת '+h+' מתוך '+n+' הפריטים ברשימה. לסיים בכל זאת?';},keep:'המשך קנייה',fin:'סיום',
+ confirm:function(h,n){return 'עדיין לא מצאתם את כל הפריטים ברשימה (נמצאו '+h+' מתוך '+n+'). אתם בטוחים שאתם רוצים לסיים?';},keep:'המשך קנייה',fin:'סיום',
  q1:'עד כמה היה קל למצוא את הפריטים ברשימה?',q1a:'קשה מאוד',q1b:'קל מאוד',
  q2:'עד כמה אתם בטוחים שכל המוצרים בעגלה טבעוניים?',q2a:'בכלל לא בטוח/ה',q2b:'בטוח/ה לגמרי',
  next:'המשך',doneT:'תודה!',doneP:'סיימתם את הקניות. עכשיו נשמח שתענו על שאלון קצר.',doneB:'מעבר לשאלון',restart:'התחלה מחדש',skip:'דילוג על החנות',restartQ:'להתחיל את המחקר מחדש מההתחלה?',
@@ -120,7 +120,7 @@ function studyInit(qs){
   studyRender();
 }
 function studyRender(){
-  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('skip');var rb=document.getElementById('restartBtn');if(rb)rb.style.display=(TEST&&SS.phase!=='intro'&&SS.phase!=='done')?'':'none';var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');document.documentElement.classList.add('intask');
+  var box=$('#study'),bar=$('#taskbar'),h='';var rt=document.getElementById('restartT');if(rt)rt.textContent=st('skip');var rb=document.getElementById('restartBtn');if(rb)rb.style.display=(TEST&&SS.phase!=='intro'&&SS.phase!=='done')?'':'none';var ft=document.getElementById('finishT');if(ft)ft.textContent=st('finish');var fs=document.getElementById('finishS');if(fs)fs.textContent=st('fin');document.querySelectorAll('.finS2').forEach(function(e){e.textContent=st('fin');});document.documentElement.classList.add('intask');
   if(true){
     var got=covered(false);
     bar.innerHTML='<div class="wrap tb"><div class="tb1"><span class="tbs">'+st('taskT')(SS.step+1)+'</span><span class="tbx"><b>'+st(TYPE[curVer()])+'</b> — '+st(curVer())+'</span>'+STATS()+'</div><div class="tb2"><span class="tbl"><span class="tbll">'+st('vlist')+'</span><span class="tbls">'+st('slist')+'</span></span>'+curList().map(function(k){var ok=got.indexOf(k)>=0;return '<button class="ti'+(ok?' ok':'')+'" data-act="slist" data-k="'+k+'">'+(ok?'✓ ':'')+L(ITEMS[k])+'</button>';}).join('')+STATS()+'</div></div>';
@@ -128,7 +128,7 @@ function studyRender(){
   var langSel='<div class="lang"><select class="langsel" onchange="setLang(this.value)">'+[['en','English'],['zh','中文'],['he','עברית']].map(function(o){return '<option value="'+o[0]+'"'+(lang===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>';
   if(SS.phase==='intro')h=langSel+'<h2>'+st('introT')+'</h2>'+st('intro').map(function(x){return '<p>'+x+'</p>';}).join('')+'<button class="cta" data-act="sgo" data-to="brief">'+st('start')+'</button>';
   else if(SS.phase==='brief')h=langSel+'<h2>'+st('taskT')(SS.step+1)+'</h2><div class="ver"><b>'+st(TYPE[curVer()])+'</b><br>'+st(curVer())+'</div><p>'+st('task')+'</p><ul>'+curList().map(function(k){return '<li>'+L(ITEMS[k])+'</li>';}).join('')+'</ul><button class="cta" data-act="sgo" data-to="task">'+st('go')+'</button>';
-  else if(SS.phase==='confirm')h='<p style="font-size:16px;font-weight:600">'+st('confirm')(covered(false).length,curList().length)+'</p><div class="row2"><button class="cta ghost" data-act="sgo" data-to="task">'+st('keep')+'</button><button class="cta" data-act="sgo" data-to="q">'+st('fin')+'</button></div>';
+  else if(SS.phase==='confirm')h='<p style="font-size:16px;font-weight:600">'+st('confirm')(covered(true).length,curList().length)+'</p><div class="row2"><button class="cta ghost" data-act="sgo" data-to="task">'+st('keep')+'</button><button class="cta" data-act="sgo" data-to="q">'+st('fin')+'</button></div>';
   else if(SS.phase==='q'){var r=SS.res[VK[curVer()]]||{};
     var sc=function(key,qa,qb,q){return '<div class="q">'+st(q)+'</div><div class="scale">'+[1,2,3,4,5].map(function(n){return '<button data-act="sans" data-k="'+key+'" data-v="'+n+'" class="'+(r[key]===n?'on':'')+'">'+n+'</button>';}).join('')+'</div><div class="scl"><span>'+st(qa)+'</span><span>'+st(qb)+'</span></div>';};
     h='<h2>'+st('finishedT')+'</h2>'+sc('ease','q1a','q1b','q1')+'<button class="cta" data-act="snext"'+(r.ease?'':' disabled')+'>'+st('next')+'</button>';}
@@ -151,7 +151,8 @@ function flashList(){var t=document.querySelector('.tb2');if(!t)return;t.classLi
 function onList(p){return curList().some(function(k){return ITEMS[k].m(p);});}
 function studyFinish(){
   if(SS.phase!=='task')return;
-  var h=covered(false).length,n=curList().length;if(REQUIRE_ALL&&h<n){toast(st('needAll')(h,n));return;}
+  var h=covered(true).length,n=curList().length;if(REQUIRE_ALL&&h<n){toast(st('needAll')(h,n));return;}
+  if(h<n){closeAll();SS.phase='confirm';studyRender();return;}
   endTask();
 }
 function endTask(){
