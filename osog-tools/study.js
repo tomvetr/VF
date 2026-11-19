@@ -109,7 +109,7 @@ function applyVersion(v){
 }
 function studyInit(qs){
   document.documentElement.classList.add('instudy');
-  TEST=qs.get('reset')==='1'||qs.get('test')==='1';document.documentElement.classList.toggle('stest',TEST);
+  TEST=qs.get('test')==='1';document.documentElement.classList.toggle('stest',TEST);
   if(qs.get('reset')==='1'){try{localStorage.removeItem('vf_study');}catch(e){}}
   try{SS=JSON.parse(localStorage.getItem('vf_study')||'null');}catch(e){SS=null;}
   if(!SS){var g=(qs.get('group')||'').toUpperCase();if(g!=='A'&&g!=='B')g=Math.random()<0.5?'A':'B';var alt=g==='A'?'label':'category';
